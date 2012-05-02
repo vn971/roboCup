@@ -1,0 +1,10 @@
+.settings
+lib*
+project/boot/*
+project/build/target/*
+target/*
+.cache
+sbt
+sbt-launcher.jar
+sbt.bat
+/lift_proto.db.h2.db
