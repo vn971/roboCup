@@ -16,7 +16,7 @@
 	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/lift-common_2.9.0-1-2.4.jar" sourcepath="lib-src/lift-common_2.9.0-1-2.4-sources.jar"/>
 	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/lift-db_2.9.0-1-2.4.jar"/>
 	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/lift-json_2.9.0-1-2.4.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/lift-mapper_2.9.0-1-2.4.jar"/>
+	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/lift-mapper_2.9.0-1-2.4.jar" sourcepath="lib-src/lift-mapper_2.9.0-1-2.4-sources.jar"/>
 	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/lift-proto_2.9.0-1-2.4.jar"/>
 	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/lift-util_2.9.0-1-2.4.jar"/>
 	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/lift-webkit_2.9.0-1-2.4.jar" sourcepath="lib-src/lift-webkit_2.9.0-1-2.4-sources.jar"/>
@@ -31,5 +31,6 @@
 	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/test/junit-4.7.jar"/>
 	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/test/servlet-api-2.5-20081211.jar"/>
 	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/test/specs_2.9.0-1-1.6.8.jar"/>
+	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/akka-actor-2.0.jar"/>
 	<classpathentry kind="output" path="target/scala_2.9.0-1/webapp/WEB-INF/classes"/>
 </classpath>

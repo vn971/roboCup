@@ -10,7 +10,7 @@ import sitemap._
 import Loc._
 import mapper._
 
-//import code.model._
+import code.model._
 
 /** A class that's instantiated early and run.  It allows the application
  *  to modify lift's environment
@@ -48,12 +48,11 @@ class Boot {
 			//	       "Static Content"))
 			)
 
-		//    def sitemapMutators = User.sitemapMutator
-
+		def sitemapMutators = User.sitemapMutator
 		// set the sitemap.  Note if you don't want access control for
 		// each page, just comment this line out.
 
-		//    LiftRules.setSiteMapFunc(() => sitemapMutators(sitemap))
+		//		    LiftRules.setSiteMapFunc(() => sitemapMutators(sitemap))
 		LiftRules.setSiteMap(sitemap)
 
 		// Use jQuery 1.4
