@@ -5,32 +5,43 @@
 	<classpathentry kind="src" path="src/test/scala"/>
 	<classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/activation-1.1.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/commons-codec-1.4.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/commons-fileupload-1.2.2.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/derby-10.7.1.1.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/h2-1.2.147.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/htmlparser-1.2.1.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/joda-time-1.6.2.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/lift-actor_2.9.0-1-2.4.jar" sourcepath="lib-src/lift-actor_2.9.0-1-2.4-sources.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/lift-common_2.9.0-1-2.4.jar" sourcepath="lib-src/lift-common_2.9.0-1-2.4-sources.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/lift-db_2.9.0-1-2.4.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/lift-json_2.9.0-1-2.4.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/lift-mapper_2.9.0-1-2.4.jar" sourcepath="lib-src/lift-mapper_2.9.0-1-2.4-sources.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/lift-proto_2.9.0-1-2.4.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/lift-util_2.9.0-1-2.4.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/lift-webkit_2.9.0-1-2.4.jar" sourcepath="lib-src/lift-webkit_2.9.0-1-2.4-sources.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/logback-classic-0.9.26.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/logback-core-0.9.26.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/mail-1.4.4.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/paranamer-2.3.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/scalap-2.9.0-1.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/slf4j-api-1.6.4.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/test/jetty-6.1.26.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/test/jetty-util-6.1.26.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/test/junit-4.7.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/test/servlet-api-2.5-20081211.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/test/specs_2.9.0-1-1.6.8.jar"/>
-	<classpathentry kind="lib" path="lib_managed/scala_2.9.0-1/compile/akka-actor-2.0.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-common_2.9.1/lift-common_2.9.1-2.4.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/ch.qos.logback/logback-classic/logback-classic-0.9.26.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/ch.qos.logback/logback-core/logback-core-0.9.26.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/com.h2database/h2/h2-1.2.147.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/com.thoughtworks.paranamer/paranamer/paranamer-2.3.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/javax.mail/mail/mail-1.4.4.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/com.typesafe.akka/akka-actor/akka-actor-2.0.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/commons-codec/commons-codec/commons-codec-1.4.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/commons-fileupload/commons-fileupload/commons-fileupload-1.2.2.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/javax.activation/activation/activation-1.1.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/javax.servlet/servlet-api/servlet-api-2.5.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/joda-time/joda-time/joda-time-1.6.2.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/junit/junit/junit-4.7.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-actor_2.9.1/lift-actor_2.9.1-2.4.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-db_2.9.1/lift-db_2.9.1-2.4.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-json_2.9.1/lift-json_2.9.1-2.4.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-mapper_2.9.1/lift-mapper_2.9.1-2.4.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-proto_2.9.1/lift-proto_2.9.1-2.4.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-util_2.9.1/lift-util_2.9.1-2.4.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-webkit_2.9.1/lift-webkit_2.9.1-2.4.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-wizard_2.9.1/lift-wizard_2.9.1-2.4.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/nu.validator.htmlparser/htmlparser/htmlparser-1.2.1.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/org.apache.derby/derby/derby-10.7.1.1.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/org.eclipse.jetty/jetty-continuation/jetty-continuation-7.5.4.v20111024.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/org.eclipse.jetty/jetty-http/jetty-http-7.5.4.v20111024.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/org.eclipse.jetty/jetty-io/jetty-io-7.5.4.v20111024.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/org.eclipse.jetty/jetty-security/jetty-security-7.5.4.v20111024.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/org.eclipse.jetty/jetty-server/jetty-server-7.5.4.v20111024.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/org.eclipse.jetty/jetty-servlet/jetty-servlet-7.5.4.v20111024.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/org.eclipse.jetty/jetty-util/jetty-util-7.5.4.v20111024.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/org.eclipse.jetty/jetty-webapp/jetty-webapp-7.5.4.v20111024.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/org.eclipse.jetty/jetty-xml/jetty-xml-7.5.4.v20111024.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/org.scala-lang/scalap/scalap-2.9.1.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/org.slf4j/slf4j-api/slf4j-api-1.6.4.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/org.mortbay.jetty/jetty/jetty-6.1.26.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/org.mortbay.jetty/jetty-util/jetty-util-6.1.26.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/org.mortbay.jetty/servlet-api/servlet-api-2.5-20081211.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/org.scala-tools.testing/specs_2.9.1/specs_2.9.1-1.6.9.jar"/>
 	<classpathentry kind="output" path="target/scala_2.9.0-1/webapp/WEB-INF/classes"/>
 </classpath>

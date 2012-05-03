@@ -28,7 +28,7 @@ object ChatIn {
 	 *  clears the input.
 	 */
 	def render = SHtml.onSubmit(s => {
-		if (!s.matches("\\s*")) ChatServer ! s.take(140)
+		if (!s.matches("\\s*")) ChatServer ! s.take(70)
 		SetValById("chat_in", "")
 	})
 }
