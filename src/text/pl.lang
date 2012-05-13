@@ -1,0 +1,23 @@
+registrationStart=Rejestracja zacznie się o %s
+
+registeredPlayers=Do tej pory zarejestrowali się:
+
+keys=Klucze dla jeszcze niezarejstrowanych graczy. \nAby się zarejestrować w turnieju, wpisz swój klucz w głównym czacie. \nProsimy o wpisywanie klucza tylko te osoby, które chcą grać w turnieju! \n\ngracz ---> jego klucz
+
+registrationStop=Rejestracja kończy się o %s
+
+tournamentStart=Turniej rozpocznie się o %s
+
+curTourEnds=Aktualna runda kończy się o %s
+
+played=Już zakończone gry:: \n(zwycięzca czeka na następną rundę)
+
+expected=Oczekiwane gry: \n(tzn. te, które należy zagrać teraz!)
+
+knockedOut=Wyeliminowani gracze:
+
+end1=Tournament has ended! Winner:
+
+end2=Congratulations!
+
+

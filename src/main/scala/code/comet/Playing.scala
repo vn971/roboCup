@@ -1,25 +1,24 @@
-package code.comet
+package code
+package comet
 
 import net.liftweb._
 import http._
 import util._
 import Helpers._
-import scala.xml.{ NodeSeq, Text }
-
-//import code.lib._
-//import Helpers._
+import scala.collection.mutable.ListBuffer
+import ru.ya.vn91.robotour.{ GameNode, Branch }
 
 /** The screen real estate on the browser will be represented
  *  by this component.  When the component changes on the server
  *  the changes are automatically reflected in the browser.
  */
-class Chat extends CometActor with CometListener {
-	private var msgs = Vector[NodeSeq]() // private state
+class Playing extends CometActor with CometListener {
+	private var playing = List[(GameNode, GameNode)]()
 
 	/** When the component is instantiated, register as
 	 *  a listener with the ChatServer
 	 */
-	override def registerWith = ChatServer
+	def registerWith = PlayingSingleton
 
 	/** The CometActor is an Actor, so it processes messages.
 	 *  In this case, we're listening for Vector[String],
@@ -28,11 +27,24 @@ class Chat extends CometActor with CometListener {
 	 *  cause changes to be sent to the browser.
 	 */
 	override def lowPriority = {
-		case v: Vector[NodeSeq] => msgs = v; reRender()
+		case v: List[(GameNode, GameNode)] => playing = v; reRender()
 	}
 
 	/** Put the messages in the li elements and clear
 	 *  any elements that have the clearable class.
 	 */
-	def render = "li *" #> msgs & ClearClearable
+	def gameToHtml(game: (GameNode, GameNode)) = {
+		val question = Branch("???", game._1 :: game._2 :: Nil)
+		//		<br/>,
+		//		question.toHtml
+		//			<br/>,
+		xml.NodeSeq.fromSeq(Seq(
+			<pre>{ question.toString }</pre>))
+	}
+
+	def render = {
+		val nodeSeqList = playing.map(gameToHtml)
+		"li *" #> nodeSeqList & ClearClearable
+	}
+	//	& ClearClearable
 }

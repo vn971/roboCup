@@ -1,4 +1,5 @@
 .settings
+bin/*
 lib*
 project/boot/*
 project/build/target/*
@@ -6,8 +7,4 @@ project/project/*
 project/target/*
 target/*
 .cache
-sbt
-sbt-launcher.jar
-sbt.bat
-lift_proto.db.h2.db
-lift_proto.db.lock.db
+lift_proto.db.*

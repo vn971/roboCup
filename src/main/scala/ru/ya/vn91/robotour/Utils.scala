@@ -1,14 +1,26 @@
 package ru.ya.vn91.robotour
+
+import java.io.IOException
 import java.net.URLEncoder
-import scala.io.Source
 
 object Utils {
+
 	def getLinkContent(url: String): String = {
-		//		log.info("getting "+url)
-		val buffer = new StringBuilder
-		Source.fromURL(url, "UTF-8").foreach(buffer+)
-		//		log.info(" = "+buffer.toString)
-		buffer.toString
+		try {
+			val source = io.Source.fromURL(url, "UTF-8")
+			val result = source.mkString
+			source.close
+			result
+		} catch {
+			case e: IOException => ""
+		}
+	}
+
+	def readFromFile(fileName: String) = {
+		val source = io.Source.fromFile(fileName, "UTF-8")
+		val content = source.mkString
+		source.close
+		content
 	}
 
 	def getServerEncoded(s: String) =
@@ -26,8 +38,17 @@ object Utils {
 		replaceAll("&#45;", "-")
 
 	def writeToFile(content: String, fileName: String) = {
-		val file = new java.io.PrintStream(new java.io.FileOutputStream(fileName))
-		file.println(content)
-		file.close
+		var file: java.io.FileWriter = null
+		try {
+			file = new java.io.FileWriter(fileName)
+			file.write(content)
+		} finally {
+			try {
+				file.close
+			} catch {
+				case e: IOException => e.printStackTrace
+			}
+		}
 	}
+
 }

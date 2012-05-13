@@ -5,7 +5,7 @@
 	<classpathentry kind="src" path="src/test/scala"/>
 	<classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-common_2.9.1/lift-common_2.9.1-2.4.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-common_2.9.1/lift-common_2.9.1-2.4.jar" sourcepath="lib_managed/srcs/net.liftweb/lift-common_2.9.1/lift-common_2.9.1-2.4-sources.jar"/>
 	<classpathentry kind="lib" path="lib_managed/jars/ch.qos.logback/logback-classic/logback-classic-0.9.26.jar"/>
 	<classpathentry kind="lib" path="lib_managed/jars/ch.qos.logback/logback-core/logback-core-0.9.26.jar"/>
 	<classpathentry kind="lib" path="lib_managed/jars/com.h2database/h2/h2-1.2.147.jar"/>
@@ -21,11 +21,11 @@
 	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-actor_2.9.1/lift-actor_2.9.1-2.4.jar"/>
 	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-db_2.9.1/lift-db_2.9.1-2.4.jar"/>
 	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-json_2.9.1/lift-json_2.9.1-2.4.jar"/>
-	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-mapper_2.9.1/lift-mapper_2.9.1-2.4.jar"/>
-	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-proto_2.9.1/lift-proto_2.9.1-2.4.jar"/>
-	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-util_2.9.1/lift-util_2.9.1-2.4.jar"/>
-	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-webkit_2.9.1/lift-webkit_2.9.1-2.4.jar"/>
-	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-wizard_2.9.1/lift-wizard_2.9.1-2.4.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-mapper_2.9.1/lift-mapper_2.9.1-2.4.jar" sourcepath="lib_managed/srcs/net.liftweb/lift-mapper_2.9.1/lift-mapper_2.9.1-2.4-sources.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-proto_2.9.1/lift-proto_2.9.1-2.4.jar" sourcepath="lib_managed/srcs/net.liftweb/lift-proto_2.9.1/lift-proto_2.9.1-2.4-sources.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-util_2.9.1/lift-util_2.9.1-2.4.jar" sourcepath="lib_managed/srcs/net.liftweb/lift-util_2.9.1/lift-util_2.9.1-2.4-sources.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-webkit_2.9.1/lift-webkit_2.9.1-2.4.jar" sourcepath="lib_managed/srcs/net.liftweb/lift-webkit_2.9.1/lift-webkit_2.9.1-2.4-sources.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-wizard_2.9.1/lift-wizard_2.9.1-2.4.jar" sourcepath="lib_managed/srcs/net.liftweb/lift-wizard_2.9.1/lift-wizard_2.9.1-2.4-sources.jar"/>
 	<classpathentry kind="lib" path="lib_managed/jars/nu.validator.htmlparser/htmlparser/htmlparser-1.2.1.jar"/>
 	<classpathentry kind="lib" path="lib_managed/jars/org.apache.derby/derby/derby-10.7.1.1.jar"/>
 	<classpathentry kind="lib" path="lib_managed/jars/org.eclipse.jetty/jetty-continuation/jetty-continuation-7.5.4.v20111024.jar"/>
@@ -43,5 +43,5 @@
 	<classpathentry kind="lib" path="lib_managed/jars/org.mortbay.jetty/jetty-util/jetty-util-6.1.26.jar"/>
 	<classpathentry kind="lib" path="lib_managed/jars/org.mortbay.jetty/servlet-api/servlet-api-2.5-20081211.jar"/>
 	<classpathentry kind="lib" path="lib_managed/jars/org.scala-tools.testing/specs_2.9.1/specs_2.9.1-1.6.9.jar"/>
-	<classpathentry kind="output" path="target/scala_2.9.0-1/webapp/WEB-INF/classes"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

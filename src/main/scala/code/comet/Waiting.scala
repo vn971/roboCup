@@ -5,18 +5,21 @@ import net.liftweb._
 import http._
 import util._
 import Helpers._
+import scala.collection.mutable.ListBuffer
+import ru.ya.vn91.robotour.{ GameNode, Branch }
 
 /** The screen real estate on the browser will be represented
  *  by this component.  When the component changes on the server
  *  the changes are automatically reflected in the browser.
  */
-class PlayerRegistration extends CometActor with CometListener {
-	private var msgs: Vector[String] = Vector() // private state
+class Waiting extends CometActor with CometListener {
+
+	private var waiting = List[GameNode]()
 
 	/** When the component is instantiated, register as
 	 *  a listener with the ChatServer
 	 */
-	def registerWith = PlayerRegistrationServer
+	def registerWith = WaitingSingleton
 
 	/** The CometActor is an Actor, so it processes messages.
 	 *  In this case, we're listening for Vector[String],
@@ -25,12 +28,15 @@ class PlayerRegistration extends CometActor with CometListener {
 	 *  cause changes to be sent to the browser.
 	 */
 	override def lowPriority = {
-		case v: Vector[String] => msgs = v; reRender()
+		case v: List[GameNode] => waiting = v; reRender()
 	}
 
 	/** Put the messages in the li elements and clear
 	 *  any elements that have the clearable class.
 	 */
-	def render = "li *" #> msgs
-	//	& ClearClearable
+	def render = {
+		val nodeSeqList : List[xml.NodeSeq] = waiting.map(node => <pre>{ node.toString }</pre>)
+//		.map(_.asInstanceOf[xml.NodeSeq])
+		"li *" #> nodeSeqList & ClearClearable
+	}
 }

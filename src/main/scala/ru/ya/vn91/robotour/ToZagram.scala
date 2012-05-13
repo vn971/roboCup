@@ -8,7 +8,7 @@ import scala.io.Source
 import java.net.URLEncoder
 import ru.ya.vn91.robotour.Utils._
 
-class AssignGame(val first: String, val second: String, val round: Int = 0)
+case class AssignGame(val first: String, val second: String, val round: Int = 0)
 
 class ToZagram extends Actor {
 
@@ -47,17 +47,17 @@ class ToZagram extends Actor {
 			getLinkContent(logOutURL)
 		}
 
-		case game: AssignGame => {
-			log.info("assigning game: "+game.first+"-"+game.second)
+		case AssignGame(first, second, round) => {
+			log.info("assigning game: "+first+"-"+second)
 			val url = "http://zagram.org/a.kropki"+
 				"?co=setUpTable"+
 				"&key="+"j72630brkx6wtp"+
 				"&gameType=3030noT4F0.180.5"+
-				"&pl1="+getServerEncoded(game.first)+
-				"&pl2="+getServerEncoded(game.second)+
+				"&pl1="+getServerEncoded(first)+
+				"&pl2="+getServerEncoded(second)+
 				"&sayHiTimes=60.60"+
 				"&tourn=TEST"+
-				"&tRound=round"+game.round
+				"&tRound=round"+round
 			// http://zagram.org/a.kropki?co=setUpTable&key=yourKey&gameType=3030noT4r0.180.20&pl1=e&pl2=g&sayHiTimes=60.60&tourn=test&tRound=2%20%28playoff%29
 			Utils.getLinkContent(url)
 		}

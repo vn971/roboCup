@@ -6,8 +6,8 @@ import http._
 import js._
 import JsCmds._
 import JE._
-
 import comet.ChatServer
+import code.comet.ChatMessage
 
 /** A snippet transforms input to output... it transforms
  *  templates to dynamic content.  Lift's templates can invoke
@@ -28,7 +28,7 @@ object ChatIn {
 	 *  clears the input.
 	 */
 	def render = SHtml.onSubmit(s => {
-		if (!s.matches("\\s*")) ChatServer ! s.take(70)
+		if (!s.matches("\\s*")) ChatServer ! ChatMessage(0, "local", "", s.take(140))
 		SetValById("chat_in", "")
 	})
 }

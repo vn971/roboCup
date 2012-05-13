@@ -4,6 +4,10 @@ import akka.actor.Actor
 import akka.actor.Props
 import akka.event.Logging
 import Utils._
+import code.comet.ChatServer
+import code.comet.ChatMessage
+import java.text.SimpleDateFormat
+import java.util.TimeZone
 
 class GameInfo(val first: String, val second: String)
 
@@ -13,7 +17,7 @@ class FromZagram extends Actor {
 	val gameSet = collection.mutable.HashMap[String, GameInfo]()
 
 	override def preStart() = {
-		log.info("inited")
+		log.debug("inited")
 		var messageCount = 0L
 		while (true) {
 			val urlAsString = "http://zagram.org/a.kropki"+
@@ -22,21 +26,28 @@ class FromZagram extends Actor {
 				"&msgNo="+messageCount+
 				"&wiad=x"
 			val text = getLinkContent(urlAsString)
-			log.debug(text)
+			log.debug("GET %s Result: %s".format(urlAsString, text))
 			for (line <- text.split("/")) {
 				val dotSplitted = line.split("\\.")
 				if (line.startsWith("ca")) { // || line.startsWith("cr")
 					// chat
-					//					val dotSplitted = line.substring(2).split("\\.", 4)
 					try {
-						val time = dotSplitted(0).substring(2).toLong
-						val nick = dotSplitted(1)
+						val innerSplit = line.split("\\.", 4)
+						val time = innerSplit(0).substring(2).toLong * 1000
+						val nick = innerSplit(1)
 						// val nickType = dotSplitted(2)
-						val chatMessage = getServerDecoded(dotSplitted(3))
+						val chatMessage = getServerDecoded(innerSplit(3))
+						ChatServer ! ChatMessage(time, "zagram", nick, chatMessage)
 						if (chatMessage startsWith "!register") {
 							context.parent ! new TryRegister(nick)
+						} else if (chatMessage.startsWith("!regStart") && nick.matches("Вася Новиков")) { // Oxin|agent47
+							val timeAsString = chatMessage.split(" ")(1)
+							val simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd.HH:mm")
+							simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"))
+							val startTime = simpleDateFormat.parse(timeAsString).getTime()
+							Core.core ! StartRegistration(startTime)
+							ChatServer ! ChatMessage(time, "serv", "", "Назначен турнир! Начало регистрации: "+timeAsString)
 						}
-						//						log.info("%s: %s".format(nick, chatMessage))
 					} catch {
 						case e: NumberFormatException => log.error(e.toString)
 					}
@@ -53,9 +64,9 @@ class FromZagram extends Actor {
 					val second = gameSet(dotSplitted(0).substring(1)).second
 					if (sgfResult startsWith "B+") {
 						context.parent ! new GameFinished(second, first)
-					} else if ((sgfResult startsWith "W+") || sgfResult == "0") {
+					} else if ((sgfResult startsWith "W+") || sgfResult == "0" || sgfResult == "Void") {
 						context.parent ! new GameFinished(first, second)
-					}
+					} // else still playing
 				} else if (line startsWith "d") {
 					val tableN = dotSplitted(0).substring(1).toInt
 					val first = getServerDecoded(dotSplitted(dotSplitted.size - 1))

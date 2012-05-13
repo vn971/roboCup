@@ -1,0 +1,23 @@
+registrationStart=Registration will start at %s
+
+registeredPlayers=Already registered players:
+
+keys=To register in the tournament type your key into the public chat. \nPlease, enter your key only if you wish to take a part in the tournament. \n\nplayer ---> his key
+
+registrationStop=Registration ends at %s
+
+tournamentStart=Tournament will start at %s
+
+curTourEnds=Current tour ends at %s
+
+played=Alrady finished games: \n(the winner is waiting for the next tour)
+
+expected=Expected games: \n(play them now!)
+
+knockedOut=Knocked-out players:
+
+end1=Tournament has ended! Winner:
+
+end2=Congratulations!
+
+

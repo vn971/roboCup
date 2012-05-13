@@ -3,14 +3,14 @@ package bootstrap.liftweb
 import net.liftweb._
 import util._
 import Helpers._
-
 import common._
 import http._
 import sitemap._
 import Loc._
 import mapper._
-
 import code.model._
+import akka.actor.ActorSystem
+import ru.ya.vn91.robotour.Core
 
 /** A class that's instantiated early and run.  It allows the application
  *  to modify lift's environment
@@ -39,8 +39,10 @@ class Boot {
 
 		// Build SiteMap
 		def sitemap = SiteMap(
-			Menu.i("Регистрация") / "registered",
-			Menu.i("Игры") / "index",
+//						Menu(Loc("", Link(List("", "static", "index", "/"), false, ""), "Static Content")),
+			Menu.i("Правила") / "index",
+			Menu.i("Регистрация") / "register",
+			Menu.i("Игры") / "games",
 			Menu.i("Чат") / "chat" //    	Menu.i("Home2") / "index" >> User.AddUserMenusAfter, // the simple way to declare a menu
 			//      // more complex because this menu allows anything in the
 			//      // /static path to be visible
@@ -48,14 +50,16 @@ class Boot {
 			//	       "Static Content"))
 			)
 
-		def sitemapMutators = User.sitemapMutator
+		//		def sitemapMutators = User.sitemapMutator
 		// set the sitemap.  Note if you don't want access control for
 		// each page, just comment this line out.
 
 		//		    LiftRules.setSiteMapFunc(() => sitemapMutators(sitemap))
 		LiftRules.setSiteMap(sitemap)
 
-		// Use jQuery 1.4
+		Core // init the sigleton
+
+	// Use jQuery 1.4
 		LiftRules.jsArtifacts = net.liftweb.http.js.jquery.JQuery14Artifacts
 
 		//Show the spinny image when an Ajax call starts

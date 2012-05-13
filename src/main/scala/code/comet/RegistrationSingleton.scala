@@ -9,7 +9,8 @@ import actor._
  *  It's an Actor so it's thread-safe because only one
  *  message will be processed at once.
  */
-object Core extends LiftActor with ListenerManager {
+object RegistrationSingleton extends LiftActor with ListenerManager {
+	
 	private var registered = Vector[String]() // private state
 
 	/** When we update the listeners, what message do we send?

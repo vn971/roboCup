@@ -37,13 +37,13 @@ sealed abstract class GameNode {
 		val height: Int)
 
 	private def treeToHtmlEntry(): HtmlTable = this match {
-		case l: Leaf => new HtmlTable("<tr><td>"+name+"</td>", "</tr>\n",
+		case l: Leaf => new HtmlTable("<tr><td>"+xml.Text(name).toString+"</td>", "</tr>\n",
 			//			name, 
 			1)
 		case Branch(name, subNodes) => {
 			val subHtml = subNodes.map(_.treeToHtmlEntry)
 			val height = subHtml.map(_.height).reduce(_ + _)
-			val head = subHtml(0).head+"<td rowspan="+height+">"+name+"</td>"
+			val head = subHtml(0).head+"<td rowspan=\""+height+"\">"+xml.Text(name).toString+"</td>"
 			val tail = subHtml(0).tail + subHtml.drop(1).map(y => y.head + y.tail).fold("")(_ + _)
 			//			def rowspan(i: Int) = if (i <= 1) "" else " rowspan="+i
 			//				"<td"+rowspan(y.height)+">"+y.headName+"</td>"+
@@ -53,9 +53,12 @@ sealed abstract class GameNode {
 		}
 	}
 
-	def toHtml: String = {
+	def toHtml: xml.Node = {
 		val entry = treeToHtmlEntry()
-		"<table border=1>\n"+entry.head + entry.tail+"</table>"
+		<table border="1">
+			{ xml.Unparsed(entry.head + entry.tail) }
+		</table>
+		// "<table border=1>\n"+entry.head + entry.tail+"</table>"
 	}
 
 }

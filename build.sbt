@@ -1,6 +1,6 @@
 name := "roboTournament"
 
-version := "0.3"
+version := "0.10"
 
 organization := "ru.ya.vn91.roboTour"
 
@@ -9,6 +9,8 @@ description := "Robotic Tournaments for the game Points"
 // libraryDependencies += "org.scalaquery" % "scalaquery_2.9.0-1" % "0.9.5"
 
 retrieveManaged := true
+
+scalacOptions ++= Seq("-deprecation","-unchecked")
 
 seq(webSettings: _*)
 
@@ -32,6 +34,8 @@ libraryDependencies ++= {
     "net.liftweb" %% "lift-common" % liftVersion % "compile->default"
   )
 }
+
+// jivesoftware:smack:jar:3.1.0
 
 libraryDependencies ++= Seq(
 	// see https://oss.sonatype.org/content/groups/jetty/org/ for Jetty versions
