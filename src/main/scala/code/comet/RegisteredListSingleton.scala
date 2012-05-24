@@ -9,7 +9,7 @@ import actor._
  *  It's an Actor so it's thread-safe because only one
  *  message will be processed at once.
  */
-object RegistrationSingleton extends LiftActor with ListenerManager {
+object RegisteredListSingleton extends LiftActor with ListenerManager {
 	
 	private var registered = Vector[String]() // private state
 

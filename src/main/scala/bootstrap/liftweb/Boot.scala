@@ -11,6 +11,10 @@ import mapper._
 import code.model._
 import akka.actor.ActorSystem
 import ru.ya.vn91.robotour.Core
+import java.util.Locale
+import net.liftweb.http.provider.HTTPRequest
+import net.liftweb.http.SessionVar
+import net.liftweb.http.provider.HTTPCookie
 
 /** A class that's instantiated early and run.  It allows the application
  *  to modify lift's environment
@@ -37,18 +41,64 @@ class Boot {
 		// where to search snippet
 		LiftRules.addToPackages("code")
 
+		def allFrance: Box[HTTPRequest] => Locale = _ =>
+			java.util.Locale.FRANCE
+
+		//		object definedLocale extends SessionVar[Box[Locale]](Empty)
+
+		//		def customLocalizer: Box[HTTPRequest] => Locale = h => {
+		//			val hbox = h.get
+		////			println("httpReq: "+h)
+		//			print("inn.loc: "+hbox.locale+"|")
+		////			hbox.
+		//			LiftRules.defaultLocaleCalculator(h)
+		//			//			java.util.Locale.FRANCE
+		//		}
+		//
+		//		LiftRules.localeCalculator = customLocalizer
+
+		def localeCalculator(request: Box[HTTPRequest]): Locale = {
+			//			println(S)
+			//			println(request)
+
+			request.flatMap(r => {
+				def localeCookie(in: String): HTTPCookie =
+					HTTPCookie("cookie.locale", Full(in),
+						Full(S.hostName), Full(S.contextPath), Full(2629743), Empty, Empty)
+				def localeFromString(in: String): Locale = {
+					val x = in.split("_").toList; new Locale(x.head, x.last)
+				}
+				def calcLocale: Box[Locale] =
+					S.findCookie("cookie.locale").map(
+						_.value.map(localeFromString)).openOr(Full(LiftRules.defaultLocaleCalculator(request)))
+				//				println(S.param("locale"))
+				S.param("locale") match {
+					case Full(null) => calcLocale
+					case f @ Full(selectedLocale) =>
+						S.addCookie(localeCookie(selectedLocale))
+						tryo(localeFromString(selectedLocale))
+					case _ => calcLocale
+				}
+			}).openOr(Locale.getDefault())
+		}
+
+		LiftRules.localeCalculator = localeCalculator
+
 		// Build SiteMap
 		def sitemap = SiteMap(
-//						Menu(Loc("", Link(List("", "static", "index", "/"), false, ""), "Static Content")),
-			Menu.i("Правила") / "index",
-			Menu.i("Регистрация") / "register",
-			Menu.i("Игры") / "games",
-			Menu.i("Чат") / "chat" //    	Menu.i("Home2") / "index" >> User.AddUserMenusAfter, // the simple way to declare a menu
-			//      // more complex because this menu allows anything in the
-			//      // /static path to be visible
-			//      Menu(Loc("Static", Link(List("static"), true, "/static/index"), 
-			//	       "Static Content"))
-			)
+			//						Menu(Loc("", Link(List("", "static", "index", "/"), false, ""), "Static Content")),
+			Menu.i("Rules") / "index",
+			Menu.i("Registration") / "register",
+			Menu.i("Games") / "games",
+			Menu.i("Hidden1459") / "hidden145938" >> Hidden,
+			Menu.i("Test") / "test",
+//			Menu.i("Zagram userinfo") / "zagramUserinfo",
+			Menu.i("Chat") / "chat")
+		// Menu.i("Home2") / "index" >> User.AddUserMenusAfter, // the simple way to declare a menu
+		// // more complex because this menu allows anything in the
+		// // /static path to be visible
+		// Menu(Loc("Static", Link(List("static"), true, "/static/index"), 
+		//    "Static Content"))
 
 		//		def sitemapMutators = User.sitemapMutator
 		// set the sitemap.  Note if you don't want access control for
@@ -59,7 +109,7 @@ class Boot {
 
 		Core // init the sigleton
 
-	// Use jQuery 1.4
+		// Use jQuery 1.4
 		LiftRules.jsArtifacts = net.liftweb.http.js.jquery.JQuery14Artifacts
 
 		//Show the spinny image when an Ajax call starts

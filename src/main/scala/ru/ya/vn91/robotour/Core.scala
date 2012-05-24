@@ -6,13 +6,14 @@ import akka.util.duration._
 import collection.mutable._
 import util.Random
 import code.comet.{ ChatServer, WaitingSingleton, KnockedOutSingleton, PlayingSingleton }
-import code.comet.RegistrationSingleton
+import code.comet.RegisteredListSingleton
 import code.comet.ChatMessage
+import code.comet.RegistrationStartSingleton
 
 case class TryRegister(val player: String)
 case class GameFinished(val winner: String, val looser: String)
 //case class MessageFromZagram(val time: Long, val nick: String, val message: String)
-case class StartRegistration(val timeStart: Long)
+case class StartRegistration(val timeStart: Long, val asString: String)
 object StartTheTournament
 object StartNextTour
 
@@ -29,53 +30,46 @@ class Core extends Actor {
 	val playing = LinkedHashSet[(GameNode, GameNode)]() // each inner set must contain 2 players
 	val knockedOut = LinkedHashSet[GameNode]()
 
-	def timeToString() = ""
-
 	def sendToMyself(timeout: Long, event: Any, executeIfLate: Boolean = false) = {
 		context.actorOf(Props(new Notifier(timeout, event, executeIfLate)))
 	}
 
-	override def preStart() = {
-		ChatServer ! ChatMessage(0L, "serv", "", "Инициализирована связь с заграмом.")
-
-		//		sendToMyself(tournamentStart - 1000L * 60 * 60 * 3, ChatMessage() "The tournament will start in 3 hours! "+httpUrl)
-		//		sendToMyself(tournamentStart - 1000L * 60 * 60, ChatMessage "The tournament will start in 1 hour! "+httpUrl)
-		//		sendToMyself(tournamentStart, CHatMesage "The tournament is starting NOW!")
-
-		//		sendToMyself(tournamentStart - 1000L * 60 * 60 * 3, StartRegistration, true)
-		//		sendToMyself(tournamentStart, StartTheTournament, true)
-	}
+	override def preStart() = {}
 
 	def prepareNextTour = {
 		if (playing.size > 0) throw new IllegalStateException
 		else if (waiting.size < 2) {
-			ChatServer ! ChatMessage(0L, "serv", "", "Турнир закончен!")
+			ChatServer ! ChatMessage("Турнир закончен!", 0L, "serv", "")
 			log.info("tournament finished!")
 			if (waiting.size == 1) {
 				log info "winner: \n"+waiting.head
-				ChatServer ! ChatMessage(0L, "serv", "", "Победитель: "+waiting.head.name)
+				ChatServer ! ChatMessage("Победитель: "+waiting.head.name, 0L, "serv", "")
 			} else {
-				ChatServer ! ChatMessage(0L, "serv", "", "Результат: ничья!")
+				ChatServer ! ChatMessage("Результат: ничья!", 0L, "serv", "")
 			}
 			log info "knockedOut: \n"+knockedOut
 			context.become(receive)
 		} else {
 			val time = System.currentTimeMillis
 			val shuffled = toListAndShuffle(waiting.toSeq)
-			for (i <- 0 to waiting.size / 2 - 1) {
-				val (p1, p2) = (shuffled(2 * i), shuffled(2 * i + 1))
+
+			// zagram server can't hold more then 200 players anyway.
+			// and... I do not know how to code this consice in any other way
+			val numberToPlay = List(512, 256, 128, 64, 32, 16, 8, 4, 2).find(_ <= shuffled.size).get
+
+			for (i <- 0.until(numberToPlay, 2)) {
+				val (p1, p2) = (shuffled(i), shuffled(i + 1))
 				playing += ((p1, p2))
 				toZagram ! new AssignGame(p1.name, p2.name)
 				sendToMyself(time + gameTimeout, new GameFinished(p2.name, p1.name))
 			}
-
 			waiting.clear
-			if (shuffled.size % 2 != 0) {
-				waiting += new Branch(shuffled.last.name, List(shuffled.last))
+			for (j <- numberToPlay until shuffled.size) {
+				waiting += new Branch(shuffled(j).name, shuffled(j) :: Nil)
 			}
 
-			//			log.info("waiting = \n"+waiting)
-			//			log.info("playing = \n"+playing)
+			log.info("waiting = \n"+waiting)
+			log.info("playing = \n"+playing)
 			WaitingSingleton ! waiting.toList
 			PlayingSingleton ! playing.toList
 
@@ -92,13 +86,13 @@ class Core extends Actor {
 			if (waiting.forall(_.name != player)) {
 				waiting += Leaf(player)
 				//				log.info("registered player: "+player)
-				RegistrationSingleton ! player
-				ChatServer ! ChatMessage(0L, "serv", "", "игрок "+player+" зарегистрировался.")
+				RegisteredListSingleton ! player
+				ChatServer ! ChatMessage("игрок "+player+" зарегистрировался.", 0L, "serv", "")
 				WaitingSingleton ! waiting.toList
 			}
 		}
 		case StartTheTournament => {
-			ChatServer ! ChatMessage(0L, "serv", "", "Турнир начался!")
+			ChatServer ! ChatMessage("Турнир начался!", 0L, "serv", "")
 			prepareNextTour
 			context.become(inProgress)
 		}
@@ -122,7 +116,7 @@ class Core extends Actor {
 				filter2.size != 0
 			}
 			if (containsWinnerLooser || containsLooserWinner) {
-				ChatServer ! ChatMessage(0L, "serv", "", winner+" выиграл игру против "+looser)
+				ChatServer ! ChatMessage(winner+" выиграл игру против "+looser, 0L, "serv", "")
 				//				log.info("playing after game calculation = "+playing)
 				//				log.info("waiting after game calculation = "+waiting)
 				WaitingSingleton ! waiting.toList
@@ -133,7 +127,7 @@ class Core extends Actor {
 						prepareNextTour
 					} else {
 						context.become(waitingNextTour)
-						ChatServer ! ChatMessage(0L, "serv", "", "Следующий тур начнётся через "+(tourBrakeTime / 1000 / 60)+" минут.")
+						ChatServer ! ChatMessage("Следующий тур начнётся через "+(tourBrakeTime / 1000 / 60)+" минут.", 0L, "serv", "")
 						// toZagram ! "Next Tour will start in "+(tourBrakeTime / 1000 / 60)+" minutes "+httpUrl
 						sendToMyself(System.currentTimeMillis + tourBrakeTime, StartNextTour)
 					}
@@ -146,21 +140,22 @@ class Core extends Actor {
 		//		case s: String => toZagram ! s
 		case StartNextTour => {
 			context.become(inProgress)
-			ChatServer ! ChatMessage(0L, "serv", "", "Начался следующий тур!")
+			ChatServer ! ChatMessage("Начался следующий тур!", 0L, "serv", "")
 			prepareNextTour
 		}
 	}
 
 	def receive = {
-		case StartRegistration(time) =>
+		case StartRegistration(time, timeAsString) =>
 			if (System.currentTimeMillis < time) {
-				sendToMyself(time, StartRegistration(time), true)
+				RegistrationStartSingleton ! timeAsString
+				sendToMyself(time, StartRegistration(time, timeAsString), true)
 			} else {
 				sendToMyself(time + 1000L * 60 * 60 * 3, StartTheTournament, true)
 				waiting.clear
 				playing.clear
 				knockedOut.clear
-				ChatServer ! ChatMessage(0L, "serv", "", "Регистрация открыта!")
+				ChatServer ! ChatMessage("Регистрация открыта!", 0L, "serv", "")
 				context.become(registration)
 			}
 	}

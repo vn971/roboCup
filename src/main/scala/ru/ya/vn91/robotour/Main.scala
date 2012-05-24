@@ -23,6 +23,3 @@ object Main {
 		//		val core = system.actorOf(Props(new Core(System.currentTimeMillis() + 1000L * 60 * 5)), name = "core")
 	}
 }
-
-// 4скрест - хорошо?
-// рисовать игры -- таблицей?

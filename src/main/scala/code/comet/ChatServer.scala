@@ -10,7 +10,7 @@ import net.liftweb.util._
 import Helpers._
 import xml.{NodeSeq} // XML, Text
 
-case class ChatMessage(val time: Long = 0, val source: String = "", val sender: String = "", val message: String)
+case class ChatMessage(val message: String, val time: Long = 0, val source: String = "", val sender: String = "")
 
 /** A singleton that provides chat features to all clients.
  *  It's an Actor so it's thread-safe because only one
@@ -36,7 +36,7 @@ object ChatServer extends LiftActor with ListenerManager {
 	 *  messages, and then update all the listeners.
 	 */
 	override def lowPriority = {
-		case ChatMessage(time, source, sender, message) =>
+		case ChatMessage(message, time, source, sender) =>
 			val timeCorrect = (if (time > 0) time else System.currentTimeMillis)
 			val line: NodeSeq = 
 				NodeSeq.fromSeq(Seq(

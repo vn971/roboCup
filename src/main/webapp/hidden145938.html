@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Hidden</title>
+</head>
+<body class="lift:content_id=main">
+	<div id="main" class="lift:surround?with=default;at=content">
+		<h2>Administration</h2>
+
+		<h3>Set registration start</h3>
+		<div>
+			Set <b>registration</b> time in the form yyyy.MM.dd.HH:mm (Moscow
+			Standart Time). Dont forget that the games will start 3 hours <b>after</b>
+			the registration.
+			<form class="lift:form.ajax">
+				<input class="lift:Admin.setTime" id="regTimeSetter" /> <input
+					type="submit" value="Set registration start" />
+			</form>
+		</div>
+		<br />
+
+		<!--
+		-->
+		
+		<h3>Start registration - right now!</h3>
+		<div>
+			It works only if registration has not been assigned yet. There is no
+			way to undo a registration currently.
+			<form class="lift:form.ajax">
+				<input class="lift:Admin.startNow" id="playerRegistrator" />
+				<input type="submit" value="Register player" />
+			</form>
+		</div>
+		<br />
+
+		<h3>Register player</h3>
+		<div>
+			Register a player in the tournament. <br /> Reminder: player would
+			be added only if the registration has been started already and games
+			have not been played yet.
+			<form class="lift:form.ajax">
+				<input class="lift:Admin.register" id="playerRegistrator" /> <input
+					type="submit" value="Register player" />
+			</form>
+		</div>
+		<br />
+
+
+		<!-- 
+		<div>
+			Test button.
+			<form class="lift:form.ajax">
+				<input class="lift:BTT" type="submit" id="chat_in" value="test"/> 
+			</form>
+		</div>
+
+		<div>
+			<form class="lift:form.ajaxButton">
+				<input class="lift:BTT" type="submit" id="chat_in" value="test"/> 
+			</form>
+		</div>
+		 -->
+	</div>
+</body>
+</html>
+

@@ -17,10 +17,14 @@ object Utils {
 	}
 
 	def readFromFile(fileName: String) = {
-		val source = io.Source.fromFile(fileName, "UTF-8")
-		val content = source.mkString
-		source.close
-		content
+		try {
+			val source = io.Source.fromFile(fileName, "UTF-8")
+			val content = source.mkString
+			source.close
+			content
+		} catch {
+			case e: IOException => ""
+		}
 	}
 
 	def getServerEncoded(s: String) =

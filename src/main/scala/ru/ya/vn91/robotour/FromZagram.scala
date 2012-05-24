@@ -37,16 +37,10 @@ class FromZagram extends Actor {
 						val nick = innerSplit(1)
 						// val nickType = dotSplitted(2)
 						val chatMessage = getServerDecoded(innerSplit(3))
-						ChatServer ! ChatMessage(time, "zagram", nick, chatMessage)
+						ChatServer ! ChatMessage(chatMessage, time, "zagram", nick)
 						if (chatMessage startsWith "!register") {
 							context.parent ! new TryRegister(nick)
 						} else if (chatMessage.startsWith("!regStart") && nick.matches("Вася Новиков")) { // Oxin|agent47
-							val timeAsString = chatMessage.split(" ")(1)
-							val simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd.HH:mm")
-							simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"))
-							val startTime = simpleDateFormat.parse(timeAsString).getTime()
-							Core.core ! StartRegistration(startTime)
-							ChatServer ! ChatMessage(time, "serv", "", "Назначен турнир! Начало регистрации: "+timeAsString)
 						}
 					} catch {
 						case e: NumberFormatException => log.error(e.toString)
