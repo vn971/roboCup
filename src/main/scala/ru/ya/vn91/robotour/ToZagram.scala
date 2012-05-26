@@ -13,9 +13,12 @@ case class AssignGame(val first: String, val second: String, val round: Int = 0)
 
 class ToZagram extends Actor {
 
-	val idGracza = sys.props.get("zagram.idGracza").getOrElse("kO1v40UcTW")
-	val password = sys.props.get("zagram.password").getOrElse("t7do4MJEsgMQo")
-	val assignGamePassword = sys.props.get("zagram.assignGamePassword").getOrElse("j72630brkx6wtp")
+//	val idGracza = sys.props.get("zagram.idGracza").getOrElse("kO1v40UcTW")
+//	val password = sys.props.get("zagram.password").getOrElse("t7do4MJEsgMQo")
+//	val assignGamePassword = sys.props.get("zagram.assignGamePassword").getOrElse("j72630brkx6wtp")
+	val idGracza = "kO1v40UcTW"
+	val password = "t7do4MJEsgMQo"
+	val assignGamePassword = "j72630brkx6wtp"
 
 	val log = Logging(context.system, this)
 
