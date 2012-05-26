@@ -19,8 +19,8 @@ object StartNextTour
 
 class Core extends Actor {
 
-	val tourBrakeTime = 1000L * 60 * 10
-	val gameTimeout = 1000L * 60 * 80
+	val tourBrakeTime = 1000L * 60 * 15
+	val gameTimeout = 1000L * 60 * 120
 
 	val toZagram = context.actorOf(Props[ToZagram], name = "toZagram")
 	val fromZagram = context.actorOf(Props[FromZagram], name = "fromZagram")
@@ -30,7 +30,7 @@ class Core extends Actor {
 	val playing = LinkedHashSet[(GameNode, GameNode)]() // each inner set must contain 2 players
 	val knockedOut = LinkedHashSet[GameNode]()
 
-	def sendToMyself(timeout: Long, event: Any, executeIfLate: Boolean = false) = {
+	def sendToMyself(timeout: Long, event: Any, executeIfLate: Boolean = false): Unit = {
 		context.actorOf(Props(new Notifier(timeout, event, executeIfLate)))
 	}
 
@@ -53,18 +53,18 @@ class Core extends Actor {
 			val time = System.currentTimeMillis
 			val shuffled = toListAndShuffle(waiting.toSeq)
 
-			// zagram server can't hold more then 200 players anyway.
-			// and... I do not know how to code this consice in any other way
-			val numberToPlay = List(512, 256, 128, 64, 32, 16, 8, 4, 2).find(_ <= shuffled.size).get
+			val lesserPower2 = List(512, 256, 128, 64, 32, 16, 8, 4, 2, 1).find(_ < shuffled.size).get
+			val greaterPower2 = lesserPower2 * 2
 
-			for (i <- 0.until(numberToPlay, 2)) {
-				val (p1, p2) = (shuffled(i), shuffled(i + 1))
+			for (i <- lesserPower2 until shuffled.size) yield {
+				val (i1, i2) = (i, greaterPower2 - 1 - i) // indexes
+				val (p1, p2) = (shuffled(i1), shuffled(i2)) // players
 				playing += ((p1, p2))
 				toZagram ! new AssignGame(p1.name, p2.name)
 				sendToMyself(time + gameTimeout, new GameFinished(p2.name, p1.name))
 			}
 			waiting.clear
-			for (j <- numberToPlay until shuffled.size) {
+			for (j <- 0 until greaterPower2 - shuffled.size) yield {
 				waiting += new Branch(shuffled(j).name, shuffled(j) :: Nil)
 			}
 
@@ -147,8 +147,8 @@ class Core extends Actor {
 
 	def receive = {
 		case StartRegistration(time, timeAsString) =>
+			RegistrationStartSingleton ! timeAsString
 			if (System.currentTimeMillis < time) {
-				RegistrationStartSingleton ! timeAsString
 				sendToMyself(time, StartRegistration(time, timeAsString), true)
 			} else {
 				sendToMyself(time + 1000L * 60 * 60 * 3, StartTheTournament, true)

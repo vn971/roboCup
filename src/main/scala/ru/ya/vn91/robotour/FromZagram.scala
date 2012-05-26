@@ -37,10 +37,9 @@ class FromZagram extends Actor {
 						val nick = innerSplit(1)
 						// val nickType = dotSplitted(2)
 						val chatMessage = getServerDecoded(innerSplit(3))
-						ChatServer ! ChatMessage(chatMessage, time, "zagram", nick)
+//						ChatServer ! ChatMessage(chatMessage, time, "zagram", nick)
 						if (chatMessage startsWith "!register") {
 							context.parent ! new TryRegister(nick)
-						} else if (chatMessage.startsWith("!regStart") && nick.matches("Вася Новиков")) { // Oxin|agent47
 						}
 					} catch {
 						case e: NumberFormatException => log.error(e.toString)

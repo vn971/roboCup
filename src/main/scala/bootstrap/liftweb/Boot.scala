@@ -21,17 +21,17 @@ import net.liftweb.http.provider.HTTPCookie
  */
 class Boot {
 	def boot {
-		if (!DB.jndiJdbcConnAvailable_?) {
-			val vendor =
-				new StandardDBVendor(Props.get("db.driver") openOr "org.h2.Driver",
-					Props.get("db.url") openOr
-						"jdbc:h2:lift_proto.db;AUTO_SERVER=TRUE",
-					Props.get("db.user"), Props.get("db.password"))
-
-			LiftRules.unloadHooks.append(vendor.closeAllConnections_! _)
-
-			DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
-		}
+		//		if (!DB.jndiJdbcConnAvailable_?) {
+		//			val vendor =
+		//				new StandardDBVendor(Props.get("db.driver") openOr "org.h2.Driver",
+		//					Props.get("db.url") openOr
+		//						"jdbc:h2:lift_proto.db;AUTO_SERVER=TRUE",
+		//					Props.get("db.user"), Props.get("db.password"))
+		//
+		//			LiftRules.unloadHooks.append(vendor.closeAllConnections_! _)
+		//
+		//			DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
+		//		}
 
 		// Use Lift's Mapper ORM to populate the database
 		// you don't need to use Mapper to use Lift... use
@@ -41,8 +41,8 @@ class Boot {
 		// where to search snippet
 		LiftRules.addToPackages("code")
 
-		def allFrance: Box[HTTPRequest] => Locale = _ =>
-			java.util.Locale.FRANCE
+		//		def allFrance: Box[HTTPRequest] => Locale = _ =>
+		//			java.util.Locale.FRANCE
 
 		//		object definedLocale extends SessionVar[Box[Locale]](Empty)
 
@@ -57,32 +57,40 @@ class Boot {
 		//
 		//		LiftRules.localeCalculator = customLocalizer
 
-		def localeCalculator(request: Box[HTTPRequest]): Locale = {
-			//			println(S)
-			//			println(request)
+		//		def localeCalculator(request: Box[HTTPRequest]): Locale = {
+		//			//			println(S)
+		//			//			println(request)
+		//
+		//			request.flatMap(r => {
+		//				def localeCookie(in: String): HTTPCookie =
+		//					HTTPCookie("cookie.locale", Full(in),
+		//						Full(S.hostName), Full(S.contextPath), Full(2629743), Empty, Empty)
+		//				def localeFromString(in: String): Locale = {
+		//					val x = in.split("_").toList; new Locale(x.head, x.last)
+		//				}
+		//				def calcLocale: Box[Locale] =
+		//					S.findCookie("cookie.locale").map(
+		//						_.value.map(localeFromString)).openOr(Full(LiftRules.defaultLocaleCalculator(request)))
+		//				//				println(S.param("locale"))
+		//				S.param("locale") match {
+		//					case Full(null) => calcLocale
+		//					case f @ Full(selectedLocale) =>
+		//						S.addCookie(localeCookie(selectedLocale))
+		//						tryo(localeFromString(selectedLocale))
+		//					case _ => calcLocale
+		//				}
+		//			}).openOr(Locale.getDefault())
+		//		}
+		//
+		//		LiftRules.localeCalculator = localeCalculator
 
-			request.flatMap(r => {
-				def localeCookie(in: String): HTTPCookie =
-					HTTPCookie("cookie.locale", Full(in),
-						Full(S.hostName), Full(S.contextPath), Full(2629743), Empty, Empty)
-				def localeFromString(in: String): Locale = {
-					val x = in.split("_").toList; new Locale(x.head, x.last)
-				}
-				def calcLocale: Box[Locale] =
-					S.findCookie("cookie.locale").map(
-						_.value.map(localeFromString)).openOr(Full(LiftRules.defaultLocaleCalculator(request)))
-				//				println(S.param("locale"))
-				S.param("locale") match {
-					case Full(null) => calcLocale
-					case f @ Full(selectedLocale) =>
-						S.addCookie(localeCookie(selectedLocale))
-						tryo(localeFromString(selectedLocale))
-					case _ => calcLocale
-				}
-			}).openOr(Locale.getDefault())
-		}
-
-		LiftRules.localeCalculator = localeCalculator
+		// this is the administration page. It's address is being kept in secret. It's initialized from the system properties, individually for each project.
+		//		val adminAddress = sys.props.get("adminMenu")
+		//		val adminMenu =
+		//			if (adminAddress.isEmpty)
+		//				Menu.i("Administration") / "admin"
+		//			else
+		//				Menu("Administration") / adminAddress.get >> Hidden
 
 		// Build SiteMap
 		def sitemap = SiteMap(
@@ -90,9 +98,9 @@ class Boot {
 			Menu.i("Rules") / "index",
 			Menu.i("Registration") / "register",
 			Menu.i("Games") / "games",
-			Menu.i("Hidden1459") / "hidden145938" >> Hidden,
-			Menu.i("Test") / "test",
-//			Menu.i("Zagram userinfo") / "zagramUserinfo",
+			Menu.i("Administration") / "hidden145938" >> Hidden,
+			//			adminMenu,
+			//			Menu.i("Test") / "test" >> Hidden,
 			Menu.i("Chat") / "chat")
 		// Menu.i("Home2") / "index" >> User.AddUserMenusAfter, // the simple way to declare a menu
 		// // more complex because this menu allows anything in the
@@ -103,6 +111,8 @@ class Boot {
 		//		def sitemapMutators = User.sitemapMutator
 		// set the sitemap.  Note if you don't want access control for
 		// each page, just comment this line out.
+
+		//		    LiftRules.setSiteMapFunc(() => sitemapMutators(sitemap))
 
 		//		    LiftRules.setSiteMapFunc(() => sitemapMutators(sitemap))
 		LiftRules.setSiteMap(sitemap)
