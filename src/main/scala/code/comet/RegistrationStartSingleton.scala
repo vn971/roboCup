@@ -3,6 +3,8 @@ package comet
 
 import net.liftweb.http._
 import net.liftweb.actor._
+import java.text.SimpleDateFormat
+import java.util.TimeZone
 
 /** A singleton that provides chat features to all clients.
  *  It's an Actor so it's thread-safe because only one
@@ -10,7 +12,9 @@ import net.liftweb.actor._
  */
 object RegistrationStartSingleton extends LiftActor with ListenerManager {
 
-	private var time = "undefined yet"
+	private var time = 0L
+	val simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd.HH:mm")
+	simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"))
 
 	/** When we update the listeners, what message do we send?
 	 *  We send the msgs, which is an immutable data structure,
@@ -25,6 +29,6 @@ object RegistrationStartSingleton extends LiftActor with ListenerManager {
 	 *  messages, and then update all the listeners.
 	 */
 	override def lowPriority = {
-		case s: String => time = s; updateListeners()
+		case newTime: Long => time = newTime; updateListeners()
 	}
 }

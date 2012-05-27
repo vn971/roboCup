@@ -11,7 +11,7 @@
 	<classpathentry kind="lib" path="lib_managed/jars/com.h2database/h2/h2-1.2.147.jar"/>
 	<classpathentry kind="lib" path="lib_managed/jars/com.thoughtworks.paranamer/paranamer/paranamer-2.3.jar"/>
 	<classpathentry kind="lib" path="lib_managed/jars/javax.mail/mail/mail-1.4.4.jar"/>
-	<classpathentry kind="lib" path="lib_managed/jars/com.typesafe.akka/akka-actor/akka-actor-2.0.jar"/>
+	<classpathentry kind="lib" path="lib_managed/jars/com.typesafe.akka/akka-actor/akka-actor-2.0.jar" sourcepath="lib_managed/srcs/com.typesafe.akka/akka-actor/akka-actor-2.0-sources.jar"/>
 	<classpathentry kind="lib" path="lib_managed/jars/commons-codec/commons-codec/commons-codec-1.4.jar"/>
 	<classpathentry kind="lib" path="lib_managed/jars/commons-fileupload/commons-fileupload/commons-fileupload-1.2.2.jar"/>
 	<classpathentry kind="lib" path="lib_managed/jars/javax.activation/activation/activation-1.1.jar"/>

@@ -84,6 +84,14 @@ class Boot {
 		//
 		//		LiftRules.localeCalculator = localeCalculator
 
+		//		LiftRules.localeCalculator = x =>{
+		//			val default = LiftRules.defaultLocaleCalculator(x)
+		//			if (default.getLanguage.contains("ua"))
+		//				new java.util.Locale("ru")
+		//			else
+		//				default
+		//		}
+
 		// this is the administration page. It's address is being kept in secret. It's initialized from the system properties, individually for each project.
 		//		val adminAddress = sys.props.get("adminMenu")
 		//		val adminMenu =
@@ -137,6 +145,6 @@ class Boot {
 		//    LiftRules.loggedInTest = Full(() => User.loggedIn_?)
 
 		// Make a transaction span the whole HTTP request
-		S.addAround(DB.buildLoanWrapper)
+		//		S.addAround(DB.buildLoanWrapper)
 	}
 }

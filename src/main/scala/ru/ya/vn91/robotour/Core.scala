@@ -9,6 +9,7 @@ import code.comet.{ ChatServer, WaitingSingleton, KnockedOutSingleton, PlayingSi
 import code.comet.RegisteredListSingleton
 import code.comet.ChatMessage
 import code.comet.RegistrationStartSingleton
+import Constants._
 
 case class TryRegister(val player: String)
 case class GameFinished(val winner: String, val looser: String)
@@ -18,9 +19,6 @@ object StartTheTournament
 object StartNextTour
 
 class Core extends Actor {
-
-	val tourBrakeTime = 1000L * 60 * 15
-	val gameTimeout = 1000L * 60 * 120
 
 	val toZagram = context.actorOf(Props[ToZagram], name = "toZagram")
 	val fromZagram = context.actorOf(Props[FromZagram], name = "fromZagram")
@@ -48,7 +46,7 @@ class Core extends Actor {
 				ChatServer ! ChatMessage("Результат: ничья!", 0L, "serv", "")
 			}
 			log info "knockedOut: \n"+knockedOut
-			context.become(receive)
+			context.become(receive, true)
 		} else {
 			val time = System.currentTimeMillis
 			val shuffled = toListAndShuffle(waiting.toSeq)
@@ -73,19 +71,15 @@ class Core extends Actor {
 			WaitingSingleton ! waiting.toList
 			PlayingSingleton ! playing.toList
 
-			context.become(inProgress)
+			context.become(inProgress, true)
 		}
 
 	}
 
 	def registration: Receive = {
-		//		case s: String => toZagram ! s
 		case TryRegister(player) => {
-			//			log.info("tried to register: "+registration.player)
-			//			log.info("waiting before reg: "+waiting)
 			if (waiting.forall(_.name != player)) {
 				waiting += Leaf(player)
-				//				log.info("registered player: "+player)
 				RegisteredListSingleton ! player
 				ChatServer ! ChatMessage("игрок "+player+" зарегистрировался.", 0L, "serv", "")
 				WaitingSingleton ! waiting.toList
@@ -94,12 +88,11 @@ class Core extends Actor {
 		case StartTheTournament => {
 			ChatServer ! ChatMessage("Турнир начался!", 0L, "serv", "")
 			prepareNextTour
-			context.become(inProgress)
+			context.become(inProgress, true)
 		}
 	}
 
 	def inProgress: Receive = {
-		//		case s: String => toZagram ! s
 		case GameFinished(winner, looser) => {
 			val containsWinnerLooser = {
 				val filter1 = playing.filter(g => g._1.name == winner && g._2.name == looser)
@@ -117,8 +110,6 @@ class Core extends Actor {
 			}
 			if (containsWinnerLooser || containsLooserWinner) {
 				ChatServer ! ChatMessage(winner+" выиграл игру против "+looser, 0L, "serv", "")
-				//				log.info("playing after game calculation = "+playing)
-				//				log.info("waiting after game calculation = "+waiting)
 				WaitingSingleton ! waiting.toList
 				PlayingSingleton ! playing.toList
 				KnockedOutSingleton ! knockedOut.toList
@@ -126,9 +117,8 @@ class Core extends Actor {
 					if (waiting.size < 2) {
 						prepareNextTour
 					} else {
-						context.become(waitingNextTour)
+						context.become(waitingNextTour, true)
 						ChatServer ! ChatMessage("Следующий тур начнётся через "+(tourBrakeTime / 1000 / 60)+" минут.", 0L, "serv", "")
-						// toZagram ! "Next Tour will start in "+(tourBrakeTime / 1000 / 60)+" minutes "+httpUrl
 						sendToMyself(System.currentTimeMillis + tourBrakeTime, StartNextTour)
 					}
 				}
@@ -139,7 +129,7 @@ class Core extends Actor {
 	def waitingNextTour: Receive = {
 		//		case s: String => toZagram ! s
 		case StartNextTour => {
-			context.become(inProgress)
+			context.become(inProgress, true)
 			ChatServer ! ChatMessage("Начался следующий тур!", 0L, "serv", "")
 			prepareNextTour
 		}
@@ -147,7 +137,7 @@ class Core extends Actor {
 
 	def receive = {
 		case StartRegistration(time, timeAsString) =>
-			RegistrationStartSingleton ! timeAsString
+			RegistrationStartSingleton ! time // timeAsString
 			if (System.currentTimeMillis < time) {
 				sendToMyself(time, StartRegistration(time, timeAsString), true)
 			} else {
@@ -156,7 +146,7 @@ class Core extends Actor {
 				playing.clear
 				knockedOut.clear
 				ChatServer ! ChatMessage("Регистрация открыта!", 0L, "serv", "")
-				context.become(registration)
+				context.become(registration, true)
 			}
 	}
 
