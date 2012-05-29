@@ -8,13 +8,13 @@ import util.Random
 import code.comet.{ ChatServer, WaitingSingleton, KnockedOutSingleton, PlayingSingleton }
 import code.comet.RegisteredListSingleton
 import code.comet.ChatMessage
-import code.comet.RegistrationStartSingleton
+import code.comet.TimeStartSingleton
 import Constants._
 
 case class TryRegister(val player: String)
 case class GameFinished(val winner: String, val looser: String)
 //case class MessageFromZagram(val time: Long, val nick: String, val message: String)
-case class StartRegistration(val timeStart: Long, val asString: String)
+case class StartRegistration(val timeStart: Long)
 object StartTheTournament
 object StartNextTour
 
@@ -59,7 +59,12 @@ class Core extends Actor {
 				val (p1, p2) = (shuffled(i1), shuffled(i2)) // players
 				playing += ((p1, p2))
 				toZagram ! new AssignGame(p1.name, p2.name)
-				sendToMyself(time + gameTimeout, new GameFinished(p2.name, p1.name))
+
+				// random winner in case of timeout
+				if (Random.nextBoolean)
+					sendToMyself(time + gameTimeout, new GameFinished(p2.name, p1.name))
+				else
+					sendToMyself(time + gameTimeout, new GameFinished(p1.name, p2.name))
 			}
 			waiting.clear
 			for (j <- 0 until greaterPower2 - shuffled.size) yield {
@@ -136,12 +141,12 @@ class Core extends Actor {
 	}
 
 	def receive = {
-		case StartRegistration(time, timeAsString) =>
-			RegistrationStartSingleton ! time // timeAsString
+		case StartRegistration(time) =>
+			TimeStartSingleton ! time + registrationLength // timeAsString
 			if (System.currentTimeMillis < time) {
-				sendToMyself(time, StartRegistration(time, timeAsString), true)
+				sendToMyself(time, StartRegistration(time), true)
 			} else {
-				sendToMyself(time + 1000L * 60 * 60 * 3, StartTheTournament, true)
+				sendToMyself(time + registrationLength, StartTheTournament, true)
 				waiting.clear
 				playing.clear
 				knockedOut.clear

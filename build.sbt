@@ -1,6 +1,6 @@
 name := "roboTournament"
 
-version := "0.22"
+version := "0.31"
 
 organization := "ru.ya.vn91.roboTour"
 

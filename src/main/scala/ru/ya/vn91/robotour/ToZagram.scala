@@ -63,7 +63,7 @@ class ToZagram extends Actor {
 				"&pl1="+getServerEncoded(first)+
 				"&pl2="+getServerEncoded(second)+
 				"&sayHiTimes="+freeInviteTime+"."+freeInviteTime+
-				"&tourn=regular"+
+				"&tourn="+tournamentName+
 				"&tRound=round"+round
 			// http://zagram.org/a.kropki?co=setUpTable&key=yourKey&gameType=3030noT4r0.180.20&pl1=e&pl2=g&sayHiTimes=60.60&tourn=test&tRound=2%20%28playoff%29
 			Utils.getLinkContent(url)

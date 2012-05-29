@@ -11,19 +11,24 @@ import java.util.TimeZone
 import ru.ya.vn91.robotour.Core
 import ru.ya.vn91.robotour.StartRegistration
 import ru.ya.vn91.robotour.TryRegister
+import ru.ya.vn91.robotour.GameFinished
+import ru.ya.vn91.robotour.Constants._
+import java.util.Date
 
 object Admin {
 
 	def setTime = SHtml.onSubmit(timeAsString => {
 		try {
-			val simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd.HH:mm")
-			simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"))
-			val startTime = simpleDateFormat.parse(timeAsString).getTime()
-			Core.core ! StartRegistration(startTime, timeAsString)
-			ChatServer ! ChatMessage("Назначен турнир! Начало регистрации: "+timeAsString, 0L, "serv", "")
-			SetValById("regTimeSetter", "time set.")
+			val startTime = timeStringToLong(timeAsString)
+			val regTime = startTime - registrationLength
+
+			Core.core ! StartRegistration(regTime)
+			ChatServer ! ChatMessage("Назначен турнир!", 0L, "serv", "")
+			ChatServer ! ChatMessage("Начало регистрации: "+timeLongToString(regTime), 0L, "serv", "")
+			ChatServer ! ChatMessage("Первый тур (начало игр): "+timeLongToString(startTime), 0L, "serv", "")
+			SetValById("timeSetter", "time set.")
 		} catch {
-			case t: Exception => SetValById("regTimeSetter", "error. Try again...")
+			case t: Exception => SetValById("timeSetter", "error. Try again...")
 		}
 	})
 
@@ -33,6 +38,13 @@ object Admin {
 	def register = SHtml.onSubmit(nick => {
 		Core.core ! new TryRegister(nick)
 		SetValById("playerRegistrator", "OK, registered:)")
+	})
+
+	def winGame = SHtml.onSubmit(twoPlayers => {
+		val winner = twoPlayers.split("/")(0)
+		val looser = twoPlayers.split("/")(1)
+		Core.core ! new GameFinished(winner, looser)
+		SetValById("winGame", "OK, game result sent:)")
 	})
 
 }

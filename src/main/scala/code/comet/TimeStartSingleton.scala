@@ -10,7 +10,7 @@ import java.util.TimeZone
  *  It's an Actor so it's thread-safe because only one
  *  message will be processed at once.
  */
-object RegistrationStartSingleton extends LiftActor with ListenerManager {
+object TimeStartSingleton extends LiftActor with ListenerManager {
 
 	private var time = 0L
 	val simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd.HH:mm")
