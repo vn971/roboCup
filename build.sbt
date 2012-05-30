@@ -1,6 +1,6 @@
 name := "roboTournament"
 
-version := "0.31"
+version := "0.33"
 
 organization := "ru.ya.vn91.roboTour"
 
@@ -13,6 +13,8 @@ retrieveManaged := true
 scalacOptions ++= Seq("-deprecation","-unchecked")
 
 seq(webSettings: _*)
+
+port in container.Configuration := 8989
 
 // using 0.2.4+ of the sbt web plugin
 scanDirectories in Compile := Nil

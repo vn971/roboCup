@@ -37,7 +37,7 @@ class FromZagram extends Actor {
 						val nick = innerSplit(1)
 						// val nickType = dotSplitted(2)
 						val chatMessage = getServerDecoded(innerSplit(3))
-//						ChatServer ! ChatMessage(chatMessage, time, "zagram", nick)
+						//						ChatServer ! ChatMessage(chatMessage, time, "zagram", nick)
 						if (chatMessage startsWith "!register") {
 							context.parent ! new TryRegister(nick)
 						}
@@ -57,8 +57,17 @@ class FromZagram extends Actor {
 					val second = gameSet(dotSplitted(0).substring(1)).second
 					if (sgfResult startsWith "B+") {
 						context.parent ! new GameFinished(second, first)
-					} else if ((sgfResult startsWith "W+") || sgfResult == "0" || sgfResult == "Void") {
+					} else if (sgfResult startsWith "W+") {
 						context.parent ! new GameFinished(first, second)
+					} else if (sgfResult == "0" || sgfResult == "Void") {
+						// the player who moves second is "first"...
+						// so, if you want the second player to win, you should write 
+						// "new GameFinished(first, second)"
+						if (util.Random.nextBoolean) {
+							context.parent ! new GameFinished(first, second)
+						} else {
+							context.parent ! new GameFinished(second, first)
+						}
 					} // else still playing
 				} else if (line startsWith "d") {
 					val tableN = dotSplitted(0).substring(1).toInt
