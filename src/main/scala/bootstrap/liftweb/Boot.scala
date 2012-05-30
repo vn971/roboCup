@@ -107,9 +107,11 @@ class Boot {
 			Menu.i("Registration") / "register",
 			Menu.i("Games") / "games",
 			Menu.i("Administration") / "hidden145938" >> Hidden,
+			Menu.i("Chat") / "chat",
 			//			adminMenu,
 			//			Menu.i("Test") / "test" >> Hidden,
-			Menu.i("Chat") / "chat")
+			Menu.i("Language") / "language")
+
 		// Menu.i("Home2") / "index" >> User.AddUserMenusAfter, // the simple way to declare a menu
 		// // more complex because this menu allows anything in the
 		// // /static path to be visible
