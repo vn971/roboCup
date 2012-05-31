@@ -11,7 +11,7 @@ import code.comet.ChatMessage
 import code.comet.TimeStartSingleton
 import Constants._
 
-case class TryRegister(val player: String)
+case class TryRegister(val nick: String)
 case class GameFinished(val winner: String, val looser: String)
 //case class MessageFromZagram(val time: Long, val nick: String, val message: String)
 case class StartRegistration(val timeStart: Long)
