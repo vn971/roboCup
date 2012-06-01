@@ -8,8 +8,6 @@ import http._
 import sitemap._
 import Loc._
 import mapper._
-import code.model._
-import akka.actor.ActorSystem
 import ru.ya.vn91.robotour.Core
 import java.util.Locale
 import net.liftweb.http.provider.HTTPRequest
