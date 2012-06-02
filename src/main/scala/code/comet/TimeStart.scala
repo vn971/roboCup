@@ -12,7 +12,7 @@ class TimeStart extends CometActor with CometListener {
 		case newTime: Long => time = newTime; reRender()
 	}
 	def longToString(long: Long) = TimeStartSingleton.simpleDateFormat.format(new Date(long))
-	def render = "*" #> (if (time > 0) longToString(time - registrationLength) else "undefined yet")
+	def render = "*" #> (if (time > 0) longToString(time - registrationLength) else "undefined yet"+sys.props.get("run.mode").get)
 }
 
 class GamesStart extends CometActor with CometListener {

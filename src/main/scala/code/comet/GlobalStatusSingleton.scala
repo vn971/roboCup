@@ -1,5 +1,4 @@
-package code
-package comet
+package code.comet
 
 import net.liftweb.http._
 import net.liftweb.actor._
@@ -11,10 +10,11 @@ package status {
 	sealed class Status
 	case object Undefined extends Status
 	case class RegistrationAssigned(val time: Long) extends Status
-	case class RegistrationInProgress(val regStart: Long, val gameStart: Long) extends Status
+	case class RegistrationInProgress(val regClose: Long) extends Status
 	case class GamePlaying(roundNumber: Int) extends Status
 	case class WaitingForNextTour(val time: Long) extends Status
-	case class Finished(val winner: String) extends Status
+	case class FinishedWithWinner(val winner: String) extends Status
+	case object FinishedWithDraw extends Status
 }
 
 object GlobalStatusSingleton extends LiftActor with ListenerManager {

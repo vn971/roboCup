@@ -9,6 +9,8 @@ import code.comet.{ ChatServer, WaitingSingleton, KnockedOutSingleton, PlayingSi
 import code.comet.RegisteredListSingleton
 import code.comet.ChatMessage
 import code.comet.TimeStartSingleton
+import code.comet.GlobalStatusSingleton
+import code.comet.status._
 import Constants._
 
 case class TryRegister(val nick: String)
@@ -42,8 +44,10 @@ class Core extends Actor {
 			if (waiting.size == 1) {
 				log info "winner: \n"+waiting.head
 				ChatServer ! ChatMessage("Победитель: "+waiting.head.name, 0L, "serv", "")
+				GlobalStatusSingleton ! FinishedWithWinner(waiting.head.name)
 			} else {
 				ChatServer ! ChatMessage("Результат: ничья!", 0L, "serv", "")
+				GlobalStatusSingleton ! FinishedWithDraw
 			}
 			log info "knockedOut: \n"+knockedOut
 			context.become(receive, true)
@@ -76,6 +80,7 @@ class Core extends Actor {
 			WaitingSingleton ! waiting.toList
 			PlayingSingleton ! playing.toList
 
+			GlobalStatusSingleton ! GamePlaying
 			context.become(inProgress, true)
 		}
 
@@ -92,6 +97,7 @@ class Core extends Actor {
 		}
 		case StartTheTournament => {
 			ChatServer ! ChatMessage("Турнир начался!", 0L, "serv", "")
+			GlobalStatusSingleton ! GamePlaying
 			prepareNextTour
 			context.become(inProgress, true)
 		}
@@ -124,6 +130,7 @@ class Core extends Actor {
 					} else {
 						context.become(waitingNextTour, true)
 						ChatServer ! ChatMessage("Следующий тур начнётся через "+(tourBrakeTime / 1000 / 60)+" минут.", 0L, "serv", "")
+						GlobalStatusSingleton ! WaitingForNextTour(System.currentTimeMillis + tourBrakeTime)
 						sendToMyself(System.currentTimeMillis + tourBrakeTime, StartNextTour)
 					}
 				}
@@ -136,6 +143,7 @@ class Core extends Actor {
 		case StartNextTour => {
 			context.become(inProgress, true)
 			ChatServer ! ChatMessage("Начался следующий тур!", 0L, "serv", "")
+			GlobalStatusSingleton ! GamePlaying
 			prepareNextTour
 		}
 	}
@@ -145,12 +153,14 @@ class Core extends Actor {
 			TimeStartSingleton ! time + registrationLength // timeAsString
 			if (System.currentTimeMillis < time) {
 				sendToMyself(time, StartRegistration(time), true)
+				GlobalStatusSingleton ! RegistrationAssigned(time)
 			} else {
 				sendToMyself(time + registrationLength, StartTheTournament, true)
 				waiting.clear
 				playing.clear
 				knockedOut.clear
 				ChatServer ! ChatMessage("Регистрация открыта!", 0L, "serv", "")
+				GlobalStatusSingleton ! RegistrationInProgress(time + registrationLength)
 				context.become(registration, true)
 			}
 	}
