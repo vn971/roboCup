@@ -37,7 +37,7 @@ object Admin {
 
 	def register = SHtml.onSubmit(nick => {
 		Core.core ! new TryRegister(nick)
-		SetValById("playerRegistrator", "OK, registered:)")
+		SetValById("playerRegistrator", "OK, registered:) -Drun.mode="+sys.props.get("run.mode").getOrElse("None"))
 	})
 
 	def winGame = SHtml.onSubmit(twoPlayers => {

@@ -6,6 +6,17 @@ import java.text.SimpleDateFormat
 import java.util.TimeZone
 import status._
 
+object GlobalStatusSingleton extends LiftActor with ListenerManager {
+
+	private var status: Status = Undefined
+
+	def createUpdate = status
+
+	override def lowPriority = {
+		case newStatus: Status => status = newStatus; updateListeners()
+	}
+}
+
 package status {
 	sealed class Status
 	case object Undefined extends Status
@@ -17,13 +28,3 @@ package status {
 	case object FinishedWithDraw extends Status
 }
 
-object GlobalStatusSingleton extends LiftActor with ListenerManager {
-
-	private var status: Status = Undefined
-
-	def createUpdate = status
-
-	override def lowPriority = {
-		case newStatus: Status => status = newStatus; updateListeners()
-	}
-}
