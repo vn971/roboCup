@@ -28,7 +28,7 @@ class Chat extends CometActor with CometListener {
 	 *  cause changes to be sent to the browser.
 	 */
 	override def lowPriority = {
-		case v: Vector[NodeSeq] => msgs = v.asInstanceOf[Vector[NodeSeq]]; reRender()
+		case v: Vector[_] => msgs = v.asInstanceOf[Vector[NodeSeq]]; reRender()
 	}
 
 	/** Put the messages in the li elements and clear

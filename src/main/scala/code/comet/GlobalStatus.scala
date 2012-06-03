@@ -25,6 +25,7 @@ class GlobalStatus extends CometActor with CometListener {
 		case WaitingForNextTour(time) => "waiting for next tour at "+timeLongToString(time)
 		case FinishedWithWinner(winner) => "tournament finished. Winner: "+winner+"!"
 		case FinishedWithDraw => "tournament finished with draw!"
+		case code.comet.status.Error(reason) => "error in server: "+reason
 		case _ => "???"
 	})
 }

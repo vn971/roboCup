@@ -28,8 +28,8 @@ object KnockedOutSingleton extends LiftActor with ListenerManager {
 	 *  messages, and then update all the listeners.
 	 */
 	override def lowPriority = {
-		case l: List[GameNode] =>
-			knockedOut = l
+		case l: List[_] =>
+			knockedOut = l.asInstanceOf[List[GameNode]]
 			updateListeners()
 	}
 }

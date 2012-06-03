@@ -25,7 +25,7 @@ class RegisteredList extends CometActor with CometListener {
 	 *  cause changes to be sent to the browser.
 	 */
 	override def lowPriority = {
-		case v: Vector[String] => msgs = v; reRender()
+		case v: Vector[_] => msgs = v.asInstanceOf[Vector[String]]; reRender()
 	}
 
 	/** Put the messages in the li elements and clear

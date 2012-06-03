@@ -22,13 +22,15 @@
 				href="http://zagram.org/index.ru.html">zagram</a>. Siatka gier jest
 				wyświetlana tutaj.</li>
 			<!-- 
-			<li>Game settings are: <span
+			<li>
+			<li>Game settings are: 3 minutes for the first turn, 1 minute starting time, <span
 				class="lift:ConstantsSnippet.secsPerTurn"></span> sec/turn, unrated,
 				1-cross. Games are started automatically by the server.</li>
+				</li>
 		 -->
-			<li>Ustawienia gry: <span
-				class="lift:ConstantsSnippet.secsPerTurn"></span>s/ruch, gra
-				towarzyska, pozycja początkowa 1 X. Gry są automatycznie
+			<li>Ustawienia gry: 3 minuty na pierwszy ruch, 1 minuta na
+				rozpoczęcie, <span class="lift:ConstantsSnippet.secsPerTurn"></span>s/ruch,
+				gra towarzyska, pozycja początkowa 1 X. Gry są automatycznie
 				rozpoczynane przez serwer.</li>
 			<!-- 
 			<li>Time between rounds (time to rest) is set to <span
@@ -36,6 +38,9 @@
 			 -->
 			<li>Czas pomiędzy rundami (na odpoczynek) jest ustawiony na <span
 				class="lift:ConstantsSnippet.tourBrakeTime"></span> minut.</li>
+			<!-- google.translate -->
+			<li>Strefa czasowa UTC +4 turnieju. (To teraz <span
+				class="lift:ConstantsSnippet.timeInMoscow"></span>).</li>
 		</ul>
 
 		<!-- 
@@ -44,21 +49,15 @@
 		<h2>Zasady - dodatkowe</h2>
 		<ul>
 			<!-- 
-			<li>The maximum length of a game is <span
-				class="lift:ConstantsSnippet.gameTimeout"></span>. If the game has
-				not been finished to that moment the second player is assigned to be
-				the winner. This may not happen without adding time to the opponent.</li>
-			-->
-			<li>Maksymalna długość gry to <span
-				class="lift:ConstantsSnippet.gameTimeout"></span>. Jeśli gra nie
-				zakończy się w tym czasie, to drugi gracz jest uznawany za
-				zwycięzcę. To jest możliwe tylko gdy dodaje się czas przeciwnikowi.</li>
-			<!-- 
-			<li>In case of equal dot count at the end of game a random
-				player is picked up as a winner.</li>
-			-->
-			<li>W przypadku remisu na koniec gry zwycięzca jest wybierany
-				losowo.</li>
+			<li>A random player is picked up as a winner in two cases:
+				either game length has exceeded <span
+				class="lift:ConstantsSnippet.gameTimeout"></span> (hours:minutes) or
+				players have equal dot count at the end of game</li>
+			 -->
+			<li>Zwycięzca jest wybierany losowo w dwóch przypadkach: gdy
+				czas gry przekroczył <span class="lift:ConstantsSnippet.gameTimeout"></span>
+				(godzin:minut) lub gdy gracze zdobyli równą liczbę kropek do końca
+				gry</li>
 			<!-- 
 			<li>Tournament organizators are Oleg Anokhin, Vanya Geyko and
 				Vasya Novikov. Visualization, grid forming and game assignment are

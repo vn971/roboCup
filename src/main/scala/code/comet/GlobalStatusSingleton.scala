@@ -26,5 +26,6 @@ package status {
 	case class WaitingForNextTour(val time: Long) extends Status
 	case class FinishedWithWinner(val winner: String) extends Status
 	case object FinishedWithDraw extends Status
+	case class Error(val reason: String) extends Status
 }
 

@@ -27,7 +27,7 @@ class KnockedOut extends CometActor with CometListener {
 	 *  cause changes to be sent to the browser.
 	 */
 	override def lowPriority = {
-		case l: List[GameNode] => knockedOut = l; reRender()
+		case l: List[_] => knockedOut = l.asInstanceOf[List[GameNode]]; reRender()
 	}
 
 	/** Put the messages in the li elements and clear

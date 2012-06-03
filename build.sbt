@@ -1,6 +1,6 @@
 name := "roboTournament"
 
-version := "0.41"
+version := "0.50"
 
 organization := "ru.ya.vn91.roboTour"
 
@@ -48,7 +48,7 @@ libraryDependencies ++= Seq(
 	"org.mortbay.jetty" % "jetty" % "6.1.26" % "test",
 	"org.scala-tools.testing" %% "specs" % "1.6.9" % "test",
 	"junit" % "junit" % "4.7" % "test",
-	"ch.qos.logback" % "logback-classic" % "0.9.26",
+//	"ch.qos.logback" % "logback-classic" % "0.9.26",
 	"com.typesafe.akka" % "akka-actor" % "2.0" % "compile->default"
 //	,
 //	"com.h2database" % "h2" % "1.2.147"

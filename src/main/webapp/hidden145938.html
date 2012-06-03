@@ -10,12 +10,37 @@
 
 		<h3>Назначить время старта</h3>
 		<div>
-			Назначить время старта турнира в форме yyyy.MM.dd.HH:mm (<b>Moscow
-				Time</b>). <br /> Например, 2012.12.31 19:59 (декабрь 31-ое число, игры
-			начнутся в 19:59 по Москве, регистрация откроется на несколько часов раньше).
+			Назначить время старта турнира по Московскому времени. <br /> Запись
+			2012.12.31 19:59 означает декабрь 31-ое число, игры начнутся в 19:59
+			по Москве, регистрация откроется на несколько часов раньше (сейчас
+			6).
 			<form class="lift:form.ajax">
 				<input class="lift:Admin.setTime" id="timeSetter" /> <input
-					type="submit" value="Set tournament start" />
+					type="submit" value="Назначить время старта" />
+			</form>
+		</div>
+		<br />
+
+		<h3>Зарегистрировать игрока</h3>
+		<div>
+			Команда работает только в фазе регистрации, т.е. тогда же когда
+			работает и обычный !register в общаке заграма.
+			<form class="lift:form.ajax">
+				<input class="lift:Admin.register" id="playerRegistrator" /> <input
+					type="submit" value="зарегистрировать игрока" />
+			</form>
+		</div>
+		<br />
+
+		<h3>Назначить победителя</h3>
+		<div>
+			Введите имена игроков в виде "победитель/проигравший". Например,
+			"Вася Новиков/Фрося Марусевна". Игрок "Вася Новиков" будет назначен
+			выигравшим на во встрече. На заграме, при этом, игра эта закончена не
+			будет. <br /> Осторожно!
+			<form class="lift:form.ajax">
+				<input class="lift:Admin.winGame" id="winGame" /> <input
+					type="submit" value="назначить победителя" />
 			</form>
 		</div>
 		<br />
@@ -33,32 +58,12 @@
 		<br />
 		-->
 
-		<h3>Зарегистрировать игрока</h3>
+		<h3>Для Васи - конфигурация сервера</h3>
 		<div>
-			Команда работает только в фазе регистрации, т.е. тогда же когда работает и
-			обычный !register в общаке заграма.
-			<form class="lift:form.ajax">
-				<input class="lift:Admin.register" id="playerRegistrator" /> <input
-					type="submit" value="Register player" />
-			</form>
+			run.mode = <span class="lift:ConstantsSnippet.conf"></span>
 		</div>
 		<br />
 
-		<h3>Назначить победителя</h3>
-		<div>
-			Введите имена игроков в виде "победитель/проигравший". Например,
-			"Вася Новиков/Фрося Марусевна". Игрок "Вася Новиков" будет назначен
-			выигравшим на во встрече. На заграме, при этом, игра эта закончена не
-			будет. <br /> Осторожно!
-			<form class="lift:form.ajax">
-				<input class="lift:Admin.winGame" id="winGame" /> <input
-					type="submit" value="Assign winner" />
-			</form>
-		</div>
-		<br />
-
-		<!-- 
-		 -->
 	</div>
 </body>
 </html>

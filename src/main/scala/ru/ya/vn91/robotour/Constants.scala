@@ -20,10 +20,15 @@ object Constants {
 
 	val tournamentName = "regular2"
 
-	def timeLongToString(long: Long) = timeFormatter.format(new Date(long))
-	def timeStringToLong(s: String) = timeFormatter.parse(s).getTime
+	def timeLongToString(long: Long) = dateFormatter.format(new Date(long))
+	def timeStringToLong(s: String) = dateFormatter.parse(s).getTime
 
-	private val timeFormatter = new SimpleDateFormat("yyyy.MM.dd HH:mm")
-	timeFormatter.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"))
+	def timeLongToHours(long: Long) = hoursFormatter.format(new Date(long))
+
+	private val dateFormatter = new SimpleDateFormat("yyyy.MM.dd HH:mm")
+	hoursFormatter.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"))
+
+	private val hoursFormatter = new SimpleDateFormat("HH:mm")
+	hoursFormatter.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"))
 
 }

@@ -28,7 +28,7 @@ class Waiting extends CometActor with CometListener {
 	 *  cause changes to be sent to the browser.
 	 */
 	override def lowPriority = {
-		case v: List[GameNode] => waiting = v; reRender()
+		case v: List[_] => waiting = v.asInstanceOf[List[GameNode]]; reRender()
 	}
 
 	/** Put the messages in the li elements and clear

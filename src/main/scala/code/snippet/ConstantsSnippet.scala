@@ -14,4 +14,9 @@ object ConstantsSnippet {
 		val minutes = Constants.gameTimeout.toInt / 1000 / 60
 		""+(minutes / 60)+":"+(minutes % 60)
 	}
+
+	def conf = "*" #> sys.props.get("run.mode").getOrElse("none")
+
+	def timeInMoscow = "*" #> Constants.timeLongToHours(System.currentTimeMillis)
+
 }

@@ -27,8 +27,8 @@ object WaitingSingleton extends LiftActor with ListenerManager {
 	 *  messages, and then update all the listeners.
 	 */
 	override def lowPriority = {
-		case s: List[GameNode] =>
-			waiting = s
+		case s: List[_] =>
+			waiting = s.asInstanceOf[List[GameNode]]
 			updateListeners()
 		case s =>
 			System.err.println("received unknown message: "+s)

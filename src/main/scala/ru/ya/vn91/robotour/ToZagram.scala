@@ -8,18 +8,20 @@ import scala.io.Source
 import java.net.URLEncoder
 import ru.ya.vn91.robotour.Utils._
 import Constants._
+import code.comet.GlobalStatusSingleton
 
 case class AssignGame(val first: String, val second: String, val round: Int = 0)
-//case class ZagramPasswords(val idGracza: String, password: String, assignGamePassword: String)
 
 class ToZagram extends Actor {
 
-	//	val idGracza = sys.props.get("zagram.idGracza").getOrElse("kO1v40UcTW")
-	//	val password = sys.props.get("zagram.password").getOrElse("t7do4MJEsgMQo")
-	//	val assignGamePassword = sys.props.get("zagram.assignGamePassword").getOrElse("j72630brkx6wtp")
-	val idGracza = "kO1v40UcTW"
-	val password = "t7do4MJEsgMQo"
-	val assignGamePassword = "j72630brkx6wtp"
+	val idGracza = sys.props.get("zagram.idGracza").getOrElse {
+		GlobalStatusSingleton ! "zagram idGracza not found!"
+		"kO1v40UcTW"
+	}
+	val assignGamePassword = sys.props.get("zagram.assignGamePassword").getOrElse {
+		GlobalStatusSingleton ! "zagram gameAssignPass not found!"
+		"j72630brkx6wtp"
+	}
 
 	val log = Logging(context.system, this)
 
@@ -31,7 +33,6 @@ class ToZagram extends Actor {
 		case toSend: String => {
 
 			// log in
-			//			log.info("sending "+toSend)
 			val logInURL = "http://zagram.org/auth.py?co=loguj"+
 				"&opisGracza="+getServerEncoded("roboTour")+
 				"&idGracza="+idGracza+
@@ -68,14 +69,6 @@ class ToZagram extends Actor {
 			// http://zagram.org/a.kropki?co=setUpTable&key=yourKey&gameType=3030noT4r0.180.20&pl1=e&pl2=g&sayHiTimes=60.60&tourn=test&tRound=2%20%28playoff%29
 			Utils.getLinkContent(url)
 		}
-
-		//		case ZagramPasswords(idGracza, password, assignGamePassword) => {
-		//			this.idGracza = idGracza
-		//			this.password = password
-		//			this.assignGamePassword = assignGamePassword
-		//		}
-
-		case any => log.info(any.toString)
 	}
 
 }
