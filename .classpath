@@ -6,8 +6,6 @@
 	<classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib_managed/jars/net.liftweb/lift-common_2.9.1/lift-common_2.9.1-2.4.jar" sourcepath="lib_managed/srcs/net.liftweb/lift-common_2.9.1/lift-common_2.9.1-2.4-sources.jar"/>
-	<classpathentry kind="lib" path="lib_managed/jars/ch.qos.logback/logback-classic/logback-classic-0.9.26.jar"/>
-	<classpathentry kind="lib" path="lib_managed/jars/ch.qos.logback/logback-core/logback-core-0.9.26.jar"/>
 	<classpathentry kind="lib" path="lib_managed/jars/com.h2database/h2/h2-1.2.147.jar"/>
 	<classpathentry kind="lib" path="lib_managed/jars/com.thoughtworks.paranamer/paranamer/paranamer-2.3.jar"/>
 	<classpathentry kind="lib" path="lib_managed/jars/javax.mail/mail/mail-1.4.4.jar"/>

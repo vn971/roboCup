@@ -46,5 +46,7 @@ object Admin {
 		Core.core ! new GameFinished(winner, looser)
 		SetValById("winGame", "OK, game result sent:)")
 	})
+	
+	def newTournament = SHtml.onSubmit(s => "")
 
 }

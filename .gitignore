@@ -8,3 +8,4 @@ project/target/*
 target/*
 .cache
 lift_proto.db.*
+*~

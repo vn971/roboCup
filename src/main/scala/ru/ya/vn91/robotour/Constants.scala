@@ -26,7 +26,7 @@ object Constants {
 	def timeLongToHours(long: Long) = hoursFormatter.format(new Date(long))
 
 	private val dateFormatter = new SimpleDateFormat("yyyy.MM.dd HH:mm")
-	hoursFormatter.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"))
+	dateFormatter.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"))
 
 	private val hoursFormatter = new SimpleDateFormat("HH:mm")
 	hoursFormatter.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"))
