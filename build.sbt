@@ -1,6 +1,10 @@
+// sbtVersion = "11.2"
+
+// scalaVersion = "2.9.1"
+
 name := "roboTournament"
 
-version := "0.50"
+version := "0.51"
 
 organization := "ru.ya.vn91.roboTour"
 

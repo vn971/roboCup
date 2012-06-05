@@ -41,7 +41,7 @@ class FromZagram extends Actor {
 						val chatMessage = getServerDecoded(innerSplit(3))
 						//						ChatServer ! ChatMessage(chatMessage, time, "zagram", nick)
 						if (chatMessage.startsWith("!register")) {
-							val info = playerSet(nick)
+							val info = playerSet.get(nick)
 							if (info == null) {
 							}
 							context.parent ! TryRegister(nick)
