@@ -9,6 +9,7 @@ import java.net.URLEncoder
 import ru.ya.vn91.robotour.Utils._
 import Constants._
 import code.comet.GlobalStatusSingleton
+import code.comet.status.ErrorStatus
 
 case class AssignGame(val first: String, val second: String, val round: Int = 0)
 
@@ -19,11 +20,11 @@ case class AssignGame(val first: String, val second: String, val round: Int = 0)
 class ToZagram extends Actor {
 
 	val idGracza = sys.props.get("zagram.idGracza").getOrElse {
-		GlobalStatusSingleton ! "zagram idGracza not found!"
+		GlobalStatusSingleton ! ErrorStatus("zagram idGracza not found!")
 		"kO1v40UcTW"
 	}
 	val assignGamePassword = sys.props.get("zagram.assignGamePassword").getOrElse {
-		GlobalStatusSingleton ! "zagram gameAssignPass not found!"
+		GlobalStatusSingleton ! ErrorStatus("zagram gameAssignPass not found!")
 		"j72630brkx6wtp"
 	}
 

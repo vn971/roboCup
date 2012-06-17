@@ -196,6 +196,6 @@ class Core extends Actor {
 }
 
 object Core {
-	private val system = ActorSystem("robo")
+	val system = ActorSystem("robo")
 	val core = system.actorOf(akka.actor.Props[Core], name = "core")
 }
