@@ -19,4 +19,6 @@ object ConstantsSnippet {
 
 	def timeInMoscow = "*" #> Constants.timeLongToHours(System.currentTimeMillis)
 
+	def robocupNumber = "*" #> Constants.tournamentName
+	
 }

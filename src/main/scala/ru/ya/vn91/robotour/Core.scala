@@ -7,11 +7,11 @@ import collection.mutable._
 import util.Random
 import code.comet.{ ChatServer, WaitingSingleton, KnockedOutSingleton, PlayingSingleton }
 import code.comet.RegisteredListSingleton
-import code.comet.ChatMessage
 import code.comet.TimeStartSingleton
 import code.comet.GlobalStatusSingleton
 import code.comet.status._
 import Constants._
+import code.comet.MessageFromAdmin
 
 case class TryRegister(val nick: String)
 case class GameFinished(val winner: String, val looser: String)
@@ -34,24 +34,27 @@ class Core extends Actor {
 		context.actorOf(Props(new Notifier(timeout, event, executeIfLate)))
 	}
 
-	override def preStart() = {}
+	override def preStart() = { log info "inited" }
 
 	def prepareNextTour = {
+		log.info("prepare next tour.")
 		if (playing.size > 0) throw new IllegalStateException
 		else if (waiting.size < 2) {
-			ChatServer ! ChatMessage("Турнир закончен!", 0L, "serv", "")
+			ChatServer ! MessageFromAdmin("Турнир закончен!")
 			log.info("tournament finished!")
 			if (waiting.size == 1) {
 				log info "winner: \n"+waiting.head
-				ChatServer ! ChatMessage("Победитель: "+waiting.head.name, 0L, "serv", "")
+				ChatServer ! MessageFromAdmin("Победитель: "+waiting.head.name)
 				GlobalStatusSingleton ! FinishedWithWinner(waiting.head.name)
 			} else {
-				ChatServer ! ChatMessage("Результат: ничья!", 0L, "serv", "")
+				log info "Draw!"
+				ChatServer ! MessageFromAdmin("Результат: ничья!")
 				GlobalStatusSingleton ! FinishedWithDraw
 			}
 			log info "knockedOut: \n"+knockedOut
 			context.become(receive, true)
 		} else {
+			log info "shuflling and assigning games"
 			val time = System.currentTimeMillis
 			val shuffled = toListAndShuffle(waiting.toSeq)
 
@@ -80,7 +83,7 @@ class Core extends Actor {
 			WaitingSingleton ! waiting.toList
 			PlayingSingleton ! playing.toList
 
-			GlobalStatusSingleton ! GamePlaying
+			GlobalStatusSingleton ! GamePlaying(0)
 			context.become(inProgress, true)
 		}
 
@@ -89,15 +92,17 @@ class Core extends Actor {
 	def registration: Receive = {
 		case TryRegister(player) => {
 			if (waiting.forall(_.name != player)) {
+				log.info("registered "+player)
 				waiting += Leaf(player)
 				RegisteredListSingleton ! player
-				ChatServer ! ChatMessage("игрок "+player+" зарегистрировался.", 0L, "serv", "")
+				ChatServer ! MessageFromAdmin("игрок "+player+" зарегистрировался.")
 				WaitingSingleton ! waiting.toList
 			}
 		}
 		case StartTheTournament => {
-			ChatServer ! ChatMessage("Турнир начался!", 0L, "serv", "")
-			GlobalStatusSingleton ! GamePlaying
+			log.info("Tournament started!")
+			ChatServer ! MessageFromAdmin("Турнир начался!")
+			GlobalStatusSingleton ! GamePlaying(0)
 			prepareNextTour
 			context.become(inProgress, true)
 		}
@@ -120,18 +125,21 @@ class Core extends Actor {
 				filter2.size != 0
 			}
 			if (containsWinnerLooser || containsLooserWinner) {
-				ChatServer ! ChatMessage(winner+" выиграл игру против "+looser, 0L, "serv", "")
+				log.info("game won: "+winner+" > "+looser)
+				ChatServer ! MessageFromAdmin(winner+" выиграл игру против "+looser)
 				WaitingSingleton ! waiting.toList
 				PlayingSingleton ! playing.toList
 				KnockedOutSingleton ! knockedOut.toList
 				if (playing.size == 0) {
 					if (waiting.size < 2) {
+						log.info("last game played. Calculating tournament result now.")
 						prepareNextTour
 					} else {
 						context.become(waitingNextTour, true)
-						ChatServer ! ChatMessage("Следующий тур начнётся через "+(tourBrakeTime / 1000 / 60)+" минут.", 0L, "serv", "")
-						GlobalStatusSingleton ! WaitingForNextTour(System.currentTimeMillis + tourBrakeTime)
 						sendToMyself(System.currentTimeMillis + tourBrakeTime, StartNextTour)
+						log.info("starting tournament break now.")
+						ChatServer ! MessageFromAdmin("Следующий тур начнётся через "+(tourBrakeTime / 1000 / 60)+" минут.")
+						GlobalStatusSingleton ! WaitingForNextTour(System.currentTimeMillis + tourBrakeTime)
 					}
 				}
 			}
@@ -139,27 +147,30 @@ class Core extends Actor {
 	}
 
 	def waitingNextTour: Receive = {
-		//		case s: String => toZagram ! s
 		case StartNextTour => {
+			log.info("starting next tour.")
 			context.become(inProgress, true)
-			ChatServer ! ChatMessage("Начался следующий тур!", 0L, "serv", "")
-			GlobalStatusSingleton ! GamePlaying
+			ChatServer ! MessageFromAdmin("Начался следующий тур!")
+			GlobalStatusSingleton ! GamePlaying(0)
 			prepareNextTour
 		}
 	}
 
 	def receive = {
 		case StartRegistration(time) =>
+			log.info("registratin assigned.")
 			TimeStartSingleton ! time + registrationLength // timeAsString
 			if (System.currentTimeMillis < time) {
+				log.info("added suspended notify (registration start)")
 				sendToMyself(time, StartRegistration(time), true)
 				GlobalStatusSingleton ! RegistrationAssigned(time)
 			} else {
+				log info "registration started!"
 				sendToMyself(time + registrationLength, StartTheTournament, true)
 				waiting.clear
 				playing.clear
 				knockedOut.clear
-				ChatServer ! ChatMessage("Регистрация открыта!", 0L, "serv", "")
+				ChatServer ! MessageFromAdmin("Регистрация открыта!")
 				GlobalStatusSingleton ! RegistrationInProgress(time + registrationLength)
 				context.become(registration, true)
 			}

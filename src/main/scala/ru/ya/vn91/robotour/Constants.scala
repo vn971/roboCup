@@ -8,17 +8,17 @@ object Constants {
 
 	val registrationLength = 1000L * 60 * 60 * 6
 
-	val secsPerTurn = 10
+	val secsPerTurn = 15
 
 	val tourBrakeTime = 1000L * 60 * secsPerTurn
 
-	val gameTimeout = 1000L * secsPerTurn * 500
+	val gameTimeout = 1000L * secsPerTurn * 700
 
 	val zagramGameSettings = "3932noT1F0.60."+secsPerTurn
 
 	val freeInviteTime = 180
 
-	val tournamentName = "regular2"
+	val tournamentName = "RoboCup-VIII"
 
 	def timeLongToString(long: Long) = dateFormatter.format(new Date(long))
 	def timeStringToLong(s: String) = dateFormatter.parse(s).getTime

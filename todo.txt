@@ -1,12 +1,6 @@
 ToDo:
 
-проставлять в sgf RoboCup
 добавить раздел about -- о чём вообще эта страничка. Что это турнир.
-
-в английских правилах:
-either game length has exceeded 1:23 (hours:minutes) or players have equal dot count at the end of game
-->
-...exceeds... players get equal...
 
 
 сделать цепочки из игр (в случае ничьих)
@@ -15,7 +9,6 @@ either game length has exceeded 1:23 (hours:minutes) or players have equal dot c
 
 швейцарская система http://en.wikipedia.org/wiki/Swiss-system_tournament
 более удобная переключалка языка
-цветовая раскраска чата
 принимать регистрацию из любой заграм-комнаты
 
 
@@ -25,4 +18,4 @@ either game length has exceeded 1:23 (hours:minutes) or players have equal dot c
 * регить людей парами или ввести множество игроков получавших халявный балл
 * подряд скрещивать игроков с похожим числом очков
 * победитель получает 4 очка, ничейники 2, проигравший 1.
-						 
+

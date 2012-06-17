@@ -5,7 +5,6 @@ import akka.actor.Props
 import akka.event.Logging
 import Utils._
 import code.comet.ChatServer
-import code.comet.ChatMessage
 import java.text.SimpleDateFormat
 import java.util.TimeZone
 
@@ -41,13 +40,14 @@ class FromZagram extends Actor {
 						val chatMessage = getServerDecoded(innerSplit(3))
 						//						ChatServer ! ChatMessage(chatMessage, time, "zagram", nick)
 						if (chatMessage.startsWith("!register")) {
-							val info = playerSet.get(nick)
-							if (info == null) {
-							}
+							// val info = playerSet.get(nick)
+							// if (info == null) {
+							// }
+							log.info("tried to register: "+nick+".")
 							context.parent ! TryRegister(nick)
 						}
 					} catch {
-						case e: NumberFormatException => log.error(e.toString)
+						case e: Exception => log.error(e.toString)
 					}
 				} else if (line.startsWith("m")) {
 					try {

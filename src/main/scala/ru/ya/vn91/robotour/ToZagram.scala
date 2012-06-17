@@ -12,6 +12,10 @@ import code.comet.GlobalStatusSingleton
 
 case class AssignGame(val first: String, val second: String, val round: Int = 0)
 
+//object GetZagramEncoded extends App {
+//	println(getServerEncoded("*vbbbgfbfb"))
+//}
+
 class ToZagram extends Actor {
 
 	val idGracza = sys.props.get("zagram.idGracza").getOrElse {
@@ -31,6 +35,8 @@ class ToZagram extends Actor {
 
 	def receive = {
 		case toSend: String => {
+
+			log.info("sending message "+toSend)
 
 			// log in
 			val logInURL = "http://zagram.org/auth.py?co=loguj"+
