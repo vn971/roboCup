@@ -21,11 +21,11 @@ class ToZagram extends Actor {
 
 	val idGracza = sys.props.get("zagram.idGracza").getOrElse {
 		GlobalStatusSingleton ! ErrorStatus("zagram idGracza not found!")
-		"kO1v40UcTW"
+		""
 	}
 	val assignGamePassword = sys.props.get("zagram.assignGamePassword").getOrElse {
 		GlobalStatusSingleton ! ErrorStatus("zagram gameAssignPass not found!")
-		"j72630brkx6wtp"
+		""
 	}
 
 	val log = Logging(context.system, this)

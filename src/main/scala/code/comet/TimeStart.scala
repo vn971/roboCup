@@ -4,6 +4,7 @@ package comet
 import net.liftweb.http._
 import java.util.Date
 import ru.ya.vn91.robotour.Constants._
+import ru.ya.vn91.robotour.Constants
 
 class TimeStart extends CometActor with CometListener {
 	private var time = 0L
@@ -11,8 +12,7 @@ class TimeStart extends CometActor with CometListener {
 	override def lowPriority = {
 		case newTime: Long => time = newTime; reRender()
 	}
-	def longToString(long: Long) = TimeStartSingleton.simpleDateFormat.format(new Date(long))
-	def render = "*" #> (if (time > 0) longToString(time - registrationLength) else "undefined yet")
+	def render = "*" #> (if (time > 0) timeLongToString(time - registrationLength) else "undefined yet")
 }
 
 class GamesStart extends CometActor with CometListener {
@@ -21,6 +21,5 @@ class GamesStart extends CometActor with CometListener {
 	override def lowPriority = {
 		case newTime: Long => time = newTime; reRender()
 	}
-	def longToString(long: Long) = TimeStartSingleton.simpleDateFormat.format(new Date(long))
-	def render = "*" #> (if (time > 0) longToString(time) else "undefined yet")
+	def render = "*" #> (if (time > 0) timeLongToString(time) else "undefined yet")
 }

@@ -8,11 +8,12 @@ import http._
 import sitemap._
 import Loc._
 import mapper._
-import ru.ya.vn91.robotour.Core
+import ru.ya.vn91.robotour.KnockoutCore
 import java.util.Locale
 import net.liftweb.http.provider.HTTPRequest
 import net.liftweb.http.SessionVar
 import net.liftweb.http.provider.HTTPCookie
+import ru.ya.vn91.robotour.Core
 
 /** A class that's instantiated early and run.  It allows the application
  *  to modify lift's environment

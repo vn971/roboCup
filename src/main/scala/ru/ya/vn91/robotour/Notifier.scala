@@ -4,25 +4,27 @@ import akka.actor.Actor
 import akka.actor.Props
 import akka.event.Logging
 
-class Notifier(timeout: Long, message: Any, executeIfLate: Boolean = false) extends Actor {
+trait SendToMyself extends Actor {
+	def sendToMyself(timeout: Long, event: Any, executeIfLate: Boolean = false): Unit = {
+		context.actorOf(Props(new Notifier(timeout, event, executeIfLate)))
+	}
 
-	override def preStart() = {
-		log.debug("actor inited")
-		val timeLeft = timeout - System.currentTimeMillis
-		if (timeLeft > 0) {
-			Thread.sleep(timeLeft)
-			context.parent ! message
-		} else if (executeIfLate) {
-			context.parent ! message
+	private class Notifier(timeout: Long, message: Any, executeIfLate: Boolean = false) extends Actor {
+
+		override def preStart() = {
+			val timeLeft = timeout - System.currentTimeMillis
+			if (timeLeft > 0) {
+				Thread.sleep(timeLeft)
+				context.parent ! message
+			} else if (executeIfLate) {
+				context.parent ! message
+			}
+			context.stop(self)
 		}
-		//			if (timeLeft > 0 || executeIfLate) {
-		//			}
-		context.stop(self)
+
+		def receive = {
+			case _ =>
+		}
 	}
 
-	val log = Logging(context.system, this)
-
-	def receive = {
-		case _ => Unit
-	}
 }

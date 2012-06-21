@@ -13,8 +13,6 @@ import java.util.TimeZone
 object TimeStartSingleton extends LiftActor with ListenerManager {
 
 	private var time = 0L
-	val simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd.HH:mm")
-	simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"))
 
 	/** When we update the listeners, what message do we send?
 	 *  We send the msgs, which is an immutable data structure,

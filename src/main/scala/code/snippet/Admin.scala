@@ -42,7 +42,7 @@ object Admin {
 	def register = SHtml.onSubmit(nick => {
 		log info "registered "+nick+"."
 		Core.core ! new TryRegister(nick)
-		SetValById("playerRegistrator", "OK, registered:) -Drun.mode="+sys.props.get("run.mode").getOrElse("None"))
+		SetValById("playerRegistrator", "")
 	})
 
 	def winGame = SHtml.onSubmit(twoPlayers => {
@@ -50,7 +50,7 @@ object Admin {
 		val winner = twoPlayers.split("/")(0)
 		val looser = twoPlayers.split("/")(1)
 		Core.core ! new GameFinished(winner, looser)
-		SetValById("winGame", "OK, game result sent:)")
+		SetValById("winGame", "OK, game result sent")
 	})
 
 	def newTournament = SHtml.onSubmit(s => "")
