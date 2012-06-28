@@ -46,7 +46,7 @@ object ChatServer extends LiftActor with ListenerManager with Logger {
 					xml.Text(dateFormatter.format(new java.util.Date())),
 					<b> <font color="green">{ "local" } </font></b>,
 					xml.Text(message)))
-			msgs = msgs :+ line takeRight (60)
+			msgs = msgs :+ line takeRight (80)
 			updateListeners(msgs)
 
 		case MessageFromAdmin(message) =>
@@ -55,7 +55,7 @@ object ChatServer extends LiftActor with ListenerManager with Logger {
 					xml.Text(dateFormatter.format(new java.util.Date())),
 					<b> <font color="red">{ "serv" } </font></b>,
 					xml.Text(message)))
-			msgs = msgs :+ line takeRight (60)
+			msgs = msgs :+ line takeRight (80)
 			updateListeners(msgs)
 	}
 }

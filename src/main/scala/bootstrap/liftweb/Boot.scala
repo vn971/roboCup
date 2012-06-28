@@ -14,6 +14,8 @@ import net.liftweb.http.provider.HTTPRequest
 import net.liftweb.http.SessionVar
 import net.liftweb.http.provider.HTTPCookie
 import ru.ya.vn91.robotour.Core
+import ru.ya.vn91.robotour.Constants._
+import ru.ya.vn91.robotour.Utils
 
 /** A class that's instantiated early and run.  It allows the application
  *  to modify lift's environment
@@ -99,19 +101,17 @@ class Boot {
 		//			else
 		//				Menu("Administration") / adminAddress.get >> Hidden
 
-		// Build SiteMap
 		def sitemap = SiteMap(
 			Menu.i("Rules") / "index",
 			Menu.i("Registration") / "register",
-			Menu.i("Games") / "games",
+			Menu.i("Games") / (if (isKnockout) "knockout" else "swiss"),
 			Menu.i("Administration") / "hidden145938" >> Hidden,
 			Menu.i("Chat") / "chat",
-			//			adminMenu,
 			Menu.i("Language") / "language")
 
 		LiftRules.setSiteMap(sitemap)
 
-		LiftRules.unloadHooks.append(() => Core.system.awaitTermination)
+		LiftRules.unloadHooks.append(() => Core.system.shutdown)
 
 		Core // init the sigleton
 

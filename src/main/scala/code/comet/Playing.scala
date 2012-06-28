@@ -1,12 +1,11 @@
-package code
-package comet
+package code.comet
 
-import net.liftweb._
-import http._
-import util._
-import Helpers._
-import scala.collection.mutable.ListBuffer
-import ru.ya.vn91.robotour.{ GameNode, Branch }
+import net.liftweb.http.CometActor
+import net.liftweb.http.CometListener
+import net.liftweb.util.IterableConst.itNodeSeq
+import net.liftweb.util.ClearClearable
+import ru.ya.vn91.robotour.Branch
+import ru.ya.vn91.robotour.GameNode
 
 /** The screen real estate on the browser will be represented
  *  by this component.  When the component changes on the server

@@ -10,7 +10,7 @@ import java.util.TimeZone
 import ru.ya.vn91.robotour.Core
 import ru.ya.vn91.robotour.StartRegistration
 import ru.ya.vn91.robotour.TryRegister
-import ru.ya.vn91.robotour.GameFinished
+import ru.ya.vn91.robotour.GameWon
 import ru.ya.vn91.robotour.Constants._
 import java.util.Date
 import net.liftweb.common.Logger
@@ -49,7 +49,7 @@ object Admin {
 		log info "game winner assigned: "+twoPlayers
 		val winner = twoPlayers.split("/")(0)
 		val looser = twoPlayers.split("/")(1)
-		Core.core ! new GameFinished(winner, looser)
+		Core.core ! GameWon(winner, looser)
 		SetValById("winGame", "OK, game result sent")
 	})
 

@@ -1,12 +1,9 @@
-package code
-package comet
+package code.comet
 
-import net.liftweb._
-import http._
-import util._
-import Helpers._
-import scala.collection.mutable.ListBuffer
-import ru.ya.vn91.robotour.{ GameNode, Branch }
+import net.liftweb.http.CometActor
+import net.liftweb.http.CometListener
+import net.liftweb.util.IterableConst.itNodeSeq
+import ru.ya.vn91.robotour.GameNode
 import scala.xml.NodeSeq
 
 class KnockedOut extends CometActor with CometListener {

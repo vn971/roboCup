@@ -3,9 +3,11 @@ package ru.ya.vn91.robotour
 import akka.actor._
 import akka.event.Logging
 import akka.util.duration._
+import akka.util.Duration
 import collection.mutable._
 import util.Random
-import code.comet.{ ChatServer, WaitingSingleton, KnockedOutSingleton, PlayingSingleton }
+import code.comet.ChatServer
+import code.comet.{ WaitingSingleton, KnockedOutSingleton, PlayingSingleton }
 import code.comet.RegisteredListSingleton
 import code.comet.TimeStartSingleton
 import code.comet.GlobalStatusSingleton
@@ -46,7 +48,7 @@ class KnockoutCore extends Actor with SendToMyself {
 			log info "knockedOut: \n"+knockedOut
 			context.become(receive, true)
 		} else {
-			log info "shuflling and assigning games"
+			log info "shuffling and assigning games"
 			val time = System.currentTimeMillis
 			val shuffled = toListAndShuffle(waiting.toSeq)
 
@@ -54,16 +56,21 @@ class KnockoutCore extends Actor with SendToMyself {
 			val greaterPower2 = lesserPower2 * 2
 
 			for (i <- lesserPower2 until shuffled.size) yield {
-				val (i1, i2) = (i, greaterPower2 - 1 - i) // indexes
+				val (i1, i2) = (i, greaterPower2 - 1 - i) // indicies
 				val (p1, p2) = (shuffled(i1), shuffled(i2)) // players
+				log.info("assigning game "+p1+"-"+p2)
 				playing += ((p1, p2))
-				toZagram ! new AssignGame(p1.name, p2.name)
+				toZagram ! AssignGame(p1.name, p2.name)
 
-				// random winner in case of timeout
-				if (Random.nextBoolean)
-					sendToMyself(time + gameTimeout, new GameFinished(p2.name, p1.name))
-				else
-					sendToMyself(time + gameTimeout, new GameFinished(p1.name, p2.name))
+				if (Random.nextBoolean) {
+					log.info("preparing winner in case of timeout: "+p1.name)
+					context.system.scheduler.scheduleOnce(gameTimeout milliseconds, self, GameWon(p1.name, p2.name))
+					//					sendToMyself(time + gameTimeout, GameWon(p1.name, p2.name))
+				} else {
+					log.info("preparing winner in case of timeout: "+p2.name)
+					context.system.scheduler.scheduleOnce(gameTimeout milliseconds, self, GameWon(p2.name, p1.name))
+					//					sendToMyself(time + gameTimeout, GameWon(p2.name, p1.name))
+				}
 			}
 			waiting.clear
 			for (j <- 0 until greaterPower2 - shuffled.size) yield {
@@ -101,7 +108,7 @@ class KnockoutCore extends Actor with SendToMyself {
 	}
 
 	def inProgress: Receive = {
-		case GameFinished(winner, looser) => {
+		case GameWon(winner, looser) => {
 			val containsWinnerLooser = {
 				val filter1 = playing.filter(g => g._1.name == winner && g._2.name == looser)
 				playing --= filter1
@@ -128,7 +135,8 @@ class KnockoutCore extends Actor with SendToMyself {
 						prepareNextTour
 					} else {
 						context.become(waitingNextTour, true)
-						sendToMyself(System.currentTimeMillis + tourBrakeTime, StartNextTour)
+						context.system.scheduler.scheduleOnce(tourBrakeTime milliseconds, self, StartNextTour)
+						//						sendToMyself(System.currentTimeMillis + tourBrakeTime, StartNextTour)
 						log.info("starting tournament break now.")
 						ChatServer ! MessageFromAdmin("Следующий тур начнётся через "+(tourBrakeTime / 1000 / 60)+" минут.")
 						GlobalStatusSingleton ! WaitingForNextTour(System.currentTimeMillis + tourBrakeTime)
@@ -136,6 +144,11 @@ class KnockoutCore extends Actor with SendToMyself {
 				}
 			}
 		}
+		case GameDraw(first, second) =>
+			if (Random.nextBoolean)
+				self ! GameWon(first, second)
+			else
+				self ! GameWon(second, first)
 	}
 
 	def waitingNextTour: Receive = {
@@ -154,11 +167,13 @@ class KnockoutCore extends Actor with SendToMyself {
 			TimeStartSingleton ! time + registrationLength // timeAsString
 			if (System.currentTimeMillis < time) {
 				log.info("added suspended notify (registration start)")
-				sendToMyself(time, StartRegistration(time), true)
+				context.system.scheduler.scheduleOnce(time - System.currentTimeMillis milliseconds, self, StartRegistration(time))
+				//				sendToMyself(time, StartRegistration(time), true)
 				GlobalStatusSingleton ! RegistrationAssigned(time)
 			} else {
 				log info "registration started!"
-				sendToMyself(time + registrationLength, StartTheTournament, true)
+				context.system.scheduler.scheduleOnce(time + registrationLength - System.currentTimeMillis milliseconds, self, StartTheTournament)
+				//				sendToMyself(time + registrationLength, StartTheTournament, true)
 				waiting.clear
 				playing.clear
 				knockedOut.clear

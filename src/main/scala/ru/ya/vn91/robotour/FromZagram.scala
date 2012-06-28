@@ -61,23 +61,16 @@ class FromZagram extends Actor {
 					val first = gameSet(dotSplitted(0).substring(1)).first
 					val second = gameSet(dotSplitted(0).substring(1)).second
 					if (sgfResult startsWith "B+") {
-						context.parent ! GameFinished(second, first)
+						context.parent ! GameWon(first, second)
 					} else if (sgfResult startsWith "W+") {
-						context.parent ! GameFinished(first, second)
+						context.parent ! GameWon(second, first)
 					} else if (sgfResult == "0" || sgfResult == "Void") {
-						// the player who moves second is "first"...
-						// so, if you want the second player to win, you should write 
-						// "GameFinished(first, second)"
-						if (util.Random.nextBoolean) {
-							context.parent ! GameFinished(first, second)
-						} else {
-							context.parent ! GameFinished(second, first)
-						}
+						context.parent ! GameDraw(first,second)
 					} // else still playing
 				} else if (line startsWith "d") {
 					val tableN = dotSplitted(0).substring(1).toInt
-					val first = getServerDecoded(dotSplitted(dotSplitted.size - 1))
-					val second = getServerDecoded(dotSplitted(dotSplitted.size - 2))
+					val first = getServerDecoded(dotSplitted(dotSplitted.size - 2))
+					val second = getServerDecoded(dotSplitted(dotSplitted.size - 1))
 					gameSet += tableN.toString() -> GameInfo(first, second)
 				}
 			}

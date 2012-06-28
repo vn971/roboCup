@@ -11,7 +11,7 @@ import Constants._
 import code.comet.GlobalStatusSingleton
 import code.comet.status.ErrorStatus
 
-case class AssignGame(val first: String, val second: String, val round: Int = 0)
+case class AssignGame(val first: String, val second: String)
 
 //object GetZagramEncoded extends App {
 //	println(getServerEncoded("*vbbbgfbfb"))
@@ -62,7 +62,8 @@ class ToZagram extends Actor {
 			getLinkContent(logOutURL)
 		}
 
-		case AssignGame(first, second, round) => {
+		case AssignGame(first, second) => {
+			// http://zagram.org/a.kropki?co=setUpTable&key=yourKey&gameType=3030noT4r0.180.20&pl1=e&pl2=g&sayHiTimes=60.60&tourn=test&tRound=2%20%28playoff%29
 			log.info("assigning game: "+first+"-"+second)
 			val url = "http://zagram.org/a.kropki"+
 				"?co=setUpTable"+
@@ -71,11 +72,39 @@ class ToZagram extends Actor {
 				"&pl1="+getServerEncoded(first)+
 				"&pl2="+getServerEncoded(second)+
 				"&sayHiTimes="+freeInviteTime+"."+freeInviteTime+
-				"&tourn="+tournamentName+
-				"&tRound=round"+round
-			// http://zagram.org/a.kropki?co=setUpTable&key=yourKey&gameType=3030noT4r0.180.20&pl1=e&pl2=g&sayHiTimes=60.60&tourn=test&tRound=2%20%28playoff%29
-			Utils.getLinkContent(url)
+				"&tourn="+getServerEncoded(tournamentName)+
+				"&tRound=0"
+			log.info("url: "+url)
+			log.info("reply: "+Utils.getLinkContent(url))
 		}
 	}
 
 }
+
+object ToZagram extends {
+
+	def main(args: Array[String]): Unit = {
+		if (args.size == 2)
+			assign(args(0).replaceAll("=", " "), args(1).replaceAll("=", " "))
+		else {
+			assign("a", "b")
+			println("not two arguments! Replace spaces in nicknames with =")
+		}
+	}
+
+	def assign(first: String, second: String) = {
+		val url = "http://zagram.org/a.kropki"+
+			"?co=setUpTable"+
+			"&key="+"j72630brkx6wtp"+
+			"&gameType="+zagramGameSettings+
+			"&pl1="+getServerEncoded(first)+
+			"&pl2="+getServerEncoded(second)+
+			"&sayHiTimes="+freeInviteTime+"."+freeInviteTime+
+			"&tourn="+tournamentName+
+			"&tRound=round"+0
+		println("url: "+url)
+		println("reply: "+Utils.getLinkContent(url))
+		println("reply: "+Utils.getLinkContent(url))
+	}
+}
+

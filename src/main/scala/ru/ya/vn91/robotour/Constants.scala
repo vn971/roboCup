@@ -20,6 +20,8 @@ object Constants {
 
 	val tournamentName = "RoboCup-VIII"
 
+	val isKnockout = true
+
 	def timeLongToString(long: Long) = dateFormatter.format(new Date(long))
 	def timeStringToLong(s: String) = dateFormatter.parse(s).getTime
 

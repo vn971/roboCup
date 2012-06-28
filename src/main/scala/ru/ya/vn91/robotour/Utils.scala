@@ -12,7 +12,9 @@ object Utils {
 			source.close
 			result
 		} catch {
-			case e: IOException => ""
+			case e: Exception =>
+				e.printStackTrace
+				""
 		}
 	}
 

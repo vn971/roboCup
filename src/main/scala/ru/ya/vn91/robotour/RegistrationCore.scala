@@ -2,12 +2,14 @@ package ru.ya.vn91.robotour
 
 import akka.actor.Actor
 import akka.actor.Props
+import akka.util.duration._
 import scala.collection.mutable.LinkedHashSet
 import code.comet.RegisteredListSingleton
 import code.comet.ChatServer
 import code.comet.MessageFromAdmin
 import code.comet.WaitingSingleton
 import akka.event.Logging
+import ru.ya.vn91.robotour.Constants._
 
 private object StartTheTournament
 private object StartNextTour
@@ -20,14 +22,18 @@ trait RegistrationCore extends Actor with SendToMyself {
 
 	def receive: Receive = {
 		case StartRegistration(time) =>
+			log.info("StartRegistration")
 			context.become(registartionAssigned, true)
-			sendToMyself(time, StartRegistrationReally(time), true)
+			context.system.scheduler.scheduleOnce(time - System.currentTimeMillis milliseconds, self, StartRegistrationReally(time))
+		//			sendToMyself(time, StartRegistrationReally(time), true)
 	}
 
 	def registartionAssigned: Receive = {
 		case StartRegistrationReally(time) =>
+			log.info("registrationStartedReally")
 			context.become(registrationInProgress)
-			sendToMyself(time + Constants.registrationLength, StartTheTournament, true)
+			context.system.scheduler.scheduleOnce(time + registrationLength - System.currentTimeMillis milliseconds, self, StartTheTournament)
+		//			sendToMyself(time + Constants.registrationLength, StartTheTournament, true)
 	}
 
 	def registrationInProgress: Receive = {

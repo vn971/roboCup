@@ -1,11 +1,8 @@
-package code
-package comet
+package code.comet
 
-import net.liftweb._
-import http._
-import actor._
+import net.liftweb.actor.LiftActor
+import net.liftweb.http.ListenerManager
 import ru.ya.vn91.robotour.GameNode
-import scala.collection.mutable.ListBuffer
 
 /** A singleton that provides chat features to all clients.
  *  It's an Actor so it's thread-safe because only one
