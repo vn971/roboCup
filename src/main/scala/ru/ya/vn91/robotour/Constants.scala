@@ -8,7 +8,7 @@ object Constants {
 
 	val registrationLength = 1000L * 60 * 60 * 6
 
-	val secsPerTurn = 15
+	val secsPerTurn = 10
 
 	val tourBrakeTime = 1000L * 60 * secsPerTurn
 
@@ -18,7 +18,7 @@ object Constants {
 
 	val freeInviteTime = 180
 
-	val tournamentName = "RoboCup-VIII"
+	val tournamentName = "RoboCup-IX"
 
 	val isKnockout = true
 

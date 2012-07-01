@@ -15,7 +15,7 @@ import code.comet.status._
 import Constants._
 import code.comet.MessageFromAdmin
 
-class KnockoutCore extends Actor with SendToMyself {
+class KnockoutCore extends Actor {
 
 	object StartTheTournament
 	object StartNextTour
@@ -28,21 +28,18 @@ class KnockoutCore extends Actor with SendToMyself {
 	val playing = LinkedHashSet[(GameNode, GameNode)]() // each inner set must contain 2 players
 	val knockedOut = LinkedHashSet[GameNode]()
 
-	override def preStart() = { log info "inited" }
+	override def preStart() = { log.info("inited") }
 
 	def prepareNextTour = {
 		log.info("prepare next tour.")
 		if (playing.size > 0) throw new IllegalStateException
 		else if (waiting.size < 2) {
-			ChatServer ! MessageFromAdmin("Турнир закончен!")
 			log.info("tournament finished!")
 			if (waiting.size == 1) {
 				log info "winner: \n"+waiting.head
-				ChatServer ! MessageFromAdmin("Победитель: "+waiting.head.name)
 				GlobalStatusSingleton ! FinishedWithWinner(waiting.head.name)
 			} else {
 				log info "Draw!"
-				ChatServer ! MessageFromAdmin("Результат: ничья!")
 				GlobalStatusSingleton ! FinishedWithDraw
 			}
 			log info "knockedOut: \n"+knockedOut
@@ -58,18 +55,16 @@ class KnockoutCore extends Actor with SendToMyself {
 			for (i <- lesserPower2 until shuffled.size) yield {
 				val (i1, i2) = (i, greaterPower2 - 1 - i) // indicies
 				val (p1, p2) = (shuffled(i1), shuffled(i2)) // players
-				log.info("assigning game "+p1+"-"+p2)
+				log.info("assigning game "+p1.name+"-"+p2.name)
 				playing += ((p1, p2))
 				toZagram ! AssignGame(p1.name, p2.name)
 
 				if (Random.nextBoolean) {
 					log.info("preparing winner in case of timeout: "+p1.name)
 					context.system.scheduler.scheduleOnce(gameTimeout milliseconds, self, GameWon(p1.name, p2.name))
-					//					sendToMyself(time + gameTimeout, GameWon(p1.name, p2.name))
 				} else {
 					log.info("preparing winner in case of timeout: "+p2.name)
 					context.system.scheduler.scheduleOnce(gameTimeout milliseconds, self, GameWon(p2.name, p1.name))
-					//					sendToMyself(time + gameTimeout, GameWon(p2.name, p1.name))
 				}
 			}
 			waiting.clear
@@ -94,13 +89,12 @@ class KnockoutCore extends Actor with SendToMyself {
 				log.info("registered "+player)
 				waiting += Leaf(player)
 				RegisteredListSingleton ! player
-				ChatServer ! MessageFromAdmin("игрок "+player+" зарегистрировался.")
+				ChatServer ! MessageFromAdmin("Player "+player+" registered.")
 				WaitingSingleton ! waiting.toList
 			}
 		}
 		case StartTheTournament => {
 			log.info("Tournament started!")
-			ChatServer ! MessageFromAdmin("Турнир начался!")
 			GlobalStatusSingleton ! GamePlaying(0)
 			prepareNextTour
 			context.become(inProgress, true)
@@ -125,7 +119,7 @@ class KnockoutCore extends Actor with SendToMyself {
 			}
 			if (containsWinnerLooser || containsLooserWinner) {
 				log.info("game won: "+winner+" > "+looser)
-				ChatServer ! MessageFromAdmin(winner+" выиграл игру против "+looser)
+				ChatServer ! MessageFromAdmin(winner+" has won a game against "+looser)
 				WaitingSingleton ! waiting.toList
 				PlayingSingleton ! playing.toList
 				KnockedOutSingleton ! knockedOut.toList
@@ -136,9 +130,7 @@ class KnockoutCore extends Actor with SendToMyself {
 					} else {
 						context.become(waitingNextTour, true)
 						context.system.scheduler.scheduleOnce(tourBrakeTime milliseconds, self, StartNextTour)
-						//						sendToMyself(System.currentTimeMillis + tourBrakeTime, StartNextTour)
 						log.info("starting tournament break now.")
-						ChatServer ! MessageFromAdmin("Следующий тур начнётся через "+(tourBrakeTime / 1000 / 60)+" минут.")
 						GlobalStatusSingleton ! WaitingForNextTour(System.currentTimeMillis + tourBrakeTime)
 					}
 				}
@@ -155,7 +147,6 @@ class KnockoutCore extends Actor with SendToMyself {
 		case StartNextTour => {
 			log.info("starting next tour.")
 			context.become(inProgress, true)
-			ChatServer ! MessageFromAdmin("Начался следующий тур!")
 			GlobalStatusSingleton ! GamePlaying(0)
 			prepareNextTour
 		}
@@ -168,16 +159,13 @@ class KnockoutCore extends Actor with SendToMyself {
 			if (System.currentTimeMillis < time) {
 				log.info("added suspended notify (registration start)")
 				context.system.scheduler.scheduleOnce(time - System.currentTimeMillis milliseconds, self, StartRegistration(time))
-				//				sendToMyself(time, StartRegistration(time), true)
 				GlobalStatusSingleton ! RegistrationAssigned(time)
 			} else {
 				log info "registration started!"
 				context.system.scheduler.scheduleOnce(time + registrationLength - System.currentTimeMillis milliseconds, self, StartTheTournament)
-				//				sendToMyself(time + registrationLength, StartTheTournament, true)
 				waiting.clear
 				playing.clear
 				knockedOut.clear
-				ChatServer ! MessageFromAdmin("Регистрация открыта!")
 				GlobalStatusSingleton ! RegistrationInProgress(time + registrationLength)
 				context.become(registration, true)
 			}

@@ -13,7 +13,7 @@ object Utils {
 			result
 		} catch {
 			case e: Exception =>
-				e.printStackTrace
+				// e.printStackTrace
 				""
 		}
 	}

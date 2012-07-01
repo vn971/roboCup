@@ -10,39 +10,56 @@ import code.comet.MessageFromAdmin
 import code.comet.WaitingSingleton
 import akka.event.Logging
 import ru.ya.vn91.robotour.Constants._
+import code.comet.GlobalStatusSingleton
+import code.comet.status._
 
 private object StartTheTournament
-private object StartNextTour
 private case class StartRegistrationReally(val time: Long)
 
-trait RegistrationCore extends Actor with SendToMyself {
+trait RegistrationCore extends Actor {
+
 	val log = Logging(context.system, RegistrationCore.this)
+
+	val toZagram = context.actorOf(Props[ToZagram], name = "toZagram")
 
 	val registered = LinkedHashSet[String]()
 
-	def receive: Receive = {
+	override def preStart() = {
+		val fromZagram = context.actorOf(Props[FromZagram], name = "fromZagram")
+	}
+
+	def afterRegistration(player: String): Unit
+
+	def receive = {
 		case StartRegistration(time) =>
 			log.info("StartRegistration")
 			context.become(registartionAssigned, true)
 			context.system.scheduler.scheduleOnce(time - System.currentTimeMillis milliseconds, self, StartRegistrationReally(time))
-		//			sendToMyself(time, StartRegistrationReally(time), true)
+			GlobalStatusSingleton ! RegistrationAssigned(time)
 	}
 
 	def registartionAssigned: Receive = {
 		case StartRegistrationReally(time) =>
 			log.info("registrationStartedReally")
 			context.become(registrationInProgress)
+
 			context.system.scheduler.scheduleOnce(time + registrationLength - System.currentTimeMillis milliseconds, self, StartTheTournament)
-		//			sendToMyself(time + Constants.registrationLength, StartTheTournament, true)
+
+			GlobalStatusSingleton ! RegistrationInProgress(time + registrationLength)
+	}
+
+	def doRegister(nick: String) = {
+		log.info("registered "+nick)
+		registered += nick
+		RegisteredListSingleton ! nick
+		ChatServer ! MessageFromAdmin("Player "+nick+" registered.")
+		afterRegistration(nick)
 	}
 
 	def registrationInProgress: Receive = {
-		case TryRegister(nick) =>
-			if (registered.add(nick)) {
-				log.info("registered "+nick)
-				RegisteredListSingleton ! nick
-				ChatServer ! MessageFromAdmin("игрок "+nick+" зарегистрировался.")
-			}
+		case TryRegister(nick) => if (!registered.contains(nick)) doRegister(nick)
+		// case StartTournament
+		// this Receive function is extended by extending classes
 	}
 
 }

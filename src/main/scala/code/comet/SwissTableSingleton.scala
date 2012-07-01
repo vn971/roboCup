@@ -5,8 +5,9 @@ import net.liftweb.http.ListenerManager
 import GameResultEnumeration._
 
 object SwissTableSingleton extends LiftActor with ListenerManager {
-//	private var table = SwissTableData(0, List[Row]())
-	private var table = SwissTableData(3, Row("Вася Новиков", Game("Фрося", Loss) :: Nil) :: Row("Фрося", Game("Вася Новиков", Win) :: Nil) :: Nil)
+
+	private var table = SwissTableData(0, List[Player]())
+	// table = SwissTableData(3, Player("Вася Новиков", Game("Фрося", Loss) :: Nil) :: Player("Фрося", Game("Вася Новиков", NotFinished) :: Nil) :: Nil)
 
 	def createUpdate = table
 

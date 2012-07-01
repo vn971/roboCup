@@ -4,7 +4,8 @@ import net.liftweb.http._
 import net.liftweb.actor._
 import java.text.SimpleDateFormat
 import java.util.TimeZone
-import status._
+import code.comet.status._
+import ru.ya.vn91.robotour.Constants._
 
 object GlobalStatusSingleton extends LiftActor with ListenerManager {
 
@@ -13,7 +14,42 @@ object GlobalStatusSingleton extends LiftActor with ListenerManager {
 	def createUpdate = status
 
 	override def lowPriority = {
-		case newStatus: Status => status = newStatus; updateListeners()
+		case Undefined =>
+			status = Undefined
+			updateListeners()
+		case s: RegistrationAssigned =>
+			status = s
+			updateListeners()
+			ChatServer ! MessageFromAdmin("Registration start assigned to "+timeLongToString(s.time))
+		case s: RegistrationInProgress =>
+			status = s
+			updateListeners()
+			ChatServer ! MessageFromAdmin("Registration opened!")
+		case s: GamePlaying =>
+			status = s
+			updateListeners()
+			ChatServer ! MessageFromAdmin("Started next round!")
+		case s: WaitingForNextTour =>
+			status = s
+			updateListeners()
+			ChatServer ! MessageFromAdmin("Next round will start in "+(tourBrakeTime / 1000 / 60)+" minutes.")
+		case s: FinishedWithWinner =>
+			status = s
+			updateListeners()
+			ChatServer ! MessageFromAdmin("Tournament finished!")
+			ChatServer ! MessageFromAdmin("Winner: "+s.winner)
+		case FinishedWithDraw =>
+			status = FinishedWithDraw
+			updateListeners()
+			ChatServer ! MessageFromAdmin("Tournament finished!")
+			ChatServer ! MessageFromAdmin("Result: draw!")
+		case s: ErrorStatus =>
+			status = s
+			updateListeners()
+			ChatServer ! MessageFromAdmin("В серверном обработчике турнира произошла ошибка: "+s.reason)
+		case any: Status =>
+			status = any
+			updateListeners()
 	}
 }
 

@@ -111,7 +111,7 @@ class Boot {
 
 		LiftRules.setSiteMap(sitemap)
 
-		LiftRules.unloadHooks.append(() => Core.system.shutdown)
+		LiftRules.unloadHooks.append { () => println("roboCup actors shutdown"); Core.system.shutdown }
 
 		Core // init the sigleton
 
