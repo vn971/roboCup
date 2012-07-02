@@ -20,7 +20,7 @@ case class AssignGame(val first: String, val second: String, val round: Int = 0)
 class ToZagram extends Actor {
 
 	val idGracza = sys.props.get("zagram.idGracza").getOrElse {
-		GlobalStatusSingleton ! ErrorStatus("zagram idGracza not found!")
+		//		GlobalStatusSingleton ! ErrorStatus("zagram idGracza not found!")
 		""
 	}
 	val assignGamePassword = sys.props.get("zagram.assignGamePassword").getOrElse {

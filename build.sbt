@@ -1,11 +1,11 @@
 
-name := "roboTournament"
+name := "roboCup"
 
-version := "0.55"
+version := "0.56"
 
 organization := "ru.ya.vn91.roboTour"
 
-description := "Robotic Tournaments for the game Points"
+description := "Automatic tournaments for the game Points"
 
 // libraryDependencies += "org.scalaquery" % "scalaquery_2.9.0-1" % "0.9.5"
 
@@ -46,6 +46,7 @@ libraryDependencies ++= {
 	// "org.mortbay.jetty" % "jetty" % "6.1.26" % "container",
 	// "ch.qos.logback" % "logback-classic" % "0.9.26",
 	// "com.h2database" % "h2" % "1.2.147"
+
 libraryDependencies ++= Seq(
 	"org.eclipse.jetty" % "jetty-webapp" % "7.5.4.v20111024" % "container",
 	"org.mortbay.jetty" % "jetty" % "6.1.26" % "test",
