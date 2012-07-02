@@ -27,9 +27,9 @@ object Admin {
 			val regTime = startTime - registrationLength
 
 			Core.core ! StartRegistration(regTime)
-			ChatServer ! MessageFromAdmin("Назначен турнир!")
-			ChatServer ! MessageFromAdmin("Начало регистрации: "+timeLongToString(regTime))
-			ChatServer ! MessageFromAdmin("Первый тур (начало игр): "+timeLongToString(startTime))
+			ChatServer ! MessageFromAdmin("Tournament start assigned!")
+			ChatServer ! MessageFromAdmin("Registration starts at: "+timeLongToString(regTime))
+			ChatServer ! MessageFromAdmin("First round (start of games): "+timeLongToString(startTime))
 			SetValById("timeSetter", "time set.")
 		} catch {
 			case t: Exception => SetValById("timeSetter", "error. Try again...")

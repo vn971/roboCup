@@ -77,7 +77,6 @@ class KnockoutCore extends Actor {
 			WaitingSingleton ! waiting.toList
 			PlayingSingleton ! playing.toList
 
-			GlobalStatusSingleton ! GamePlaying(0)
 			context.become(inProgress, true)
 		}
 

@@ -25,9 +25,9 @@ class SwissCore extends RegistrationCore {
 	var totalRounds = 0
 	var currentRound = 1
 
-	def winPrice = currentRound match { case 1 => 2.0 case 2 => 2.4 case 3 => 2.8 case 4 => 3.2 case 5 => 3.6 case _ => 4.0 }
-	def drawPrice = currentRound match { case 1 => 1.0 case 2 => 1.2 case 3 => 1.4 case 4 => 1.6 case 5 => 1.8 case _ => 2.0 }
-	def lossPrice = currentRound match { case 1 => 0.5 case 2 => 0.6 case 3 => 0.7 case 4 => 0.8 case 5 => 0.9 case _ => 1.0 }
+	def winPrice = 4.0 // currentRound match { case 1 => 2.0 case 2 => 2.4 case 3 => 2.8 case 4 => 3.2 case 5 => 3.6 case _ => 4.0 }
+	def drawPrice = 2.0 // currentRound match { case 1 => 1.0 case 2 => 1.2 case 3 => 1.4 case 4 => 1.6 case 5 => 1.8 case _ => 2.0 }
+	def lossPrice = 1.0 // currentRound match { case 1 => 0.5 case 2 => 0.6 case 3 => 0.7 case 4 => 0.8 case 5 => 0.9 case _ => 1.0 }
 
 	def log2(x: Int): Int = (2 -> 1 :: 4 -> 2 :: 8 -> 3 :: 16 -> 4 :: 32 -> 5 :: 64 -> 6 :: 128 -> 7 :: Nil).
 		find(x <= _._1).get._2
