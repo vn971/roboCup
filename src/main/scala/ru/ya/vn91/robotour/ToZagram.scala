@@ -19,15 +19,6 @@ case class AssignGame(val first: String, val second: String, val round: Int = 0)
 
 class ToZagram extends Actor {
 
-	val idGracza = sys.props.get("zagram.idGracza").getOrElse {
-		//		GlobalStatusSingleton ! ErrorStatus("zagram idGracza not found!")
-		""
-	}
-	val assignGamePassword = sys.props.get("zagram.assignGamePassword").getOrElse {
-		GlobalStatusSingleton ! ErrorStatus("zagram gameAssignPass not found!")
-		""
-	}
-
 	val log = Logging(context.system, this)
 
 	override def preStart() = {
@@ -42,13 +33,13 @@ class ToZagram extends Actor {
 			// log in
 			val logInURL = "http://zagram.org/auth.py?co=loguj"+
 				"&opisGracza="+getServerEncoded("roboTour")+
-				"&idGracza="+idGracza+
+				"&idGracza="+ToZagram.idGracza+
 				"&lang=en"
 			getLinkContent(logInURL)
 
 			// send message
 			val messageURL = "http://zagram.org/a.kropki"+
-				"?idGracza="+idGracza+
+				"?idGracza="+ToZagram.idGracza+
 				"&co=dodajWpis"+
 				"&table=0"+
 				"&newMsgs="+getServerEncoded(toSend)+
@@ -57,7 +48,7 @@ class ToZagram extends Actor {
 
 			// log out
 			val logOutURL = "http://zagram.org/a.kropki"+
-				"?playerId="+idGracza+
+				"?playerId="+ToZagram.idGracza+
 				"&co=usunGracza"
 			getLinkContent(logOutURL)
 		}
@@ -67,7 +58,7 @@ class ToZagram extends Actor {
 			log.info("assigning game: "+first+"-"+second)
 			val url = "http://zagram.org/a.kropki"+
 				"?co=setUpTable"+
-				"&key="+assignGamePassword+
+				"&key="+ToZagram.assignGamePassword+
 				"&gameType="+zagramGameSettings+
 				"&pl1="+getServerEncoded(first)+
 				"&pl2="+getServerEncoded(second)+
@@ -83,11 +74,19 @@ class ToZagram extends Actor {
 
 object ToZagram extends {
 
+	val idGracza = sys.props.get("zagram.idGracza").getOrElse {
+		//		GlobalStatusSingleton ! ErrorStatus("zagram idGracza not found!")
+		""
+	}
+	val assignGamePassword = sys.props.get("zagram.assignGamePassword").getOrElse {
+		GlobalStatusSingleton ! ErrorStatus("zagram gameAssignPass not found!")
+		""
+	}
+
 	def main(args: Array[String]): Unit = {
 		if (args.size == 2)
 			assign(args(0).replaceAll("=", " "), args(1).replaceAll("=", " "))
 		else {
-			assign("a", "b")
 			println("not two arguments! Replace spaces in nicknames with =")
 		}
 	}
@@ -95,7 +94,7 @@ object ToZagram extends {
 	def assign(first: String, second: String) = {
 		val url = "http://zagram.org/a.kropki"+
 			"?co=setUpTable"+
-			"&key="+"j72630brkx6wtp"+
+			"&key="+assignGamePassword+
 			"&gameType="+zagramGameSettings+
 			"&pl1="+getServerEncoded(first)+
 			"&pl2="+getServerEncoded(second)+
@@ -107,4 +106,3 @@ object ToZagram extends {
 		println("reply: "+Utils.getLinkContent(url))
 	}
 }
-

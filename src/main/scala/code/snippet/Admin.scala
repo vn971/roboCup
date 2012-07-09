@@ -25,11 +25,7 @@ object Admin {
 			log.info("tournament time set ("+timeAsString+")")
 			val startTime = timeStringToLong(timeAsString)
 			val regTime = startTime - registrationLength
-
 			Core.core ! StartRegistration(regTime)
-			ChatServer ! MessageFromAdmin("Tournament start assigned!")
-			ChatServer ! MessageFromAdmin("Registration starts at: "+timeLongToString(regTime))
-			ChatServer ! MessageFromAdmin("First round (start of games): "+timeLongToString(startTime))
 			SetValById("timeSetter", "time set.")
 		} catch {
 			case t: Exception => SetValById("timeSetter", "error. Try again...")

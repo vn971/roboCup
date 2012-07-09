@@ -1,5 +1,4 @@
-package code
-package comet
+package code.comet
 
 //import net.liftweb.http._
 import net.liftweb.http.{CometActor, CometListener}

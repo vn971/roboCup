@@ -22,22 +22,23 @@ import ru.ya.vn91.robotour.Utils
  */
 class Boot {
 	def boot {
-		//		if (!DB.jndiJdbcConnAvailable_?) {
-		//			val vendor =
-		//				new StandardDBVendor(Props.get("db.driver") openOr "org.h2.Driver",
-		//					Props.get("db.url") openOr
-		//						"jdbc:h2:lift_proto.db;AUTO_SERVER=TRUE",
-		//					Props.get("db.user"), Props.get("db.password"))
-		//
-		//			LiftRules.unloadHooks.append(vendor.closeAllConnections_! _)
-		//
-		//			DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
-		//		}
+		if (!DB.jndiJdbcConnAvailable_?) {
+			val vendor =
+				new StandardDBVendor(Props.get("db.driver") openOr "org.h2.Driver",
+					Props.get("db.url") openOr
+						"jdbc:h2:lift_proto.db;AUTO_SERVER=TRUE",
+					//						"jdbc:h2:tcp://localhost//data/data/dev/scala/roboCup/lift_proto.db",
+					Props.get("db.user"), Props.get("db.password"))
+
+			LiftRules.unloadHooks.append(vendor.closeAllConnections_! _)
+
+			DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
+		}
 
 		// Use Lift's Mapper ORM to populate the database
 		// you don't need to use Mapper to use Lift... use
 		// any ORM you want
-		//    Schemifier.schemify(true, Schemifier.infoF _, User)
+		//		Schemifier.schemify(true, Schemifier.infoF _, User)
 
 		// where to search snippet
 		LiftRules.addToPackages("code")
@@ -93,22 +94,26 @@ class Boot {
 		//				default
 		//		}
 
-		// this is the administration page. It's address is being kept in secret. It's initialized from the system properties, individually for each project.
-		//		val adminAddress = sys.props.get("adminMenu")
-		//		val adminMenu =
-		//			if (adminAddress.isEmpty)
-		//				Menu.i("Administration") / "admin"
-		//			else
-		//				Menu("Administration") / adminAddress.get >> Hidden
+		//		val loc = Loc("HomePage", "index" :: Nil, "Home Page")
+		//				val lp = LocParam
+
+		val adminPage = {
+			val adminPageAddr = sys.props.get("admin.page")
+			if (adminPageAddr.nonEmpty)
+				Menu.i("Administration").path(adminPageAddr.get) >> Hidden
+			else
+				Menu.i("Administration").path("admin")
+		}
 
 		def sitemap = SiteMap(
-			Menu.i("Rules") / "index",
-			Menu.i("Registration") / "register",
-			Menu.i("Games") / (if (isKnockout) "knockout" else "swiss"),
-			Menu.i("Administration") / "hidden145938" >> Hidden,
-			Menu.i("Chat") / "chat",
-			Menu.i("Language") / "language")
+			Menu.i("Rules").path("index"),
+			Menu.i("Registration").path("register"),
+			Menu.i("Games").path(if (isKnockout) "knockout" else "swiss"),
+			adminPage,
+			Menu.i("Chat").path("chat"),
+			Menu.i("Language").path("language") >> Hidden)
 
+		//				LiftRules.setSiteMapFunc(() => User.sitemapMutator(sitemap))
 		LiftRules.setSiteMap(sitemap)
 
 		LiftRules.unloadHooks.append { () => println("roboCup actors shutdown"); Core.system.shutdown }
@@ -129,7 +134,10 @@ class Boot {
 		// Force the request to be UTF-8
 		LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
 
+		// What is the function to test if a user is logged in?
+		//		LiftRules.loggedInTest = Full(() => User.loggedIn_?)
+
 		// Make a transaction span the whole HTTP request
-		//		S.addAround(DB.buildLoanWrapper)
+		S.addAround(DB.buildLoanWrapper)
 	}
 }

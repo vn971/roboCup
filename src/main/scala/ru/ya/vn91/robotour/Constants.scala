@@ -18,7 +18,7 @@ object Constants {
 
 	val freeInviteTime = 180
 
-	val tournamentName = "RoboCup-IX"
+	val tournamentName = "RoboCup-X"
 
 	val isKnockout = true
 

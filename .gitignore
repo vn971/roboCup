@@ -9,6 +9,7 @@ target/*
 .cache
 lift_proto.db.*
 *~
+src/main/webapp/hidden2*
 
 *.jar
 *.class

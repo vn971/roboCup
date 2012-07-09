@@ -20,7 +20,9 @@ object GlobalStatusSingleton extends LiftActor with ListenerManager {
 		case s: RegistrationAssigned =>
 			status = s
 			updateListeners()
-			ChatServer ! MessageFromAdmin("Registration start assigned to "+timeLongToString(s.time))
+			ChatServer ! MessageFromAdmin("Tournament start assigned!")
+			ChatServer ! MessageFromAdmin("Registration starts at: "+timeLongToString(s.time))
+			ChatServer ! MessageFromAdmin("First round (start of games): "+timeLongToString(s.time + registrationLength))
 		case s: RegistrationInProgress =>
 			status = s
 			updateListeners()
