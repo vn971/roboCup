@@ -22,18 +22,18 @@ import ru.ya.vn91.robotour.Utils
  */
 class Boot {
 	def boot {
-		if (!DB.jndiJdbcConnAvailable_?) {
-			val vendor =
-				new StandardDBVendor(Props.get("db.driver") openOr "org.h2.Driver",
-					Props.get("db.url") openOr
-						"jdbc:h2:lift_proto.db;AUTO_SERVER=TRUE",
-					//						"jdbc:h2:tcp://localhost//data/data/dev/scala/roboCup/lift_proto.db",
-					Props.get("db.user"), Props.get("db.password"))
-
-			LiftRules.unloadHooks.append(vendor.closeAllConnections_! _)
-
-			DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
-		}
+		//		if (!DB.jndiJdbcConnAvailable_?) {
+		//			val vendor =
+		//				new StandardDBVendor(Props.get("db.driver") openOr "org.h2.Driver",
+		//					Props.get("db.url") openOr
+		//						"jdbc:h2:lift_proto.db;AUTO_SERVER=TRUE",
+		//					//						"jdbc:h2:tcp://localhost//data/data/dev/scala/roboCup/lift_proto.db",
+		//					Props.get("db.user"), Props.get("db.password"))
+		//
+		//			LiftRules.unloadHooks.append(vendor.closeAllConnections_! _)
+		//
+		//			DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
+		//		}
 
 		// Use Lift's Mapper ORM to populate the database
 		// you don't need to use Mapper to use Lift... use
@@ -138,6 +138,6 @@ class Boot {
 		//		LiftRules.loggedInTest = Full(() => User.loggedIn_?)
 
 		// Make a transaction span the whole HTTP request
-		S.addAround(DB.buildLoanWrapper)
+		//		S.addAround(DB.buildLoanWrapper)
 	}
 }
