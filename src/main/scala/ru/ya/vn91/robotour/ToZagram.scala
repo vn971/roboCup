@@ -10,12 +10,9 @@ import ru.ya.vn91.robotour.Utils._
 import Constants._
 import code.comet.GlobalStatusSingleton
 import code.comet.status.ErrorStatus
+import scala.collection.JavaConversions._
 
 case class AssignGame(val first: String, val second: String, val round: Int = 0)
-
-//object GetZagramEncoded extends App {
-//	println(getServerEncoded("*vbbbgfbfb"))
-//}
 
 class ToZagram extends Actor {
 
@@ -30,27 +27,30 @@ class ToZagram extends Actor {
 
 			log.info("sending message "+toSend)
 
-			// log in
-			val logInURL = "http://zagram.org/auth.py?co=loguj"+
-				"&opisGracza="+getServerEncoded("roboTour")+
-				"&idGracza="+ToZagram.idGracza+
-				"&lang=en"
-			getLinkContent(logInURL)
+			{ // log in
+				val logInURL = "http://zagram.org/auth.py?co=loguj"+
+					"&opisGracza="+getServerEncoded("RoboCup")+
+					"&idGracza="+ToZagram.idGracza+
+					"&lang=en"
+				getLinkContent(logInURL)
+			}
 
-			// send message
-			val messageURL = "http://zagram.org/a.kropki"+
-				"?idGracza="+ToZagram.idGracza+
-				"&co=dodajWpis"+
-				"&table=0"+
-				"&newMsgs="+getServerEncoded(toSend)+
-				"&msgNo=1"
-			getLinkContent(messageURL)
+			{ // send message
+				val messageURL = "http://zagram.org/a.kropki"+
+					"?idGracza="+ToZagram.idGracza+
+					"&co=dodajWpis"+
+					"&table=0"+
+					"&newMsgs="+getServerEncoded(toSend)+
+					"&msgNo=1"
+				getLinkContent(messageURL)
+			}
 
-			// log out
-			val logOutURL = "http://zagram.org/a.kropki"+
-				"?playerId="+ToZagram.idGracza+
-				"&co=usunGracza"
-			getLinkContent(logOutURL)
+			{ // log out
+				val logOutURL = "http://zagram.org/a.kropki"+
+					"?playerId="+ToZagram.idGracza+
+					"&co=usunGracza"
+				getLinkContent(logOutURL)
+			}
 		}
 
 		case AssignGame(first, second, round) => {
@@ -65,44 +65,10 @@ class ToZagram extends Actor {
 				"&sayHiTimes="+freeInviteTime+"."+freeInviteTime+
 				"&tourn="+getServerEncoded(tournamentName)+
 				"&tRound=0"
+			val reply = Utils.getLinkContent(url)
 			log.info("url: "+url)
-			log.info("reply: "+Utils.getLinkContent(url))
+			log.info("reply: "+reply)
 		}
 	}
 
-}
-
-object ToZagram extends {
-
-	val idGracza = sys.props.get("zagram.idGracza").getOrElse {
-		//		GlobalStatusSingleton ! ErrorStatus("zagram idGracza not found!")
-		""
-	}
-	val assignGamePassword = sys.props.get("zagram.assignGamePassword").getOrElse {
-		GlobalStatusSingleton ! ErrorStatus("zagram gameAssignPass not found!")
-		""
-	}
-
-	def main(args: Array[String]): Unit = {
-		if (args.size == 2)
-			assign(args(0).replaceAll("=", " "), args(1).replaceAll("=", " "))
-		else {
-			println("not two arguments! Replace spaces in nicknames with =")
-		}
-	}
-
-	def assign(first: String, second: String) = {
-		val url = "http://zagram.org/a.kropki"+
-			"?co=setUpTable"+
-			"&key="+assignGamePassword+
-			"&gameType="+zagramGameSettings+
-			"&pl1="+getServerEncoded(first)+
-			"&pl2="+getServerEncoded(second)+
-			"&sayHiTimes="+freeInviteTime+"."+freeInviteTime+
-			"&tourn="+tournamentName+
-			"&tRound=round"+0
-		println("url: "+url)
-		println("reply: "+Utils.getLinkContent(url))
-		println("reply: "+Utils.getLinkContent(url))
-	}
 }

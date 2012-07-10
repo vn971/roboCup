@@ -15,6 +15,11 @@ import ru.ya.vn91.robotour.Constants._
 import java.util.Date
 import net.liftweb.common.Logger
 import code.comet.MessageFromAdmin
+import akka.actor.Props
+import ru.ya.vn91.robotour.ToZagram
+import ru.ya.vn91.robotour.AssignGame
+import code.comet.GlobalStatusSingleton
+import code.comet.status.CustomStatus
 
 object Admin {
 
@@ -41,12 +46,26 @@ object Admin {
 		SetValById("playerRegistrator", "")
 	})
 
+	def setStatus = SHtml.onSubmit(status => {
+		log info "setting status "+status
+		GlobalStatusSingleton ! CustomStatus(status)
+		SetValById("setStatus", "")
+	})
+
 	def winGame = SHtml.onSubmit(twoPlayers => {
-		log info "game winner assigned: "+twoPlayers
+		log info "assigning winner: "+twoPlayers
 		val winner = twoPlayers.split("/")(0)
 		val looser = twoPlayers.split("/")(1)
 		Core.core ! GameWon(winner, looser)
 		SetValById("winGame", "OK, game result sent")
+	})
+
+	def assignGame = SHtml.onSubmit(twoPlayers => {
+		log info "assigning game: "+twoPlayers
+		val first = twoPlayers.split("/")(0)
+		val second = twoPlayers.split("/")(1)
+		Core.system.actorOf(Props[ToZagram], name = "core.toZagram") ! AssignGame(first, second)
+		SetValById("assignGame", "")
 	})
 
 	def newTournament = SHtml.onSubmit(s => "")

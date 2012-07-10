@@ -45,6 +45,9 @@ object GlobalStatusSingleton extends LiftActor with ListenerManager {
 			updateListeners()
 			ChatServer ! MessageFromAdmin("Tournament finished!")
 			ChatServer ! MessageFromAdmin("Result: draw!")
+		case s: CustomStatus =>
+			status = s
+			updateListeners()
 		case s: ErrorStatus =>
 			status = s
 			updateListeners()
@@ -65,5 +68,6 @@ package status {
 	case class FinishedWithWinner(val winner: String) extends Status
 	case object FinishedWithDraw extends Status
 	case class ErrorStatus(val reason: String) extends Status
+	case class CustomStatus(val msg: String) extends Status
 }
 

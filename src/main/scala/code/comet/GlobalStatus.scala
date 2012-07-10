@@ -26,6 +26,7 @@ class GlobalStatus extends CometActor with CometListener {
 		case FinishedWithWinner(winner) => "tournament finished. Winner: "+winner+"!"
 		case FinishedWithDraw => "tournament finished with draw!"
 		case ErrorStatus(reason) => "error in server: "+reason
+		case CustomStatus(msg) => msg
 		case _ => "???"
 	})
 }
