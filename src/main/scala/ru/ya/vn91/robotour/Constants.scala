@@ -6,7 +6,7 @@ import java.util.Date
 
 object Constants {
 
-	val registrationLength = 1000L * 60 * 60 * 6
+	val registrationLength = 1000L * 60 * 60 * 1
 
 	val secsPerTurn = 10
 
@@ -19,6 +19,7 @@ object Constants {
 	val freeInviteTime = 180
 
 	val tournamentName = "RoboCup-X"
+	// check html templates also!
 
 	val isKnockout = true
 
