@@ -34,7 +34,7 @@ object GlobalStatusSingleton extends LiftActor with ListenerManager {
 		case s: WaitingForNextTour =>
 			status = s
 			updateListeners()
-			ChatServer ! MessageFromAdmin("Next round will start in "+(tourBrakeTime / 1000 / 60)+" minutes.")
+			ChatServer ! MessageFromAdmin("Next round will start at "+timeLongToHours(s.time))
 		case s: FinishedWithWinner =>
 			status = s
 			updateListeners()
