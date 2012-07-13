@@ -21,5 +21,5 @@ RoboCup is written in eclipse-scala as an IDE.
 You can use any other IDE, but eclipse is already set up and ready to use.
 To use eclipse:
 * Download and install eclipse-scala IDE http://scala-ide.org/
-* In menu, "File" > Import > Existing Projects into workspace > ender roboCup directory path
+* In menu, "File" > Import > Existing Projects into workspace > enter roboCup directory path
 

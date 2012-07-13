@@ -21,15 +21,15 @@ class SwissCore extends RegistrationCore {
 
 	val openGames = new GameSet()
 	val playedGames = collection.mutable.LinkedHashMap[String, ListBuffer[Game]]()
-	val scores = collection.mutable.LinkedHashMap[String, Double]()
+	val scores = collection.mutable.LinkedHashMap[String, Int]()
 	var totalRounds = 0
 	var currentRound = 1
 
-	def winPrice = 4.0 // currentRound match { case 1 => 2.0 case 2 => 2.4 case 3 => 2.8 case 4 => 3.2 case 5 => 3.6 case _ => 4.0 }
-	def drawPrice = 2.0 // currentRound match { case 1 => 1.0 case 2 => 1.2 case 3 => 1.4 case 4 => 1.6 case 5 => 1.8 case _ => 2.0 }
-	def lossPrice = 1.0 // currentRound match { case 1 => 0.5 case 2 => 0.6 case 3 => 0.7 case 4 => 0.8 case 5 => 0.9 case _ => 1.0 }
+	def winPrice = 4 // currentRound match { case 1 => 2.0 case 2 => 2.4 case 3 => 2.8 case 4 => 3.2 case 5 => 3.6 case _ => 4.0 }
+	def drawPrice = 2 // currentRound match { case 1 => 1.0 case 2 => 1.2 case 3 => 1.4 case 4 => 1.6 case 5 => 1.8 case _ => 2.0 }
+	def lossPrice = 1 // currentRound match { case 1 => 0.5 case 2 => 0.6 case 3 => 0.7 case 4 => 0.8 case 5 => 0.9 case _ => 1.0 }
 
-	def log2(x: Int): Int = (2 -> 1 :: 4 -> 2 :: 8 -> 3 :: 16 -> 4 :: 32 -> 5 :: 64 -> 6 :: 128 -> 7 :: Nil).
+	def log2(x: Int): Int = (2 -> 1 :: 4 -> 2 :: 8 -> 3 :: 16 -> 4 :: 32 -> 5 :: 64 -> 6 :: 128 -> 7 :: 256 -> 8 :: Nil).
 		find(x <= _._1).get._2
 
 	// def receive: Receive = super.receive
@@ -60,7 +60,7 @@ class SwissCore extends RegistrationCore {
 	}
 
 	override def afterRegistration(player: String) = {
-		scores += player -> 0.0
+		scores += player -> 0
 		playedGames += player -> ListBuffer[Game]()
 		totalRounds = log2(registered.size) + 2
 		log.info("registered player: "+player+". Total rounds now: "+totalRounds)
