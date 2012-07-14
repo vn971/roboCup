@@ -29,12 +29,11 @@ class SwissCore extends RegistrationCore {
 	def drawPrice = 2 // currentRound match { case 1 => 1.0 case 2 => 1.2 case 3 => 1.4 case 4 => 1.6 case 5 => 1.8 case _ => 2.0 }
 	def lossPrice = 1 // currentRound match { case 1 => 0.5 case 2 => 0.6 case 3 => 0.7 case 4 => 0.8 case 5 => 0.9 case _ => 1.0 }
 
-	def log2(x: Int): Int = (2 -> 1 :: 4 -> 2 :: 8 -> 3 :: 16 -> 4 :: 32 -> 5 :: 64 -> 6 :: 128 -> 7 :: 256 -> 8 :: Nil).
-		find(x <= _._1).get._2
+	def log2(x: Int) = (1 to 30).find(degree => (1 << degree) >= x).get
 
-	// def receive: Receive = super.receive
+	// def receive: -- method in parent class
 
-	// def registrationAssigned: Receive = super.registartionAssigned
+	// def registrationAssigned: -- method in parent class
 
 	override def registrationInProgress =
 		super.registrationInProgress.orElse {
@@ -98,23 +97,29 @@ class SwissCore extends RegistrationCore {
 			}
 		case RoundTimeout(round) =>
 			if (round == currentRound) {
-				openGames.toList.foreach(g => self ! GameDraw(g.a, g.b))
-				// TODO
-				//				openGames.toList.foreach { g =>
-				//					Random.nextInt(3) match {
-				//						case 0 => self ! GameWon(g.a, g.b)
-				//						case 1 => self ! GameWon(g.b, g.a)
-				//						case _ => self ! GameDraw(g.a, g.b)
-				//					}
-				//				}
+				if (sys.props.get("run.mode").getOrElse("") == "production") {
+					openGames.toList.foreach(g => self ! GameDraw(g.a, g.b))
+				} else {
+					openGames.toList.foreach { g =>
+						Random.nextInt(3) match {
+							case 0 => self ! GameWon(g.a, g.b)
+							case 1 => self ! GameWon(g.b, g.a)
+							case _ => self ! GameDraw(g.a, g.b)
+						}
+					}
+				}
 			}
 	}
 
 	def tryWaitForNextRound = if (openGames.size == 0) {
 		if (currentRound + 1 > totalRounds) {
+			log.info("tournament finished!")
 			context.become(finished)
-			GlobalStatusSingleton ! FinishedWithWinner(scores.toList.sortBy(s => s._2).reverse.apply(0)._1)
+			val winners = scores.groupBy(_._2).toList.sortBy(_._1).last._2.toList.map(_._1)
+			log.info("winners: "+winners)
+			GlobalStatusSingleton ! FinishedWithWinners(winners)
 		} else {
+			log.info("waiting for next round now")
 			context.become(waitingForNextRound, true)
 			currentRound += 1
 			context.system.scheduler.scheduleOnce(tourBrakeTime milliseconds, self, StartNextRound)

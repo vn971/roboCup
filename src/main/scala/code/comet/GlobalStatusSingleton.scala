@@ -36,10 +36,15 @@ object GlobalStatusSingleton extends LiftActor with ListenerManager {
 			updateListeners()
 			ChatServer ! MessageFromAdmin("Next round will start at "+timeLongToHours(s.time))
 		case s: FinishedWithWinner =>
+		status = s
+		updateListeners()
+		ChatServer ! MessageFromAdmin("Tournament finished!")
+		ChatServer ! MessageFromAdmin("Winner: "+s.winner)
+		case s: FinishedWithWinners =>
 			status = s
 			updateListeners()
 			ChatServer ! MessageFromAdmin("Tournament finished!")
-			ChatServer ! MessageFromAdmin("Winner: "+s.winner)
+			ChatServer ! MessageFromAdmin("Winners: "+s.winners.mkString(", "))
 		case FinishedWithDraw =>
 			status = FinishedWithDraw
 			updateListeners()
@@ -66,6 +71,7 @@ package status {
 	case class GamePlaying(roundNumber: Int) extends Status
 	case class WaitingForNextTour(val time: Long) extends Status
 	case class FinishedWithWinner(val winner: String) extends Status
+	case class FinishedWithWinners(val winners: List[String]) extends Status
 	case object FinishedWithDraw extends Status
 	case class ErrorStatus(val reason: String) extends Status
 	case class CustomStatus(val msg: String) extends Status
