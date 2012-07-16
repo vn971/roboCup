@@ -1,8 +1,8 @@
 package ru.ya.vn91.robotour
 
 import java.text.SimpleDateFormat
-import java.util.TimeZone
 import java.util.Date
+import java.util.TimeZone
 
 object Constants {
 
@@ -21,7 +21,7 @@ object Constants {
 	val tournamentName = "RoboCup-X"
 	// check html templates also!
 
-	val isKnockout = true
+	val isKnockout = false
 
 	def timeLongToString(long: Long) = dateFormatter.format(new Date(long))
 	def timeStringToLong(s: String) = dateFormatter.parse(s).getTime
