@@ -2,7 +2,7 @@ package ru.ya.vn91.robotour
 
 import akka.actor.ActorSystem
 
-case class TryRegister(val nick: String)
+case class TryRegister(val info: PlayerInfo)
 case class GameWon(val winner: String, val looser: String)
 case class GameDraw(val first: String, val second: String)
 case class StartRegistration(val timeStart: Long)

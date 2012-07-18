@@ -83,12 +83,12 @@ class KnockoutCore extends Actor {
 	}
 
 	def registration: Receive = {
-		case TryRegister(player) => {
-			if (waiting.forall(_.name != player)) {
-				log.info("registered "+player)
-				waiting += Leaf(player)
-				RegisteredListSingleton ! player
-				ChatServer ! MessageFromAdmin("Player "+player+" registered.")
+		case TryRegister(info) => {
+			if (waiting.forall(_.name != info.nick)) {
+				log.info("registered "+info.nick)
+				waiting += Leaf(info.nick)
+				RegisteredListSingleton ! info.nick
+				ChatServer ! MessageFromAdmin("Player "+info.nick+" registered.")
 				WaitingSingleton ! waiting.toList
 			}
 		}

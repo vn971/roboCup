@@ -18,6 +18,7 @@ import code.comet.MessageFromAdmin
 import akka.actor.Props
 import ru.ya.vn91.robotour.ToZagram
 import ru.ya.vn91.robotour.AssignGame
+import ru.ya.vn91.robotour.PlayerInfo
 import code.comet.GlobalStatusSingleton
 import code.comet.status.CustomStatus
 
@@ -42,7 +43,7 @@ object Admin {
 
 	def register = SHtml.onSubmit(nick => {
 		log info "registered "+nick+"."
-		Core.core ! new TryRegister(nick)
+		Core.core ! new TryRegister(PlayerInfo(nick,"en",1200,0,0,0))
 		SetValById("playerRegistrator", "")
 	})
 

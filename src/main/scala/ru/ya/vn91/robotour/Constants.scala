@@ -23,6 +23,8 @@ object Constants {
 
 	val isKnockout = false
 
+	val rankLimit = Some(1400)
+
 	def timeLongToString(long: Long) = dateFormatter.format(new Date(long))
 	def timeStringToLong(s: String) = dateFormatter.parse(s).getTime
 

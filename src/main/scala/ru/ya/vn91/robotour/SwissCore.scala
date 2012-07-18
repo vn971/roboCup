@@ -41,10 +41,37 @@ class SwissCore extends RegistrationCore {
 				log.info("starting tournament")
 				if (registered.size % 2 != 0) {
 					// swiss tournament needs an even number of players
-					super.doRegister("Empty") // "Empty" is just a name
+					registered += "Empty"
+					scores += "Empty" -> 0
+					RegisteredListSingleton ! "Empty"
+					ChatServer ! MessageFromAdmin("Player Empty registered.")
+					playedGames += "Empty" -> ListBuffer[Game]()
+					totalRounds = log2(registered.size) + 2
 				}
 				startNewRound
 		}
+
+	override def register(playerInfo: PlayerInfo) = {
+		if (registered.contains(playerInfo.nick)) {
+			// already registered
+		} else if (rankLimit.get > playerInfo.rank) {
+			toZagram ! MessageToZagram(playerInfo.nick+", sorry, rank limit is "+rankLimit.get+". Not registered.")
+		} else {
+			if (rankLimit.isEmpty) {
+				scores += playerInfo.nick -> 0
+			} else {
+				scores += playerInfo.nick -> playerInfo.rank / 100
+			}
+			registered += playerInfo.nick
+			RegisteredListSingleton ! playerInfo.nick
+			ChatServer ! MessageFromAdmin("Player "+playerInfo.nick+" registered.")
+			playedGames += playerInfo.nick -> ListBuffer[Game]()
+			totalRounds = log2(registered.size) + 2
+			log.info("registered player: "+playerInfo.nick+". Total rounds now: "+totalRounds)
+			notifyGui
+		}
+
+	}
 
 	def notifyGui: Unit = {
 		val rows = scores.map { s =>
@@ -56,14 +83,6 @@ class SwissCore extends RegistrationCore {
 		}
 		val table = SwissTableData(totalRounds, rows.toList.sortBy(_.score).reverse)
 		SwissTableSingleton ! table
-	}
-
-	override def afterRegistration(player: String) = {
-		scores += player -> 0
-		playedGames += player -> ListBuffer[Game]()
-		totalRounds = log2(registered.size) + 2
-		log.info("registered player: "+player+". Total rounds now: "+totalRounds)
-		notifyGui
 	}
 
 	def gamesInProgress: Receive = {
@@ -117,11 +136,15 @@ class SwissCore extends RegistrationCore {
 			context.become(finished)
 			val winners = scores.groupBy(_._2).toList.sortBy(_._1).last._2.toList.map(_._1)
 			log.info("winners: "+winners)
-			GlobalStatusSingleton ! FinishedWithWinners(winners)
+			if (winners.size == 1)
+				GlobalStatusSingleton ! FinishedWithWinner(winners(0))
+			else
+				GlobalStatusSingleton ! FinishedWithWinners(winners)
 		} else {
 			log.info("waiting for next round now")
 			context.become(waitingForNextRound, true)
 			currentRound += 1
+			GlobalStatusSingleton ! WaitingForNextTour(System.currentTimeMillis + tourBrakeTime)
 			context.system.scheduler.scheduleOnce(tourBrakeTime milliseconds, self, StartNextRound)
 		}
 		notifyGui

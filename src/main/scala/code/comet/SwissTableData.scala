@@ -9,7 +9,7 @@ import GameResultEnumeration._
 
 case class SwissTableData(val numberOfTours: Int, val rows: List[Player])
 
-case class Player(val name: String, val games: List[Game], val score: Double = 0.0)
+case class Player(val name: String, val games: List[Game], val score: Int = 0)
 
 case class Game(val opponent: String, val result: GameResult)
 

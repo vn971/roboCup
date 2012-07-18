@@ -32,14 +32,16 @@ class SwissTableActor extends CometActor with CometListener {
 			case NotFinished => <font color="grey">{ shortenName(game.opponent) }</font>
 		}
 
-		def rowToHtml(player: Player) =
+		def rowToHtml(p: (Player, Int)) = {
+			val (player, index) = p
 			<tr>
-				<td>{ player.name }</td>
+				<td><b>{ index }</b></td>
+				<td><b>{ player.name }</b></td>
 				{ player.games.map(g => <td>{ gameToHtml(g) }</td>) }
 				{ (player.games.size until table.numberOfTours).map(i => <td>?</td>) }
-				<td>{ "%.0f" format player.score }</td>
+				<td>{ player.score }</td>
 			</tr>
-
-		"tr" #> table.rows.map(rowToHtml)
+		}
+		"tr" #> (table.rows zip (1 to table.rows.size)).map(rowToHtml)
 	}
 }

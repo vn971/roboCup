@@ -14,6 +14,8 @@ import scala.collection.JavaConversions._
 
 case class AssignGame(val first: String, val second: String, val round: Int = 0)
 
+case class MessageToZagram(val message: String)
+
 class ToZagram extends Actor {
 
 	val log = Logging(context.system, this)
@@ -23,8 +25,7 @@ class ToZagram extends Actor {
 	}
 
 	def receive = {
-		case toSend: String => {
-
+		case MessageToZagram(toSend) => {
 			log.info("sending message "+toSend)
 
 			{ // log in

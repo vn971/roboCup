@@ -28,8 +28,6 @@ trait RegistrationCore extends Actor {
 		val fromZagram = context.actorOf(Props[FromZagram], name = "fromZagram")
 	}
 
-	def afterRegistration(player: String): Unit
-
 	def receive = {
 		case StartRegistration(time) =>
 			log.info("StartRegistration")
@@ -48,18 +46,19 @@ trait RegistrationCore extends Actor {
 			GlobalStatusSingleton ! RegistrationInProgress(time + registrationLength)
 	}
 
-	def doRegister(nick: String) = {
-		log.info("registered "+nick)
-		registered += nick
-		RegisteredListSingleton ! nick
-		ChatServer ! MessageFromAdmin("Player "+nick+" registered.")
-		afterRegistration(nick)
+	def register(playerInfo: PlayerInfo) = {
+		if (!registered.contains(playerInfo.nick)) {
+			log.info("registered "+playerInfo.nick)
+			registered += playerInfo.nick
+			RegisteredListSingleton ! playerInfo.nick
+			ChatServer ! MessageFromAdmin("Player "+playerInfo.nick+" registered.")
+		}
 	}
 
 	def registrationInProgress: Receive = {
-		case TryRegister(nick) => if (!registered.contains(nick)) doRegister(nick)
-		// case StartTournament
+		case TryRegister(info) => if (!registered.contains(info.nick)) register(info)
 		// this Receive function is extended by extending classes
+		// (case StartTournament)
 	}
 
 }
