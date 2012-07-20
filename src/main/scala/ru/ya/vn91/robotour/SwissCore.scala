@@ -19,6 +19,7 @@ import code.comet.MessageFromAdmin
 
 class SwissCore extends RegistrationCore {
 
+	val emptyPlayer = "Empty"
 	val openGames = new GameSet()
 	val playedGames = collection.mutable.LinkedHashMap[String, ListBuffer[Game]]()
 	val scores = collection.mutable.LinkedHashMap[String, Int]()
@@ -41,12 +42,13 @@ class SwissCore extends RegistrationCore {
 				log.info("starting tournament")
 				if (registered.size % 2 != 0) {
 					// swiss tournament needs an even number of players
-					registered += "Empty"
-					scores += "Empty" -> 0
-					RegisteredListSingleton ! "Empty"
-					ChatServer ! MessageFromAdmin("Player Empty registered.")
-					playedGames += "Empty" -> ListBuffer[Game]()
-					totalRounds = log2(registered.size) + 2
+					register(PlayerInfo("Empty", "en", 1200, 0, 0, 0))
+					//					registered += "Empty"
+					//					scores += "Empty" -> 0
+					//					RegisteredListSingleton ! "Empty"
+					//					ChatServer ! MessageFromAdmin("Player Empty registered.")
+					//					playedGames += "Empty" -> ListBuffer[Game]()
+					//					totalRounds = log2(registered.size) + 2
 				}
 				startNewRound
 		}
@@ -54,13 +56,13 @@ class SwissCore extends RegistrationCore {
 	override def register(playerInfo: PlayerInfo) = {
 		if (registered.contains(playerInfo.nick)) {
 			// already registered
-		} else if (rankLimit.get > playerInfo.rank) {
-			toZagram ! MessageToZagram(playerInfo.nick+", sorry, rank limit is "+rankLimit.get+". Not registered.")
+		} else if (rankLimit > playerInfo.rank && playerInfo.nick != emptyPlayer) {
+			toZagram ! MessageToZagram(playerInfo.nick+", sorry, rank limit is "+rankLimit+". Not registered.")
 		} else {
-			if (rankLimit.isEmpty) {
-				scores += playerInfo.nick -> 0
-			} else {
+			if (importRankInSwiss && playerInfo.nick != emptyPlayer) {
 				scores += playerInfo.nick -> playerInfo.rank / 100
+			} else {
+				scores += playerInfo.nick -> 0
 			}
 			registered += playerInfo.nick
 			RegisteredListSingleton ! playerInfo.nick

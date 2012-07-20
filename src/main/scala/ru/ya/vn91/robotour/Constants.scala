@@ -8,7 +8,7 @@ object Constants {
 
 	val registrationLength = 1000L * 60 * 60 * 1
 
-	val secsPerTurn = 10
+	val secsPerTurn = 2
 
 	val tourBrakeTime = 1000L * 60 * secsPerTurn
 
@@ -23,7 +23,9 @@ object Constants {
 
 	val isKnockout = false
 
-	val rankLimit = Some(1400)
+	val rankLimit = 1400
+
+	val importRankInSwiss = true
 
 	def timeLongToString(long: Long) = dateFormatter.format(new Date(long))
 	def timeStringToLong(s: String) = dateFormatter.parse(s).getTime
