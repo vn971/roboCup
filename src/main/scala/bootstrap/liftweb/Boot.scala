@@ -106,12 +106,14 @@ class Boot {
 		}
 
 		def sitemap = SiteMap(
-			Menu.i("Rules").path("index"),
+			Menu.i("Main").path("index"),
 			Menu.i("Registration").path("register"),
-			Menu.i("Games").path(if (isKnockout) "knockout" else "swiss"),
+			Menu.i(tournamentName).path(if (isKnockout) "knockout" else "swiss"),
 			adminPage,
 			Menu.i("Chat").path("chat"),
-			Menu.i("Language").path("language") >> Hidden)
+			Menu.i("Language").path("language") >> Hidden,
+			Menu.i("About Swiss").path("aboutSwiss") >> Hidden,
+			Menu.i("About Knock-out").path("aboutKnockout") >> Hidden)
 
 		//				LiftRules.setSiteMapFunc(() => User.sitemapMutator(sitemap))
 		LiftRules.setSiteMap(sitemap)

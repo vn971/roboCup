@@ -63,7 +63,7 @@ class ToZagram extends Actor {
 				"&gameType="+zagramGameSettings+
 				"&pl1="+getServerEncoded(first)+
 				"&pl2="+getServerEncoded(second)+
-				"&sayHiTimes="+freeInviteTime+"."+freeInviteTime+
+				"&sayHiTimes="+timeWaitingOpponent+"."+timeWaitingOpponent+
 				"&tourn="+getServerEncoded(tournamentName)+
 				"&tRound=0"
 			val reply = Utils.getLinkContent(url)

@@ -6,14 +6,13 @@
         </layout>
     </appender>
 
-    <logger name="code.snippet" level="debug"/>
-    <logger name="code.api" level="debug"/>
-    <logger name="code.model" level="debug"/>
-    <logger name="code.comet" level="debug"/>
-    <logger name="code.lib" level="debug"/>
-    <logger name="ru.ya" level="debug"/>
+    <logger name="code.snippet" level="error"/>
+    <logger name="code.api" level="error"/>
+    <logger name="code.model" level="error"/>
+    <logger name="code.comet" level="error"/>
+    <logger name="code.lib" level="error"/>
 
-    <root level="info">
+    <root level="error">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>

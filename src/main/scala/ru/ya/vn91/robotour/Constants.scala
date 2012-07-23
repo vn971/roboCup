@@ -6,22 +6,30 @@ import java.util.TimeZone
 
 object Constants {
 
-	val registrationLength = 1000L * 60 * 60 * 1
+	// Имя турнира?
+	// Швейцарка? Импорт рейтов? Проходной рейт? Размер поля? Рейтовость? 
+	// Сек/ход? Время ожидания соперника на 1ый ход? 4скрест? 
+	// Начальное время? Время регистрации игроков?
+	// Швейцарка: количество доп.игр?
 
-	val secsPerTurn = 2
+	val registrationLength = 1000L * 60 * 60 * 2
+
+	val secsPerTurn = 10
 
 	val tourBrakeTime = 1000L * 60 * secsPerTurn
 
 	val gameTimeout = 1000L * secsPerTurn * 700
 
-	val zagramGameSettings = "3932noT1F0.60."+secsPerTurn
+	val zagramGameSettings = "3932noT4"+(if (assignRatedGames) "R" else "F")+"0.60."+secsPerTurn
 
-	val freeInviteTime = 180
-
-	val tournamentName = "RoboCup-X"
+	val tournamentName = """RoboCup XI"""
 	// check html templates also!
 
+	val timeWaitingOpponent = 180
+
 	val isKnockout = false
+
+	val assignRatedGames = false
 
 	val rankLimit = 1400
 

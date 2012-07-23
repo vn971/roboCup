@@ -18,8 +18,8 @@ object ChatIn {
 		log.info("chat received: "+s)
 		if (!s.matches("\\s*")) {
 			ChatServer ! MessageFromGuest(s.take(140))
-			SetValById("chat_in", "")
 		}
+		SetValById("chat_in", "")
 	})
 
 }

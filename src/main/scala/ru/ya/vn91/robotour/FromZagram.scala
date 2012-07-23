@@ -28,7 +28,7 @@ class FromZagram extends Actor {
 				"&wiad=x"
 			val text = getLinkContent(urlAsString)
 			log.debug("GET %s Result: %s".format(urlAsString, text))
-			for (line <- text.split("/")) {
+			for (line <- text.split("/").filter(_.length > 0)) {
 				val dotSplitted = line.substring(1).split("\\.")
 				if (line.startsWith("ca")) { // chat
 					try {

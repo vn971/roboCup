@@ -53,23 +53,25 @@ class SwissCore extends RegistrationCore {
 				startNewRound
 		}
 
-	override def register(playerInfo: PlayerInfo) = {
-		if (registered.contains(playerInfo.nick)) {
+	override def register(info: PlayerInfo) = {
+		if (registered.contains(info.nick)) {
 			// already registered
-		} else if (rankLimit > playerInfo.rank && playerInfo.nick != emptyPlayer) {
-			toZagram ! MessageToZagram(playerInfo.nick+", sorry, rank limit is "+rankLimit+". Not registered.")
+		} else if (rankLimit > info.rank && info.nick != emptyPlayer) {
+			toZagram ! MessageToZagram(info.nick+", sorry, rank limit is "+rankLimit+". Not registered.")
+		} else if (info.nick startsWith "*") {
+			toZagram ! MessageToZagram(info.nick+", to take a part in the tournament, please, use a registered account.")
 		} else {
-			if (importRankInSwiss && playerInfo.nick != emptyPlayer) {
-				scores += playerInfo.nick -> playerInfo.rank / 100
+			if (importRankInSwiss && info.nick != emptyPlayer) {
+				scores += info.nick -> info.rank / 100
 			} else {
-				scores += playerInfo.nick -> 0
+				scores += info.nick -> 0
 			}
-			registered += playerInfo.nick
-			RegisteredListSingleton ! playerInfo.nick
-			ChatServer ! MessageFromAdmin("Player "+playerInfo.nick+" registered.")
-			playedGames += playerInfo.nick -> ListBuffer[Game]()
+			registered += info.nick
+			RegisteredListSingleton ! info.nick
+			ChatServer ! MessageFromAdmin("Player "+info.nick+" registered.")
+			playedGames += info.nick -> ListBuffer[Game]()
 			totalRounds = log2(registered.size) + 2
-			log.info("registered player: "+playerInfo.nick+". Total rounds now: "+totalRounds)
+			log.info("registered player: "+info.nick+". Total rounds now: "+totalRounds)
 			notifyGui
 		}
 
@@ -98,7 +100,7 @@ class SwissCore extends RegistrationCore {
 				playedGames(looser) += Game(winner, Loss)
 
 				scores.put(winner, scores(winner) + winPrice)
-				scores.put(winner, scores(winner) + lossPrice)
+				scores.put(looser, scores(looser) + lossPrice)
 				if (openGames.size == 0) tryWaitForNextRound
 				else notifyGui
 			}

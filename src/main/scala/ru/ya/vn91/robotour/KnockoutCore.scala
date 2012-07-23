@@ -84,7 +84,9 @@ class KnockoutCore extends Actor {
 
 	def registration: Receive = {
 		case TryRegister(info) => {
-			if (waiting.forall(_.name != info.nick)) {
+			if (info.nick startsWith "*") {
+				toZagram ! MessageToZagram(info.nick+", to take a part in the tournament, please, use a registered account.")
+			} else if (waiting.forall(_.name != info.nick)) {
 				log.info("registered "+info.nick)
 				waiting += Leaf(info.nick)
 				RegisteredListSingleton ! info.nick

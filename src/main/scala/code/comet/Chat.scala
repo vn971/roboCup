@@ -5,32 +5,40 @@ import http._
 import util._
 import Helpers._
 import scala.xml.{ NodeSeq, Text }
+import ru.ya.vn91.robotour.Constants._
 
 class Chat extends CometActor with CometListener {
-	private var msgs: Vector[NodeSeq] = Vector[NodeSeq]()
+	private var msgs: Vector[(MessageToChatServer, Long)] = Vector[(MessageToChatServer, Long)]()
 
 	override def registerWith = ChatServer
 
 	override def lowPriority = {
-		//		case n: NodeSeq =>
-		//			if (msgs != null) {
-		//				msgs :+ n
-		//				// partialUpdate(?!)
-		//				reRender()
-		//			}
-		case v: Vector[_] => if (msgs != null) {
-			msgs = v.asInstanceOf[Vector[NodeSeq]]; reRender()
-		}
+		case v: Vector[_] =>
+			msgs = v.asInstanceOf[Vector[(MessageToChatServer, Long)]]; reRender()
 	}
 
 	def render = "li *" #> {
-		//		if (msgs != null)
-		msgs
-		//		else ""
+		//		println("render...")
+		//		println("msgs.size="+msgs.size)
+		msgs.map {
+			case (MessageFromGuest(message), t: Long) =>
+				val line: NodeSeq =
+					NodeSeq.fromSeq(Seq(
+						xml.Text(timeLongToString(t)),
+						<b> <font color="green">{ "local" } </font></b>,
+						xml.Text(S ? message)))
+				line
+			case (MessageFromAdmin(message), t: Long) =>
+				""
+				val line: NodeSeq =
+					NodeSeq.fromSeq(Seq(
+						xml.Text(timeLongToString(t)),
+						<b> <font color="red">{ "serv" } </font></b>,
+						xml.Text(S ? message)))
+				line
+			case _ => NodeSeq.Empty
+		}
+		//		println(S.locale)
+		//		<b>{ S ? "Chat"}</b>
 	}
-	//		if (msgs != null) {
-	//		"li *" #> msgs & ClearClearable
-	//	} else {
-	//		"" #> "" // "do nothing"
-	//	}
 }
