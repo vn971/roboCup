@@ -9,10 +9,6 @@ import sitemap._
 import Loc._
 import mapper._
 import ru.ya.vn91.robotour.KnockoutCore
-import java.util.Locale
-import net.liftweb.http.provider.HTTPRequest
-import net.liftweb.http.SessionVar
-import net.liftweb.http.provider.HTTPCookie
 import ru.ya.vn91.robotour.Core
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.Utils
@@ -43,59 +39,6 @@ class Boot {
 		// where to search snippet
 		LiftRules.addToPackages("code")
 
-		//		def allFrance: Box[HTTPRequest] => Locale = _ =>
-		//			java.util.Locale.FRANCE
-
-		//		object definedLocale extends SessionVar[Box[Locale]](Empty)
-
-		//		def customLocalizer: Box[HTTPRequest] => Locale = h => {
-		//			val hbox = h.get
-		////			println("httpReq: "+h)
-		//			print("inn.loc: "+hbox.locale+"|")
-		////			hbox.
-		//			LiftRules.defaultLocaleCalculator(h)
-		//			//			java.util.Locale.FRANCE
-		//		}
-		//
-		//		LiftRules.localeCalculator = customLocalizer
-
-		//		def localeCalculator(request: Box[HTTPRequest]): Locale = {
-		//			//			println(S)
-		//			//			println(request)
-		//
-		//			request.flatMap(r => {
-		//				def localeCookie(in: String): HTTPCookie =
-		//					HTTPCookie("cookie.locale", Full(in),
-		//						Full(S.hostName), Full(S.contextPath), Full(2629743), Empty, Empty)
-		//				def localeFromString(in: String): Locale = {
-		//					val x = in.split("_").toList; new Locale(x.head, x.last)
-		//				}
-		//				def calcLocale: Box[Locale] =
-		//					S.findCookie("cookie.locale").map(
-		//						_.value.map(localeFromString)).openOr(Full(LiftRules.defaultLocaleCalculator(request)))
-		//				//				println(S.param("locale"))
-		//				S.param("locale") match {
-		//					case Full(null) => calcLocale
-		//					case f @ Full(selectedLocale) =>
-		//						S.addCookie(localeCookie(selectedLocale))
-		//						tryo(localeFromString(selectedLocale))
-		//					case _ => calcLocale
-		//				}
-		//			}).openOr(Locale.getDefault())
-		//		}
-		//
-		//		LiftRules.localeCalculator = localeCalculator
-
-		//		LiftRules.localeCalculator = x =>{
-		//			val default = LiftRules.defaultLocaleCalculator(x)
-		//			if (default.getLanguage.contains("ua"))
-		//				new java.util.Locale("ru")
-		//			else
-		//				default
-		//		}
-
-		//		val loc = Loc("HomePage", "index" :: Nil, "Home Page")
-		//				val lp = LocParam
 
 		val adminPage = {
 			val adminPageAddr = sys.props.get("admin.page")

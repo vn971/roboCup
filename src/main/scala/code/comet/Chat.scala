@@ -26,7 +26,7 @@ class Chat extends CometActor with CometListener {
 					NodeSeq.fromSeq(Seq(
 						xml.Text(timeLongToString(t)),
 						<b> <font color="green">{ "local" } </font></b>,
-						xml.Text(S ? message)))
+						xml.Text(message)))
 				line
 			case (MessageFromAdmin(message), t: Long) =>
 				""
@@ -34,11 +34,9 @@ class Chat extends CometActor with CometListener {
 					NodeSeq.fromSeq(Seq(
 						xml.Text(timeLongToString(t)),
 						<b> <font color="red">{ "serv" } </font></b>,
-						xml.Text(S ? message)))
+						xml.Text(message)))
 				line
 			case _ => NodeSeq.Empty
 		}
-		//		println(S.locale)
-		//		<b>{ S ? "Chat"}</b>
 	}
 }
