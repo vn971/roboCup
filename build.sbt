@@ -3,6 +3,8 @@ name := "roboCup"
 
 version := "0.56"
 
+scalaVersion := "2.9.1"
+
 organization := "ru.ya.vn91.roboTour"
 
 description := "Automatic tournaments for the game Points"

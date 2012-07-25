@@ -20,7 +20,9 @@ object Constants {
 
 	val gameTimeout = 1000L * secsPerTurn * 700
 
-	val zagramGameSettings = "3932noT4"+(if (assignRatedGames) "R" else "F")+"0.60."+secsPerTurn
+	val fourCross = true
+
+	val zagramGameSettings = "3932noT"+(if (fourCross) "4" else "1")+(if (assignRatedGames) "R" else "F")+"0.60."+secsPerTurn
 
 	val tournamentName = """RoboCup XI"""
 	// check html templates also!
