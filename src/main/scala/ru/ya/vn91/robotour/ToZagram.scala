@@ -3,14 +3,11 @@ package ru.ya.vn91.robotour
 import akka.actor.Actor
 import akka.actor.Props
 import akka.event.Logging
-import java.io.InputStreamReader
-import scala.io.Source
 import java.net.URLEncoder
 import ru.ya.vn91.robotour.Utils._
 import Constants._
 import code.comet.GlobalStatusSingleton
 import code.comet.status.ErrorStatus
-import scala.collection.JavaConversions._
 
 case class AssignGame(val first: String, val second: String, val round: Int = 0)
 
