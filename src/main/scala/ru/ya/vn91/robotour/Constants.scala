@@ -7,10 +7,10 @@ import java.util.TimeZone
 object Constants {
 
 	// Имя турнира?
-	// Швейцарка? Импорт рейтов? Проходной рейт? Размер поля? Рейтовость? 
-	// Сек/ход? Время ожидания соперника на 1ый ход? 4скрест? 
+	// Дата?
+	// Швейцарка? Импорт рейтов? Проходной рейт? Размер поля? Рейтовость?
+	// Сек/ход? Время ожидания соперника на 1ый ход? 4скрест?
 	// Начальное время? Время регистрации игроков?
-	// Швейцарка: количество доп.игр?
 
 	val registrationLength = 1000L * 60 * 60 * 2
 
@@ -20,22 +20,22 @@ object Constants {
 
 	val gameTimeout = 1000L * secsPerTurn * 700
 
-	val fourCross = true
+	val fourCross = false
 
-	val zagramGameSettings = "3932noT"+(if (fourCross) "4" else "1")+(if (assignRatedGames) "R" else "F")+"0.60."+secsPerTurn
+	val zagramGameSettings = "3932noT"+(if (fourCross) "4" else "1") + (if (assignRatedGames) "R" else "F")+"0.60."+secsPerTurn
 
-	val tournamentName = """RoboCup XI"""
+	val tournamentName = """RoboCup XII"""
 	// check html templates also!
 
 	val timeWaitingOpponent = 180
 
 	val isKnockout = false
 
-	val assignRatedGames = false
+	val assignRatedGames = true
 
-	val rankLimit = 1400
+	val rankLimit = 1300
 
-	val importRankInSwiss = true
+	val importRankInSwiss = false
 
 	def timeLongToString(long: Long) = dateFormatter.format(new Date(long))
 	def timeStringToLong(s: String) = dateFormatter.parse(s).getTime

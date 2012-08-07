@@ -1,20 +1,17 @@
 package ru.ya.vn91.robotour
 
 import akka.actor.actorRef2Scala
-import akka.actor.Props
 import akka.util.duration.longToDurationLong
 import ru.ya.vn91.robotour.Constants._
 import scala.util.Random
 import scala.collection.mutable.ListBuffer
 import code.comet.{ Game, Player, SwissTableData }
 import code.comet.GameResultEnumeration._
-import code.comet.SwissTableData
 import code.comet.SwissTableSingleton
 import code.comet.GlobalStatusSingleton
 import code.comet.status._
 import code.comet.RegisteredListSingleton
 import code.comet.ChatServer
-import code.comet.MessageFromAdmin
 import code.comet.MessageFromAdmin
 
 class SwissCore extends RegistrationCore {
@@ -50,10 +47,10 @@ class SwissCore extends RegistrationCore {
 					//					playedGames += "Empty" -> ListBuffer[Game]()
 					//					totalRounds = log2(registered.size) + 2
 				}
-				startNewRound
+				startNewRound()
 		}
 
-	override def register(info: PlayerInfo) = {
+	override def register(info: PlayerInfo) {
 		if (registered.contains(info.nick)) {
 			// already registered
 		} else if (rankLimit > info.rank && info.nick != emptyPlayer) {
@@ -72,12 +69,12 @@ class SwissCore extends RegistrationCore {
 			playedGames += info.nick -> ListBuffer[Game]()
 			totalRounds = log2(registered.size) + 2
 			log.info("registered player: "+info.nick+". Total rounds now: "+totalRounds)
-			notifyGui
+			notifyGui()
 		}
 
 	}
 
-	def notifyGui: Unit = {
+	def notifyGui() {
 		val rows = scores.map { s =>
 			val opponent = openGames.getOpponent(s._1)
 			val opponentList = if (opponent.nonEmpty)
@@ -101,8 +98,8 @@ class SwissCore extends RegistrationCore {
 
 				scores.put(winner, scores(winner) + winPrice)
 				scores.put(looser, scores(looser) + lossPrice)
-				if (openGames.size == 0) tryWaitForNextRound
-				else notifyGui
+				if (openGames.size == 0) tryWaitForNextRound()
+				else notifyGui()
 			}
 		case GameDraw(first, second) =>
 			if (openGames.contains(first, second)) {
@@ -115,8 +112,8 @@ class SwissCore extends RegistrationCore {
 
 				scores.put(first, scores(first) + drawPrice)
 				scores.put(second, scores(second) + drawPrice)
-				if (openGames.size == 0) tryWaitForNextRound
-				else notifyGui
+				if (openGames.size == 0) tryWaitForNextRound()
+				else notifyGui()
 			}
 		case RoundTimeout(round) =>
 			if (round == currentRound) {
@@ -134,44 +131,48 @@ class SwissCore extends RegistrationCore {
 			}
 	}
 
-	def tryWaitForNextRound = if (openGames.size == 0) {
-		if (currentRound + 1 > totalRounds) {
-			log.info("tournament finished!")
-			context.become(finished)
-			val winners = scores.groupBy(_._2).toList.sortBy(_._1).last._2.toList.map(_._1)
-			log.info("winners: "+winners)
-			if (winners.size == 1)
-				GlobalStatusSingleton ! FinishedWithWinner(winners(0))
-			else
-				GlobalStatusSingleton ! FinishedWithWinners(winners)
-		} else {
-			log.info("waiting for next round now")
-			context.become(waitingForNextRound, true)
-			currentRound += 1
-			GlobalStatusSingleton ! WaitingForNextTour(System.currentTimeMillis + tourBrakeTime)
-			context.system.scheduler.scheduleOnce(tourBrakeTime milliseconds, self, StartNextRound)
+	def tryWaitForNextRound() {
+		if (openGames.size == 0) {
+			if (currentRound + 1 > totalRounds) {
+				log.info("tournament finished!")
+				context.become(finished)
+				val winners = scores.groupBy(_._2).toList.sortBy(_._1).last._2.toList.map(_._1)
+				log.info("winners: " + winners)
+				if (winners.size == 1)
+					GlobalStatusSingleton ! FinishedWithWinner(winners(0))
+				else
+					GlobalStatusSingleton ! FinishedWithWinners(winners)
+			} else {
+				log.info("waiting for next round now")
+				context.become(waitingForNextRound, discardOld = true)
+				currentRound += 1
+				GlobalStatusSingleton ! WaitingForNextTour(System.currentTimeMillis + tourBrakeTime)
+				context.system.scheduler.scheduleOnce(tourBrakeTime milliseconds, self, StartNextRound)
+			}
+			notifyGui()
 		}
-		notifyGui
 	}
 
 	def waitingForNextRound: Receive = {
-		case StartNextRound => startNewRound
+		case StartNextRound => startNewRound()
 	}
 
-	def startNewRound = if (openGames.size == 0) {
-		val sortedPlayers = scores.toList.sortBy(s => (s._2, Random.nextInt)).reverse
+	def startNewRound() {
+		if (openGames.size == 0) {
+			val sortedPlayers = scores.toList.sortBy(s => (s._2, Random.nextInt)).reverse
 
-		for (i <- 0.until(sortedPlayers.length, 2)) {
-			val first = sortedPlayers(i)._1
-			val second = sortedPlayers(i + 1)._1
-			log.info("assigning game "+first+"-"+second)
-			openGames += (first, second)
-			toZagram ! AssignGame(first, second)
+			for (i <- 0.until(sortedPlayers.length, 2)) {
+				val first = sortedPlayers(i)._1
+				val second = sortedPlayers(i + 1)._1
+				log.info("assigning game " + first + "-" + second)
+				openGames +=(first, second)
+				toZagram ! AssignGame(first, second)
+			}
+			context.become(gamesInProgress, discardOld = true)
+			context.system.scheduler.scheduleOnce(gameTimeout milliseconds, self, RoundTimeout(currentRound))
+			GlobalStatusSingleton ! GamePlaying(0)
+			notifyGui()
 		}
-		context.become(gamesInProgress, true)
-		context.system.scheduler.scheduleOnce(gameTimeout milliseconds, self, RoundTimeout(currentRound))
-		GlobalStatusSingleton ! GamePlaying(0)
-		notifyGui
 	}
 
 	def finished: Receive = { case _ => }
@@ -185,10 +186,10 @@ case class RoundTimeout(round: Int)
 class GameSet {
 	private val openGames = collection.mutable.LinkedHashSet[Opponents]()
 
-	def +=(b: String, a: String): Unit = {
+	def +=(b: String, a: String) {
 		openGames += (new Opponents(a, b))
 	}
-	def -=(b: String, a: String): Unit = {
+	def -=(b: String, a: String) {
 		openGames -= (new Opponents(a, b))
 	}
 	def size = openGames.size

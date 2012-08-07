@@ -13,6 +13,7 @@ lift_proto.db.*
 src/main/webapp/hidden2*
 rsync*
 
+/.idea/*
 *.jar
 *.class
 */.svn/*
