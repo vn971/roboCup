@@ -9,8 +9,6 @@ organization := "ru.ya.vn91.roboTour"
 
 description := "Automatic tournaments for the game Points"
 
-// libraryDependencies += "org.scalaquery" % "scalaquery_2.9.0-1" % "0.9.5"
-
 retrieveManaged := true
 
 scalacOptions ++= Seq("-deprecation","-unchecked")
@@ -56,3 +54,4 @@ libraryDependencies ++= Seq(
 	"junit" % "junit" % "4.7" % "test",
 	"com.typesafe.akka" % "akka-actor" % "2.0" % "compile->default"
 )
+

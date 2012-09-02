@@ -20,7 +20,7 @@ class Chat extends CometActor with CometListener {
 	def render = "li *" #> {
 		//		println("render...")
 		//		println("msgs.size="+msgs.size)
-		msgs.map {
+		val temp = msgs.map {
 			case (MessageFromGuest(message), t: Long) =>
 				val line: NodeSeq =
 					NodeSeq.fromSeq(Seq(
@@ -38,5 +38,6 @@ class Chat extends CometActor with CometListener {
 				line
 			case _ => NodeSeq.Empty
 		}
+		temp
 	}
 }

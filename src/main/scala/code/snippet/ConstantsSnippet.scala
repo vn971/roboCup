@@ -10,6 +10,8 @@ object ConstantsSnippet {
 
 	def secsPerTurn = "*" #> Constants.secsPerTurn.toString
 
+	def waitingNextTourMinutes = "*" #> Constants.secsPerTurn.toString
+
 	def gameTimeout = "*" #> {
 		val minutes = Constants.gameTimeout.toInt / 1000 / 60
 		""+(minutes / 60)+":"+(minutes % 60)
