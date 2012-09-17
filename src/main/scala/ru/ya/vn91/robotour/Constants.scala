@@ -14,7 +14,7 @@ object Constants {
 
 	val registrationLength = 1000L * 60 * 60 * 3
 
-	val secsPerTurn = 8
+	val secsPerTurn = 17
 
 	val tourBrakeTime = 1000L * 60 * secsPerTurn
 
@@ -22,14 +22,14 @@ object Constants {
 
 	val fourCross = false
 
-	val zagramGameSettings = "3030noT"+(if (fourCross) "4" else "1") + (if (assignRatedGames) "R" else "F")+"0.120."+secsPerTurn
+	val zagramGameSettings = "3030noT"+(if (fourCross) "4" else "1") + (if (assignRatedGames) "R" else "F")+"0.180."+secsPerTurn
 
-	val tournamentName = """RoboCup XIII"""
+	val tournamentName = """RoboCup XIV"""
 	// check html templates also!
 
-	val timeWaitingOpponent: Int = 120
+	val timeWaitingOpponent: Int = 60
 
-	val isKnockout = false
+	val isKnockout = true
 
 	val assignRatedGames = false
 

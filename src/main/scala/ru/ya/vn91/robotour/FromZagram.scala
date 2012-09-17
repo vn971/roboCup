@@ -38,7 +38,7 @@ class FromZagram extends Actor {
 							val nick = innerSplit(1)
 							val chatMessage = getServerDecoded(innerSplit(3))
 							//						ChatServer ! ChatMessage(chatMessage, time, "zagram", nick)
-							if (chatMessage.startsWith("!register")) {
+							if (chatMessage.startsWith("!register") || chatMessage.startsWith("!register")) {
 								playerSet.get(nick) match {
 									case None =>
 										log.info("tried to register, but error occured: "+nick)
@@ -64,9 +64,9 @@ class FromZagram extends Actor {
 						val second = gameSet(dotSplitted(0)).second
 						if (sgfResult startsWith "B+") {
 							context.parent ! GameWon(first, second)
-						} else if (sgfResult startsWith "W+") {
+						} else if ((sgfResult startsWith "W+") || (sgfResult == "Void")) {
 							context.parent ! GameWon(second, first)
-						} else if (sgfResult == "0" || sgfResult == "Void") {
+						} else if (sgfResult == "0") {
 							context.parent ! GameDraw(first, second)
 						} // else still playing
 					} else if (line startsWith "d") {
