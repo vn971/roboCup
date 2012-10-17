@@ -18,3 +18,14 @@ To use eclipse:
 
 Feel free to contact me.:)
 
+
+-----
+zagram activity by week day:
+mo 26398
+tu 27580
+we 26477
+th 25495
+fr 20055
+sa 20419
+su 25775
+

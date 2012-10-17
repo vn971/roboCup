@@ -12,11 +12,11 @@ object Constants {
 	// Сек/ход? Время ожидания соперника на 1ый ход? 4скрест?
 	// Начальное время? Время регистрации игроков?
 
-	val registrationLength = 1000L * 60 * 60 * 3
+	val registrationLength: Long = 1000L * 60 * 60 * 4
 
-	val secsPerTurn = 17
+	val secsPerTurn: Int = 10
 
-	val tourBrakeTime = 1000L * 60 * secsPerTurn
+	val tourBrakeTime: Long = 1000L * 60 * 6
 
 	val gameTimeout = 1000L * secsPerTurn * 500
 
@@ -24,7 +24,8 @@ object Constants {
 
 	val zagramGameSettings = "3030noT"+(if (fourCross) "4" else "1") + (if (assignRatedGames) "R" else "F")+"0.180."+secsPerTurn
 
-	val tournamentName = """RoboCup XIV"""
+	val organizatorName = "Vanya Geyko (Ваня Гейко)"
+	val tournamentName = """RoboCup XV GIP"""
 	// check html templates also!
 
 	val timeWaitingOpponent: Int = 60

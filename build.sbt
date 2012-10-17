@@ -23,6 +23,7 @@ scanDirectories in Compile := Nil
 resolvers ++= Seq(
   "Scala Tools Releases" at "http://scala-tools.org/repo-releases/",
 	"Java.net Maven2 Repository" at "http://download.java.net/maven/2/",
+	"Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/",
 	"Typesafe Snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",
 	"Jetty Eclipse" at "http://repo1.maven.org/maven2/"
 )
