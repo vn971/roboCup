@@ -9,7 +9,7 @@ import Constants._
 import code.comet.GlobalStatusSingleton
 import code.comet.status.ErrorStatus
 
-case class AssignGame(val first: String, val second: String, val round: Int = 0)
+case class AssignGame(val first: String, val second: String, val round: Int = 0, val sayHiTime: Int = timeWaitingOpponent)
 
 case class MessageToZagram(val message: String)
 
@@ -51,7 +51,7 @@ class ToZagram extends Actor {
 			}
 		}
 
-		case AssignGame(first, second, round) => {
+		case AssignGame(first, second, round, sayHiTime) => {
 			// http://zagram.org/a.kropki?co=setUpTable&key=yourKey&gameType=3030noT4r0.180.20&pl1=e&pl2=g&sayHiTimes=60.60&tourn=test&tRound=2%20%28playoff%29
 			log.info("assigning game: "+first+"-"+second)
 			val url = "http://zagram.org/a.kropki"+
@@ -60,7 +60,7 @@ class ToZagram extends Actor {
 				"&gameType="+zagramGameSettings+
 				"&pl1="+getServerEncoded(first)+
 				"&pl2="+getServerEncoded(second)+
-				"&sayHiTimes="+timeWaitingOpponent+"."+timeWaitingOpponent+
+				"&sayHiTimes="+sayHiTime+"."+sayHiTime+
 				"&tourn="+getServerEncoded(tournamentName)+
 				"&tRound=0"
 			val reply = Utils.getLinkContent(url)

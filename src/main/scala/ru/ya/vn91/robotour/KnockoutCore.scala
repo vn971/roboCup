@@ -156,18 +156,18 @@ class KnockoutCore extends Actor {
 	def receive = {
 		case StartRegistration(time) =>
 			log.info("registratin assigned.")
-			TimeStartSingleton ! time + registrationLength // timeAsString
+			TimeStartSingleton ! time + registrationMillis // timeAsString
 			if (System.currentTimeMillis < time) {
 				log.info("added suspended notify (registration start)")
 				context.system.scheduler.scheduleOnce(time - System.currentTimeMillis milliseconds, self, StartRegistration(time))
 				GlobalStatusSingleton ! RegistrationAssigned(time)
 			} else {
 				log info "registration started!"
-				context.system.scheduler.scheduleOnce(time + registrationLength - System.currentTimeMillis milliseconds, self, StartTheTournament)
+				context.system.scheduler.scheduleOnce(time + registrationMillis - System.currentTimeMillis milliseconds, self, StartTheTournament)
 				waiting.clear
 				playing.clear
 				knockedOut.clear
-				GlobalStatusSingleton ! RegistrationInProgress(time + registrationLength)
+				GlobalStatusSingleton ! RegistrationInProgress(time + registrationMillis)
 				context.become(registration, true)
 			}
 	}

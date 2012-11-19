@@ -30,7 +30,7 @@ object Admin {
 		try {
 			log.info("tournament time set ("+timeAsString+")")
 			val startTime = timeStringToLong(timeAsString)
-			val regTime = startTime - registrationLength
+			val regTime = startTime - registrationMillis
 			Core.core ! StartRegistration(regTime)
 			SetValById("timeSetter", "time set.")
 		} catch {

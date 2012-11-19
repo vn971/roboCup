@@ -27,14 +27,15 @@
 
 		<ul>
 
-			<li>System turniejowy: <a href="aboutSwiss" target="_blank">szwajcarski</a>.  (Visit the link to get the details.)</li>
+			<li>System turniejowy: <a href="aboutSwiss" target="_blank">szwajcarski</a>. (Kliknij na link żeby zobaczyć szczegóły.)</li>
 
 			<!-- 
-			<li>Zagram pass-through rating: 1400.</li>
-			 -->
-			<li>Minimalny ranking na zagram.org: any.</li>
+			<li>Zagram pass-through rating: 1400.  (any => jakikolwiek)</li>
 
-			<li>Zagram rating import is used: no.</li>
+			 -->
+			<li>Minimalny ranking na zagram.org: <span class="lift:ConstantsSnippet.rankLimit"></span>.</li>
+
+			<!-- <li>Zagram rating import is used: no.</li> -->
 
 			<!-- 
 			<li>Time between rounds (time to rest): <span
@@ -45,31 +46,33 @@
 
 			<!-- 
 			<li>Waiting opponent time: 3 minute/minutes.</li>
-			 -->
 			<li>Czas oczekiwania na przeciwnika: 2 minuty.</li>
+			 -->
 
 			<!-- 
-			<li>Starting time: 1 minute.</li>
+			<li>Starting time: 2 minutes.</li>
 			 -->
-			<li>Czas początkowy: 2 minutes.</li>
+			<li>Czas początkowy: <span class="lift:ConstantsSnippet.startingMinutes"></span> minutes.</li>
 
 			<!-- 
 			<li>Seconds per turn: 10.</li>
 			 -->
 			<li>Sekund na ruch: <span
-				class="lift:ConstantsSnippet.secsPerTurn">...loading...</span>.</li>
+				class="lift:ConstantsSnippet.secsPerTurn"></span>.</li>
 
 			<!-- 
-			<li>4-cross is used: yes.</li>
+			<li>4-cross is used: yes. (nie / tak)</li>
 			 -->
-			<li>Pozycja początkowa to 4X: nie.</li>
+			<li>Pozycja początkowa to 4X: <span class="lift:ConstantsSnippet.isFourCross"></span>.</li>
 
 			<!-- 
-			<li>Games are rated: no.</li>
+			<li>Games are rated: no. (nie / tak)</li>
 			 -->
-			<li>Gry są rankingowe: nie.</li>
+			<li>Gry są rankingowe: <span class="lift:ConstantsSnippet.isRated"></span>.</li>
 
-			<li>Organizator: Vasya Novikov (Вася Новиков).</li>
+			<li>Organizatorem turnieju jest <span
+				class="lift:constantsSnippet.organizatorName"></span>.
+			</li>
 
 		</ul>
 

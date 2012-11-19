@@ -12,6 +12,7 @@ import akka.event.Logging
 import ru.ya.vn91.robotour.Constants._
 import code.comet.GlobalStatusSingleton
 import code.comet.status._
+import code.comet.TimeStartSingleton
 
 private object StartTheTournament
 private case class StartRegistrationReally(val time: Long)
@@ -34,6 +35,7 @@ trait RegistrationCore extends Actor {
 			context.become(registartionAssigned, true)
 			context.system.scheduler.scheduleOnce(time - System.currentTimeMillis milliseconds, self, StartRegistrationReally(time))
 			GlobalStatusSingleton ! RegistrationAssigned(time)
+			TimeStartSingleton ! time + registrationMillis // timeAsString
 	}
 
 	def registartionAssigned: Receive = {
@@ -41,9 +43,10 @@ trait RegistrationCore extends Actor {
 			log.info("registrationStartedReally")
 			context.become(registrationInProgress)
 
-			context.system.scheduler.scheduleOnce(time + registrationLength - System.currentTimeMillis milliseconds, self, StartTheTournament)
+			context.system.scheduler.scheduleOnce(time + registrationMillis - System.currentTimeMillis milliseconds, self, StartTheTournament)
 
-			GlobalStatusSingleton ! RegistrationInProgress(time + registrationLength)
+			toZagram ! AssignGame("RoboCup", organizatorNickname, sayHiTime = 7000)
+			GlobalStatusSingleton ! RegistrationInProgress(time + registrationMillis)
 	}
 
 	def register(playerInfo: PlayerInfo) = {

@@ -12,5 +12,5 @@ class TimeStart extends CometActor with CometListener {
 	override def lowPriority = {
 		case newTime: Long => time = newTime; reRender()
 	}
-	def render = "*" #> (if (time > 0) timeLongToString(time - registrationLength) else "undefined yet")
+	def render = "*" #> (if (time > 0) timeLongToString(time - registrationMillis) else "undefined yet")
 }
