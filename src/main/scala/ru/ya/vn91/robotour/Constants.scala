@@ -26,7 +26,7 @@ object Constants {
 
 	val isFourCross = false
 
-	val zagramGameSettings = "3932noT"+(if (isFourCross) "4" else "1") +
+	def zagramGameSettings = "3932noT"+(if (isFourCross) "4" else "1") +
 		(if (isRated) "R" else "F")+
 		"0."+(startingMinutes * 60)+"."+secsPerTurn
 
@@ -36,7 +36,7 @@ object Constants {
 	// check html templates also!
 
 	val timeWaitingOpponent: Int = 60
-	val startingMinutes: Int = 10
+	val startingMinutes: Int = 5
 
 	val isKnockout = false
 

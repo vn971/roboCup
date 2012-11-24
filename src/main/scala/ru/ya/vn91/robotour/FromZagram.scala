@@ -38,7 +38,10 @@ class FromZagram extends Actor {
 							val nick = innerSplit(1)
 							val chatMessage = getServerDecoded(innerSplit(3))
 							//						ChatServer ! ChatMessage(chatMessage, time, "zagram", nick)
-							if (chatMessage.startsWith("!register") || chatMessage.startsWith("!register")) {
+							if (
+									chatMessage.startsWith("!register") || 
+									chatMessage.startsWith("!register") || 
+									chatMessage.startsWith("!register")) {
 								playerSet.get(nick) match {
 									case None =>
 										log.info("tried to register, but error occured: "+nick)

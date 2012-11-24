@@ -5,11 +5,10 @@ import akka.actor.Props
 import akka.event.Logging
 import java.net.URLEncoder
 import ru.ya.vn91.robotour.Utils._
-import Constants._
 import code.comet.GlobalStatusSingleton
 import code.comet.status.ErrorStatus
 
-case class AssignGame(val first: String, val second: String, val round: Int = 0, val sayHiTime: Int = timeWaitingOpponent)
+case class AssignGame(val first: String, val second: String, val round: Int = 0, val sayHiTime: Int = Constants.timeWaitingOpponent)
 
 case class MessageToZagram(val message: String)
 
@@ -57,11 +56,11 @@ class ToZagram extends Actor {
 			val url = "http://zagram.org/a.kropki"+
 				"?co=setUpTable"+
 				"&key="+ToZagram.assignGamePassword+
-				"&gameType="+zagramGameSettings+
+				"&gameType="+Constants.zagramGameSettings+
 				"&pl1="+getServerEncoded(first)+
 				"&pl2="+getServerEncoded(second)+
 				"&sayHiTimes="+sayHiTime+"."+sayHiTime+
-				"&tourn="+getServerEncoded(tournamentName)+
+				"&tourn="+getServerEncoded(Constants.tournamentName)+
 				"&tRound=0"
 			val reply = Utils.getLinkContent(url)
 			log.info("url: "+url)
