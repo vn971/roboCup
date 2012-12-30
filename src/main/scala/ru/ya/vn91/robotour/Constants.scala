@@ -8,7 +8,7 @@ import java.util.TimeZone
  */
 object Constants {
 
-	// Имя турнира?
+	// Имя турнира? Например, RoboCup XVII "все возраста". Можно отдельные имена на русском, англ и польском.
 	// Дата?
 	// Швейцарка? Импорт рейтов? Проходной рейт? Размер поля? Рейтовость?
 	// Сек/ход? 4скрест? Время регистрации игроков (в часах) ?
@@ -18,9 +18,9 @@ object Constants {
 	val registrationHours: Long = 4
 	val registrationMillis: Long = 1000L * 60 * 60 * registrationHours
 
-	val secsPerTurn: Int = 4
+	val secsPerTurn: Int = 7
 
-	val tourBrakeTime: Long = 1000L * 60 * 3
+	val tourBrakeTime: Long = 1000L * 60 * 5
 
 	val gameTimeout = 1000L * secsPerTurn * 600
 
@@ -30,13 +30,13 @@ object Constants {
 		(if (isRated) "R" else "F")+
 		"0."+(startingMinutes * 60)+"."+secsPerTurn
 
-	val organizatorNickname = "Вася Новиков" // a "chat" room will be created with this nickname
-	val organizatorName = "Vasya Novikov (Вася Новиков)"
-	val tournamentName = "RoboCup XVII"
+	val organizatorNickname = "agent47" // a "chat" room will be created with this nickname
+	val organizatorName = "Oleg Anokhin (agent47)"
+	val tournamentName = "RoboCup XVIII New Year"
 	// check html templates also!
 
-	val timeWaitingOpponent: Int = 60
-	val startingMinutes: Int = 5
+	val timeWaitingOpponent: Int = 180
+	val startingMinutes: Int = 2
 
 	val isKnockout = false
 
