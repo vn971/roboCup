@@ -7,28 +7,30 @@ import Utils._
 import code.comet.ChatServer
 import java.text.SimpleDateFormat
 import java.util.TimeZone
+import net.liftweb.common.Loggable
 
 case class GameInfo(val first: String, val second: String)
 case class PlayerInfo(val nick: String, val language: String, val rank: Int, val wins: Int, val losses: Int, val draws: Int)
 
-class FromZagram extends Actor {
+class FromZagram extends Actor with Loggable {
 
-	val log = Logging(context.system, this)
+//	val logForAkka = Logging(context.system, this)
 	val gameSet = collection.mutable.HashMap[String, GameInfo]()
 	val playerSet = collection.mutable.HashMap[String, PlayerInfo]()
 
 	override def preStart() = {
-		log.debug("inited")
+		logger.debug("inited")
 		var messageCount = 0L
 		while (true) {
 			try {
+				Thread.sleep(5000L)
 				val urlAsString = "http://zagram.org/a.kropki"+
 					"?idGracza=robot"+
 					"&co=getMsg"+
 					"&msgNo="+messageCount+
 					"&wiad=x"
 				val text = getLinkContent(urlAsString)
-				log.debug("GET %s Result: %s".format(urlAsString, text))
+				logger.debug("GET %s Result: %s".format(urlAsString, text))
 				for (line <- text.split("/").filter(_.length > 0)) {
 					val dotSplitted = line.substring(1).split("\\.")
 					if (line.startsWith("ca")) { // chat
@@ -44,22 +46,22 @@ class FromZagram extends Actor {
 									chatMessage.startsWith("!register")) {
 								playerSet.get(nick) match {
 									case None =>
-										log.info("tried to register, but error occured: "+nick)
+										logger.info("tried to register, but error occured: "+nick)
 										context.parent ! MessageToZagram("Sorry, cound not find zagram rank for "+nick)
 									case Some(info) =>
-										log.info("tried to register: "+nick)
+										logger.info("tried to register: "+nick)
 										context.parent ! TryRegister(info)
 								}
 							}
 						} catch {
-							case e: Exception => log.error(e.toString)
+							case e: Exception => logger.error(e.toString)
 						}
 					} else if (line.startsWith("m")) { // message count
 						try {
 							messageCount = line.split("\\.")(1).toLong
 						} catch {
-							case e: NumberFormatException => log.error(e.toString)
-							case e: ArrayIndexOutOfBoundsException => log.error(e.toString)
+							case e: NumberFormatException => logger.error(e.toString)
+							case e: ArrayIndexOutOfBoundsException => logger.error(e.toString)
 						}
 					} else if (line startsWith "x") { // game state info
 						val sgfResult = dotSplitted(2)
@@ -88,15 +90,14 @@ class FromZagram extends Actor {
 						playerSet += player -> PlayerInfo(player, language, rating, wins, losses, draws)
 					}
 				}
-				Thread.sleep(5000L)
 			} catch {
-				case e: Exception => log.error(e.toString)
+				case e: Exception => logger.error(e.toString)
 			}
 		}
 	}
 
 	def receive = {
-		case _ => log.error("zagram reader received something!")
+		case _ => logger.error("zagram reader received something!")
 	}
 
 }

@@ -45,10 +45,10 @@ libraryDependencies ++= {
 	// "org.eclipse.jetty" % "jetty-webapp" % "8.1.0.v20120127" % "container",
 	// "org.eclipse.jetty" % "jetty-webapp" % "7.6.2.v20120308" % "container", // Does not work
 	// "org.mortbay.jetty" % "jetty" % "6.1.26" % "container",
-	// "ch.qos.logback" % "logback-classic" % "0.9.26",
 	// "com.h2database" % "h2" % "1.2.147"
 
 libraryDependencies ++= Seq(
+  "ch.qos.logback" % "logback-classic" % "0.9.26",
 	"org.eclipse.jetty" % "jetty-webapp" % "7.5.4.v20111024" % "container",
 	"org.mortbay.jetty" % "jetty" % "6.1.26" % "test",
 	"org.scala-tools.testing" %% "specs" % "1.6.9" % "test",

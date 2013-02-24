@@ -13,13 +13,14 @@ import ru.ya.vn91.robotour.Constants._
 import code.comet.GlobalStatusSingleton
 import code.comet.status._
 import code.comet.TimeStartSingleton
+import net.liftweb.common.Loggable
 
 private object StartTheTournament
 private case class StartRegistrationReally(val time: Long)
 
-trait RegistrationCore extends Actor {
+trait RegistrationCore extends Actor with Loggable {
 
-	val log = Logging(context.system, RegistrationCore.this)
+//	val logForAkka = Logging(context.system, RegistrationCore.this)
 
 	val toZagram = context.actorOf(Props[ToZagram], name = "toZagram")
 
@@ -31,7 +32,7 @@ trait RegistrationCore extends Actor {
 
 	def receive = {
 		case StartRegistration(time) =>
-			log.info("StartRegistration")
+			logger.info("StartRegistration")
 			context.become(registartionAssigned, true)
 			context.system.scheduler.scheduleOnce(time - System.currentTimeMillis milliseconds, self, StartRegistrationReally(time))
 			GlobalStatusSingleton ! RegistrationAssigned(time)
@@ -40,7 +41,7 @@ trait RegistrationCore extends Actor {
 
 	def registartionAssigned: Receive = {
 		case StartRegistrationReally(time) =>
-			log.info("registrationStartedReally")
+			logger.info("registrationStartedReally")
 			context.become(registrationInProgress)
 
 			context.system.scheduler.scheduleOnce(time + registrationMillis - System.currentTimeMillis milliseconds, self, StartTheTournament)
@@ -51,7 +52,7 @@ trait RegistrationCore extends Actor {
 
 	def register(playerInfo: PlayerInfo) = {
 		if (!registered.contains(playerInfo.nick)) {
-			log.info("registered "+playerInfo.nick)
+			logger.info("registered "+playerInfo.nick)
 			registered += playerInfo.nick
 			RegisteredListSingleton ! playerInfo.nick
 			ChatServer ! MessageFromAdmin("Player "+playerInfo.nick+" registered.")

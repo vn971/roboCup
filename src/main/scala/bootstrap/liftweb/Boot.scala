@@ -10,35 +10,18 @@ import Loc._
 import mapper._
 import ru.ya.vn91.robotour.KnockoutCore
 import ru.ya.vn91.robotour.Core
+import ru.ya.vn91.robotour.Constants
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.Utils
 
 /** A class that's instantiated early and run.  It allows the application
  *  to modify lift's environment
  */
-class Boot {
+class Boot extends Loggable {
 	def boot {
-		//		if (!DB.jndiJdbcConnAvailable_?) {
-		//			val vendor =
-		//				new StandardDBVendor(Props.get("db.driver") openOr "org.h2.Driver",
-		//					Props.get("db.url") openOr
-		//						"jdbc:h2:lift_proto.db;AUTO_SERVER=TRUE",
-		//					//						"jdbc:h2:tcp://localhost//data/data/dev/scala/roboCup/lift_proto.db",
-		//					Props.get("db.user"), Props.get("db.password"))
-		//
-		//			LiftRules.unloadHooks.append(vendor.closeAllConnections_! _)
-		//
-		//			DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
-		//		}
-
-		// Use Lift's Mapper ORM to populate the database
-		// you don't need to use Mapper to use Lift... use
-		// any ORM you want
-		//		Schemifier.schemify(true, Schemifier.infoF _, User)
 
 		// where to search snippet
 		LiftRules.addToPackages("code")
-
 
 		val adminPage = {
 			val adminPageAddr = sys.props.get("admin.page")

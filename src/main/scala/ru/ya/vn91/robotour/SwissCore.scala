@@ -36,7 +36,7 @@ class SwissCore extends RegistrationCore {
 	override def registrationInProgress =
 		super.registrationInProgress.orElse {
 			case StartTheTournament =>
-				log.info("starting tournament")
+				logger.info("starting tournament. Number of registered players: "+registered.size)
 				if (registered.size % 2 != 0) {
 					// swiss tournament needs an even number of players
 					register(PlayerInfo("Empty", "en", 1200, 0, 0, 0))
@@ -68,7 +68,7 @@ class SwissCore extends RegistrationCore {
 			ChatServer ! MessageFromAdmin("Player "+info.nick+" registered.")
 			playedGames += info.nick -> ListBuffer[Game]()
 			totalRounds = log2(registered.size) + 2
-			log.info("registered player: "+info.nick+". Total rounds now: "+totalRounds)
+			logger.info("registered player: "+info.nick+". Total rounds now: "+totalRounds)
 			notifyGui()
 		}
 
@@ -89,7 +89,7 @@ class SwissCore extends RegistrationCore {
 	def gamesInProgress: Receive = {
 		case GameWon(winner, looser) =>
 			if (openGames.contains(winner, looser)) {
-				log.info("gameWon "+winner+" > "+looser)
+				logger.info("gameWon "+winner+" > "+looser)
 				ChatServer ! MessageFromAdmin(winner+" won a game against "+looser)
 
 				openGames -= (winner, looser)
@@ -103,7 +103,7 @@ class SwissCore extends RegistrationCore {
 			}
 		case GameDraw(first, second) =>
 			if (openGames.contains(first, second)) {
-				log.info("gameDraw "+first+" = "+second)
+				logger.info("gameDraw "+first+" = "+second)
 				ChatServer ! MessageFromAdmin("game "+first+" - "+second+" ended with draw")
 
 				openGames -= (first, second)
@@ -134,16 +134,16 @@ class SwissCore extends RegistrationCore {
 	def tryWaitForNextRound() {
 		if (openGames.size == 0) {
 			if (currentRound + 1 > totalRounds) {
-				log.info("tournament finished!")
+				logger.info("tournament finished!")
 				context.become(finished)
 				val winners = scores.groupBy(_._2).toList.sortBy(_._1).last._2.toList.map(_._1)
-				log.info("winners: " + winners)
+				logger.info("winners: " + winners)
 				if (winners.size == 1)
 					GlobalStatusSingleton ! FinishedWithWinner(winners(0))
 				else
 					GlobalStatusSingleton ! FinishedWithWinners(winners)
 			} else {
-				log.info("waiting for next round now")
+				logger.info("waiting for next round now")
 				context.become(waitingForNextRound, discardOld = true)
 				currentRound += 1
 				GlobalStatusSingleton ! WaitingForNextTour(System.currentTimeMillis + tourBrakeTime)
@@ -164,7 +164,7 @@ class SwissCore extends RegistrationCore {
 			for (i <- 0.until(sortedPlayers.length, 2)) {
 				val first = sortedPlayers(i)._1
 				val second = sortedPlayers(i + 1)._1
-				log.info("assigning game " + first + "-" + second)
+				logger.info("assigning game " + first + "-" + second)
 				openGames +=(first, second)
 				toZagram ! AssignGame(first, second)
 			}
