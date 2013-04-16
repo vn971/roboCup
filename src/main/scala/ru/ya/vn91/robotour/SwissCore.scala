@@ -1,18 +1,19 @@
 package ru.ya.vn91.robotour
 
-import akka.actor.actorRef2Scala
-import akka.util.duration.longToDurationLong
-import ru.ya.vn91.robotour.Constants._
-import scala.util.Random
-import scala.collection.mutable.ListBuffer
-import code.comet.{ Game, Player, SwissTableData }
-import code.comet.GameResultEnumeration._
-import code.comet.SwissTableSingleton
-import code.comet.GlobalStatusSingleton
-import code.comet.status._
-import code.comet.RegisteredListSingleton
 import code.comet.ChatServer
+import code.comet.GameResultEnumeration._
+import code.comet.GlobalStatusSingleton
 import code.comet.MessageFromAdmin
+import code.comet.RegisteredListSingleton
+import code.comet.SwissTableSingleton
+import code.comet.status._
+import code.comet.{ Game, Player, SwissTableData }
+import ru.ya.vn91.robotour.Constants._
+import scala.collection.mutable.ListBuffer
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
+import scala.util.Random
+
 
 class SwissCore extends RegistrationCore {
 
@@ -54,9 +55,13 @@ class SwissCore extends RegistrationCore {
 		if (registered.contains(info.nick)) {
 			// already registered
 		} else if (rankLimit > info.rank && info.nick != emptyPlayer) {
-			toZagram ! MessageToZagram(info.nick+", sorry, rank limit is "+rankLimit+". Not registered.")
+			toZagram ! MessageToZagram(info.nick +
+					", sorry, rank limit is " + rankLimit +
+					". Not registered.")
 		} else if (info.nick startsWith "*") {
-			toZagram ! MessageToZagram(info.nick+", to take a part in the tournament, please, use a registered account.")
+			toZagram ! MessageToZagram(info.nick +
+					", to take a part in the tournament, " +
+					"please, use a registered account.")
 		} else {
 			if (importRankInSwiss && info.nick != emptyPlayer) {
 				scores += info.nick -> info.rank / 100
@@ -147,7 +152,7 @@ class SwissCore extends RegistrationCore {
 				context.become(waitingForNextRound, discardOld = true)
 				currentRound += 1
 				GlobalStatusSingleton ! WaitingForNextTour(System.currentTimeMillis + tourBrakeTime)
-				context.system.scheduler.scheduleOnce(tourBrakeTime milliseconds, self, StartNextRound)
+				context.system.scheduler.scheduleOnce(tourBrakeTime.milliseconds, self, StartNextRound)
 			}
 			notifyGui()
 		}
@@ -159,7 +164,7 @@ class SwissCore extends RegistrationCore {
 
 	def startNewRound() {
 		if (openGames.size == 0) {
-			val sortedPlayers = scores.toList.sortBy(s => (s._2, Random.nextInt)).reverse
+			val sortedPlayers = scores.toList.sortBy(s => (s._2, Random.nextInt())).reverse
 
 			for (i <- 0.until(sortedPlayers.length, 2)) {
 				val first = sortedPlayers(i)._1
@@ -168,8 +173,9 @@ class SwissCore extends RegistrationCore {
 				openGames +=(first, second)
 				toZagram ! AssignGame(first, second)
 			}
+
 			context.become(gamesInProgress, discardOld = true)
-			context.system.scheduler.scheduleOnce(gameTimeout milliseconds, self, RoundTimeout(currentRound))
+			context.system.scheduler.scheduleOnce(gameTimeout.milliseconds, self, RoundTimeout(currentRound))
 			GlobalStatusSingleton ! GamePlaying(0)
 			notifyGui()
 		}

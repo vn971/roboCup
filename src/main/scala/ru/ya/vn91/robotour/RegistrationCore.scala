@@ -2,39 +2,37 @@ package ru.ya.vn91.robotour
 
 import akka.actor.Actor
 import akka.actor.Props
-import akka.util.duration._
-import scala.collection.mutable.LinkedHashSet
-import code.comet.RegisteredListSingleton
 import code.comet.ChatServer
-import code.comet.MessageFromAdmin
-import code.comet.WaitingSingleton
-import akka.event.Logging
-import ru.ya.vn91.robotour.Constants._
 import code.comet.GlobalStatusSingleton
-import code.comet.status._
+import code.comet.MessageFromAdmin
+import code.comet.RegisteredListSingleton
 import code.comet.TimeStartSingleton
+import code.comet.status._
 import net.liftweb.common.Loggable
+import ru.ya.vn91.robotour.Constants._
+import scala.collection.mutable
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration._
+
 
 private object StartTheTournament
-private case class StartRegistrationReally(val time: Long)
+private case class StartRegistrationReally(time: Long)
 
 trait RegistrationCore extends Actor with Loggable {
 
-//	val logForAkka = Logging(context.system, RegistrationCore.this)
-
 	val toZagram = context.actorOf(Props[ToZagram], name = "toZagram")
 
-	val registered = LinkedHashSet[String]()
+	val registered = mutable.LinkedHashSet[String]()
 
-	override def preStart() = {
-		val fromZagram = context.actorOf(Props[FromZagram], name = "fromZagram")
+	override def preStart() {
+		context.actorOf(Props[FromZagram], name = "fromZagram")
 	}
 
 	def receive = {
 		case StartRegistration(time) =>
 			logger.info("StartRegistration")
-			context.become(registartionAssigned, true)
-			context.system.scheduler.scheduleOnce(time - System.currentTimeMillis milliseconds, self, StartRegistrationReally(time))
+			context.become(registartionAssigned, discardOld = true)
+			context.system.scheduler.scheduleOnce((time - System.currentTimeMillis).millis, self, StartRegistrationReally(time))
 			GlobalStatusSingleton ! RegistrationAssigned(time)
 			TimeStartSingleton ! time + registrationMillis // timeAsString
 	}
@@ -44,13 +42,13 @@ trait RegistrationCore extends Actor with Loggable {
 			logger.info("registrationStartedReally")
 			context.become(registrationInProgress)
 
-			context.system.scheduler.scheduleOnce(time + registrationMillis - System.currentTimeMillis milliseconds, self, StartTheTournament)
+			context.system.scheduler.scheduleOnce((time + registrationMillis - System.currentTimeMillis).millis, self, StartTheTournament)
 
 			toZagram ! AssignGame("RoboCup", organizatorNickname, sayHiTime = 7000)
 			GlobalStatusSingleton ! RegistrationInProgress(time + registrationMillis)
 	}
 
-	def register(playerInfo: PlayerInfo) = {
+	def register(playerInfo: PlayerInfo) {
 		if (!registered.contains(playerInfo.nick)) {
 			logger.info("registered "+playerInfo.nick)
 			registered += playerInfo.nick
