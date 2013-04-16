@@ -30,7 +30,7 @@ object ConstantsSnippet {
 	def timeInMoscow: NodeSeq = Constants.timeLongToHours(System.currentTimeMillis)
 
 	def robocupNumber: NodeSeq = Constants.tournamentName
-	def organizatorName: NodeSeq = Constants.organizerName
+	def organizatorName: NodeSeq = S ? Constants.organizerName
 
 	def isFourCross: NodeSeq = if (Constants.isFourCross) S ? "yes" else S ? "no"
 	def isRated: NodeSeq = if (Constants.isRated) S ? "yes" else S ? "no"

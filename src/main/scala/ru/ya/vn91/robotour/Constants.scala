@@ -15,7 +15,7 @@ object Constants {
 	// Перерыв между партиями (в минутах) ?
 	// Имя организатора (например, Vasya Novikov (Вася Новиков), Oleg Anokhin (agent47)) ?
 
-	val registrationHours: Long = 4
+	val registrationHours: Long = 3
 	val registrationMillis: Long = 1000L * 60 * 60 * registrationHours
 
 	val secsPerTurn: Int = 12
@@ -32,11 +32,10 @@ object Constants {
 
 	val organizerNickname = "Вася Новиков" // a "chat" room will be created with this nickname
 	val organizerName = "Вася Новиков"
-	val tournamentName = "RoboCup XIX league-start"
-	// check html templates also!
+	val tournamentName = "RoboCup XIX league-start" // check resources(localizations)
 
-	val timeWaitingOpponent: Int = 180
-	val startingMinutes: Int = 2
+	val timeWaitingOpponent: Int = 60
+	val startingMinutes: Int = 5
 
 	val isKnockout = false
 
