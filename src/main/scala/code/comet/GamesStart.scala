@@ -2,9 +2,8 @@ package code
 package comet
 
 import net.liftweb.http._
-import java.util.Date
 import ru.ya.vn91.robotour.Constants._
-import ru.ya.vn91.robotour.Constants
+import scala.xml._
 
 class GamesStart extends CometActor with CometListener {
 	private var time = 0L
@@ -12,5 +11,5 @@ class GamesStart extends CometActor with CometListener {
 	override def lowPriority = {
 		case newTime: Long => time = newTime; reRender()
 	}
-	def render = "*" #> (if (time > 0) timeLongToString(time) else "undefined yet")
+	def render = Text(if (time > 0) timeLongToString(time) else "undefined yet")
 }

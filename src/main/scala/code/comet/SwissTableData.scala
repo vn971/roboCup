@@ -5,11 +5,11 @@ object GameResultEnumeration extends Enumeration {
 	val Win, Loss, Draw, NotFinished = Value
 }
 
-import GameResultEnumeration._
+import code.comet.GameResultEnumeration._
 
-case class SwissTableData(val numberOfTours: Int, val rows: List[Player])
+case class SwissTableData(numberOfTours: Int, rows: List[Player])
 
-case class Player(val name: String, val games: List[Game], val score: Int = 0)
+case class Player(name: String, games: List[Game], score: Int = 0)
 
-case class Game(val opponent: String, val result: GameResult)
+case class Game(opponent: String, result: GameResult)
 

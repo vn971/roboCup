@@ -3,7 +3,7 @@ package snippet
 
 import akka.actor.Props
 import code.comet.GlobalStatusSingleton
-import code.comet.status.CustomStatus
+import code.comet.TournamentStatus._
 import net.liftweb.common.Logger
 import net.liftweb.http._
 import net.liftweb.http.js.JsCmds._

@@ -2,7 +2,6 @@ package code.comet
 
 import net.liftweb.http.CometActor
 import net.liftweb.http.CometListener
-import net.liftweb.util.IterableConst.itNodeSeq
 import ru.ya.vn91.robotour.GameNode
 import scala.xml.NodeSeq
 

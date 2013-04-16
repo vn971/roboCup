@@ -1,10 +1,8 @@
 package code.comet
 
-import net.liftweb.http._
+import code.comet.TournamentStatus._
 import net.liftweb.actor._
-import java.text.SimpleDateFormat
-import java.util.TimeZone
-import code.comet.status._
+import net.liftweb.http._
 import ru.ya.vn91.robotour.Constants._
 
 object GlobalStatusSingleton extends LiftActor with ListenerManager {
@@ -63,17 +61,17 @@ object GlobalStatusSingleton extends LiftActor with ListenerManager {
 	}
 }
 
-package status {
+object TournamentStatus {
 	sealed class Status
 	case object Undefined extends Status
-	case class RegistrationAssigned(val time: Long) extends Status
-	case class RegistrationInProgress(val regClose: Long) extends Status
+	case class RegistrationAssigned(time: Long) extends Status
+	case class RegistrationInProgress(regClose: Long) extends Status
 	case class GamePlaying(roundNumber: Int) extends Status
-	case class WaitingForNextTour(val time: Long) extends Status
-	case class FinishedWithWinner(val winner: String) extends Status
-	case class FinishedWithWinners(val winners: List[String]) extends Status
+	case class WaitingForNextTour(time: Long) extends Status
+	case class FinishedWithWinner(winner: String) extends Status
+	case class FinishedWithWinners(winners: List[String]) extends Status
 	case object FinishedWithDraw extends Status
-	case class ErrorStatus(val reason: String) extends Status
-	case class CustomStatus(val msg: String) extends Status
+	case class ErrorStatus(reason: String) extends Status
+	case class CustomStatus(msg: String) extends Status
 }
 

@@ -1,13 +1,10 @@
 package code.snippet
 
-import net.liftweb._
-import http._
-import js._
-import JsCmds._
-import JE._
 import code.comet.ChatServer
-import net.liftweb.common.Loggable
 import code.comet.MessageFromGuest
+import net.liftweb.common.Loggable
+import net.liftweb.http._
+import net.liftweb.http.js.JsCmds._
 
 object ChatIn extends Loggable {
 

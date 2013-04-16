@@ -1,19 +1,14 @@
 package code.comet
 
-import net.liftweb._
-import http._
-import actor._
-import akka.actor._
 import java.text.SimpleDateFormat
 import java.util.TimeZone
-import net.liftweb.util._
-import Helpers._
-import xml.{ NodeSeq } // XML, Text
+import net.liftweb.actor._
 import net.liftweb.common.Logger
+import net.liftweb.http._
 
 sealed class MessageToChatServer
-case class MessageFromGuest(val message: String) extends MessageToChatServer
-case class MessageFromAdmin(val message: String) extends MessageToChatServer
+case class MessageFromGuest(message: String) extends MessageToChatServer
+case class MessageFromAdmin(message: String) extends MessageToChatServer
 
 object ChatServer extends LiftActor with ListenerManager with Logger {
 

@@ -2,7 +2,6 @@ package code.comet
 
 import net.liftweb.actor.LiftActor
 import net.liftweb.http.ListenerManager
-import GameResultEnumeration._
 
 object SwissTableSingleton extends LiftActor with ListenerManager {
 

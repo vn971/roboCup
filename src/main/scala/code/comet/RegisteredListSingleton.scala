@@ -1,9 +1,8 @@
 package code
 package comet
 
-import net.liftweb._
-import http._
-import actor._
+import net.liftweb.actor._
+import net.liftweb.http._
 
 /** A singleton that provides chat features to all clients.
  *  It's an Actor so it's thread-safe because only one

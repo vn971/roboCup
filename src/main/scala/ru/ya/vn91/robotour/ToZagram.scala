@@ -6,7 +6,7 @@ import akka.event.Logging
 import java.net.URLEncoder
 import ru.ya.vn91.robotour.Utils._
 import code.comet.GlobalStatusSingleton
-import code.comet.status.ErrorStatus
+import code.comet.TournamentStatus._
 
 case class AssignGame(val first: String, val second: String, val round: Int = 0, val sayHiTime: Int = Constants.timeWaitingOpponent)
 

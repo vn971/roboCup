@@ -1,10 +1,8 @@
 package code
 package comet
 
-import net.liftweb.http._
 import net.liftweb.actor._
-import java.text.SimpleDateFormat
-import java.util.TimeZone
+import net.liftweb.http._
 
 object TimeStartSingleton extends LiftActor with ListenerManager {
 

@@ -7,7 +7,7 @@ import code.comet.GlobalStatusSingleton
 import code.comet.MessageFromAdmin
 import code.comet.RegisteredListSingleton
 import code.comet.TimeStartSingleton
-import code.comet.status._
+import code.comet.TournamentStatus._
 import code.comet.{WaitingSingleton, KnockedOutSingleton, PlayingSingleton}
 import ru.ya.vn91.robotour.Constants._
 import scala.collection.mutable

@@ -6,7 +6,7 @@ import code.comet.GlobalStatusSingleton
 import code.comet.MessageFromAdmin
 import code.comet.RegisteredListSingleton
 import code.comet.SwissTableSingleton
-import code.comet.status._
+import code.comet.TournamentStatus._
 import code.comet.{ Game, Player, SwissTableData }
 import ru.ya.vn91.robotour.Constants._
 import scala.collection.mutable.ListBuffer
