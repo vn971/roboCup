@@ -18,21 +18,21 @@ object Constants {
 	val registrationHours: Long = 4
 	val registrationMillis: Long = 1000L * 60 * 60 * registrationHours
 
-	val secsPerTurn: Int = 7
+	val secsPerTurn: Int = 12
 
 	val tourBrakeTime: Long = 1000L * 60 * 5
 
 	val gameTimeout = 1000L * secsPerTurn * 600
 
-	val isFourCross = false
+	val isFourCross = true
 
 	def zagramGameSettings = "3932noT"+(if (isFourCross) "4" else "1") +
 		(if (isRated) "R" else "F")+
 		"0."+(startingMinutes * 60)+"."+secsPerTurn
 
-	val organizatorNickname = "agent47" // a "chat" room will be created with this nickname
-	val organizatorName = "Oleg Anokhin (agent47)"
-	val tournamentName = "RoboCup XVIII New Year"
+	val organizerNickname = "Вася Новиков" // a "chat" room will be created with this nickname
+	val organizerName = "Вася Новиков"
+	val tournamentName = "RoboCup XIX league-start"
 	// check html templates also!
 
 	val timeWaitingOpponent: Int = 180

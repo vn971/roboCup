@@ -8,7 +8,7 @@
 	<div id="main" class="lift:surround?with=default;at=content">
 		<h2>Gry</h2>
 
-		<table class="lift:comet?type=SwissTableActor">
+		<table data-lift="comet?type=SwissTableActor">
 			<tbody>
 				<tr>
 				</tr>
@@ -20,11 +20,7 @@
 		 -->
 		<h2>Zasady</h2>
 
-		<table>
-			<tr>
-				<td>
-
-		<!-- 
+		<!--
 		Individual rules of this tournament: <br /> <br />
 		 -->
 		Szczególne zasady dla tego turnieju: <br /> <br />
@@ -37,7 +33,7 @@
 			<li>Zagram pass-through rating: 1400.  (any => jakikolwiek)</li>
 
 			 -->
-			<li>Minimalny ranking na zagram.org: <span class="lift:ConstantsSnippet.rankLimit"></span>.</li>
+			<li>Minimalny ranking na zagram.org: <span data-lift="ConstantsSnippet.rankLimit"></span>.</li>
 
 			<!-- <li>Zagram rating import is used: no.</li> -->
 
@@ -46,7 +42,7 @@
 				class="lift:ConstantsSnippet.tourBrakeTime"></span> minutes.</li>
 			 -->
 			<li>Czas pomiędzy rundami (na odpoczynek): <span
-				class="lift:ConstantsSnippet.tourBrakeTime"></span> minut.</li>
+				data-lift="ConstantsSnippet.tourBrakeTime"></span> minut.</li>
 
 			<!-- 
 			<li>Waiting opponent time: 3 minute/minutes.</li>
@@ -62,27 +58,23 @@
 			<li>Seconds per turn: 10.</li>
 			 -->
 			<li>Sekund na ruch: <span
-				class="lift:ConstantsSnippet.secsPerTurn"></span>.</li>
+				data-lift="ConstantsSnippet.secsPerTurn"></span>.</li>
 
 			<!-- 
 			<li>4-cross is used: yes. (nie / tak)</li>
 			 -->
-			<li>Pozycja początkowa to 4X: <span class="lift:ConstantsSnippet.isFourCross"></span>.</li>
+			<li>Pozycja początkowa to 4X: <span data-lift="ConstantsSnippet.isFourCross"></span>.</li>
 
 			<!-- 
 			<li>Games are rated: no. (nie / tak)</li>
 			 -->
-			<li>Gry są rankingowe: <span class="lift:ConstantsSnippet.isRated"></span>.</li>
+			<li>Gry są rankingowe: <span data-lift="ConstantsSnippet.isRated"></span>.</li>
 
 			<li>Organizatorem turnieju jest <span
-				class="lift:constantsSnippet.organizatorName"></span>.
+				data-lift="constantsSnippet.organizatorName"></span>.
 			</li>
 
 		</ul>
-				</td>
-				<td><img alt="" src="/images/robo200.jpg" /></td>
-			</tr>
-		</table>
 
 	</div>
 </body>

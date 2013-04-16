@@ -44,7 +44,7 @@ trait RegistrationCore extends Actor with Loggable {
 
 			context.system.scheduler.scheduleOnce((time + registrationMillis - System.currentTimeMillis).millis, self, StartTheTournament)
 
-			toZagram ! AssignGame("RoboCup", organizatorNickname, sayHiTime = 7000)
+			toZagram ! AssignGame("RoboCup", organizerNickname, sayHiTime = 7000)
 			GlobalStatusSingleton ! RegistrationInProgress(time + registrationMillis)
 	}
 

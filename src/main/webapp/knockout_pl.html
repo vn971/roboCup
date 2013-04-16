@@ -9,12 +9,12 @@
 		<h2>Gry</h2>
 
 		Gry w toku:
-		<ul class="lift:comet?type=Playing">
+		<ul data-lift="comet?type=Playing">
 			<li></li>
 		</ul>
 
 		<br /> Już grali Gry (zwycięzca czeka do kolejnej rundy):
-		<ul class="lift:comet?type=Waiting">
+		<ul data-lift="comet?type=Waiting">
 			<li></li>
 		</ul>
 
@@ -52,7 +52,7 @@
 				</li>
 		 -->
 			<li>Ustawienia gry: 1 minuta na pierwszy ruch, 3 minuty na
-				rozpoczęcie, <span class="lift:ConstantsSnippet.secsPerTurn"></span>s/ruch,
+				rozpoczęcie, <span data-lift="ConstantsSnippet.secsPerTurn"></span>s/ruch,
 				gra towarzyska, pozycja początkowa 1 X.</li>
 
 			<!-- 
@@ -60,7 +60,7 @@
 				class="lift:ConstantsSnippet.tourBrakeTime"></span> minutes.</li>
 			 -->
 			<li>Czas pomiędzy rundami (na odpoczynek) jest ustawiony na <span
-				class="lift:ConstantsSnippet.tourBrakeTime"></span> minut.</li>
+				data-lift="ConstantsSnippet.tourBrakeTime"></span> minut.</li>
 
 			<!-- 
 			<li>Opponents are assigned randomly (by the server).</li>
@@ -74,13 +74,13 @@
 				players have equal dot count at the end of game.</li>
 			 -->
 			<li>Zwycięzca jest wybierany losowo w dwóch przypadkach: gdy
-				czas gry przekroczył <span class="lift:ConstantsSnippet.gameTimeout"></span>
+				czas gry przekroczył <span data-lift="ConstantsSnippet.gameTimeout"></span>
 				(godzin:minut) lub gdy gracze zdobyli równą liczbę kropek do końca
 				gry.</li>
 
 			<!-- <li>Tournament organizator is ZZZ.</li> -->
 			<li>Organizatorem turnieju jest <span
-				class="lift:constantsSnippet.organizatorName"></span>.
+				data-lift="constantsSnippet.organizatorName"></span>.
 			</li>
 
 		</ul>
