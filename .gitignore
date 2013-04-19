@@ -13,3 +13,5 @@
 *.jar
 *.class
 *iml
+
+/vasya.console.log
