@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-<title>Регистрация</title>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+	<title>Регистрация</title>
 </head>
 <body class="lift:content_id=main">
-	<div id="main" class="lift:surround?with=default;at=content">
-		<h2>Регистрация</h2>
-		Регистрация откроется "<span
-			data-lift="comet?type=TimeStart"></span>"
-		и будет доступна до начала турнира. Турнир начинается "<span
-			data-lift="comet?type=GamesStart"></span>".
-		<br /> Для регистрации нужно ввести "!register" в общий чат заграма.<br />
-		<br /> Список уже зарегистрировавшихся игроков на турнир:<br /> <br />
+<div id="main" class="lift:surround?with=default;at=content">
+	<h2>Регистрация</h2>
 
-		<ul data-lift="comet?type=RegisteredList">
+	<div>Регистрация откроется "<span data-lift="comet?type=TimeStart"></span>"
+		и будет доступна до начала турнира.
+		Турнир начинается "<span data-lift="comet?type=GamesStart"></span>".
+	</div>
+	<div>Для регистрации нужно ввести "!register" в общий чат заграма.<br/><br/></div>
+
+	<div data-lift="comet?type=RegisteredList">
+		Список уже зарегистрировавшихся игроков на турнир:<br/> <br/>
+
+		<ul>
 			<li>users</li>
 		</ul>
-
 	</div>
+
+</div>
 </body>
 </html>
 
