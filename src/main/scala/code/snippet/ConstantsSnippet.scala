@@ -2,11 +2,12 @@ package code.snippet
 
 import net.liftweb.http.S
 import ru.ya.vn91.robotour.Constants
+import scala.language.implicitConversions
 import scala.xml._
+
 
 object ConstantsSnippet {
 
-	implicit def toNodeSeq(s: String) = Text(s)
 	implicit def toNodeSeq(i: Int) = Text(i.toString)
 	implicit def toNodeSeq(l: Long) = Text(l.toString)
 
@@ -17,22 +18,22 @@ object ConstantsSnippet {
 	def waitingNextTourMinutes: NodeSeq = Constants.secsPerTurn
 	def rankLimit: NodeSeq = {
 		val r = Constants.rankLimit
-		if (r > 0) r.toString else "-"
+		Text(if (r > 0) r.toString else "-")
 	}
 
 	def gameTimeout: NodeSeq = {
 		val minutes = Constants.gameTimeout.toInt / 1000 / 60
-		""+(minutes / 60)+":"+(minutes % 60)
+		Text(""+(minutes / 60)+":"+(minutes % 60))
 	}
 
 	def conf: NodeSeq = Text(sys.props.getOrElse("run.mode", "none"))
 
-	def timeInMoscow: NodeSeq = Constants.timeLongToHours(System.currentTimeMillis)
+	def timeInMoscow = Text(Constants.timeLongToHours(System.currentTimeMillis))
 
-	def robocupNumber: NodeSeq = Constants.tournamentName
-	def organizatorName: NodeSeq = S ? Constants.organizerName
+	def robocupNumber = Text(Constants.tournamentName)
+	def organizatorName = Text(S ? Constants.organizerName)
 
-	def isFourCross: NodeSeq = if (Constants.isFourCross) S ? "yes" else S ? "no"
-	def isRated: NodeSeq = if (Constants.isRated) S ? "yes" else S ? "no"
+	def isFourCross = Text(if (Constants.isFourCross) S ? "yes" else S ? "no")
+	def isRated = Text(if (Constants.isRated) S ? "yes" else S ? "no")
 
 }

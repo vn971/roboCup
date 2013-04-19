@@ -1,7 +1,6 @@
 package ru.ya.vn91.robotour
 
 import akka.actor._
-import akka.event.Logging
 import code.comet.ChatServer
 import code.comet.GlobalStatusSingleton
 import code.comet.MessageFromAdmin
@@ -9,6 +8,7 @@ import code.comet.RegisteredListSingleton
 import code.comet.TimeStartSingleton
 import code.comet.TournamentStatus._
 import code.comet.{WaitingSingleton, KnockedOutSingleton, PlayingSingleton}
+import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.Constants._
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -16,39 +16,38 @@ import scala.concurrent.duration._
 import scala.util.Random
 
 
-class KnockoutCore extends Actor {
+class KnockoutCore extends Actor with Loggable {
 
 	object StartTheTournament
 	object StartNextTour
 
 	val toZagram = context.actorOf(Props[ToZagram], name = "toZagram")
 	val fromZagram = context.actorOf(Props[FromZagram], name = "fromZagram")
-	val log = Logging(context.system, KnockoutCore.this)
 
 	val waiting = mutable.LinkedHashSet[GameNode]()
 	val playing = mutable.LinkedHashSet[(GameNode, GameNode)]() // each inner set must contain 2 players
 	val knockedOut = mutable.LinkedHashSet[GameNode]()
 
 	override def preStart() {
-		log.info("initialized")
+		logger.info("initialized")
 	}
 
 	def prepareNextTour() {
-		log.info("prepare next tour.")
+		logger.info("prepare next tour.")
 		if (playing.size > 0) throw new IllegalStateException
 		else if (waiting.size < 2) {
-			log.info("tournament finished!")
+			logger.info("tournament finished!")
 			if (waiting.size == 1) {
-				log info "winner: \n"+waiting.head
+				logger.info(s"winner: ${waiting.head}")
 				GlobalStatusSingleton ! FinishedWithWinner(waiting.head.name)
 			} else {
-				log info "Draw!"
+				logger.info("Draw!")
 				GlobalStatusSingleton ! FinishedWithDraw
 			}
-			log info "knockedOut: \n"+knockedOut
+			logger.info(s"knockedOut: $knockedOut")
 			context.become(receive, discardOld = true)
 		} else {
-			log info "shuffling and assigning games"
+			logger.info("shuffling and assigning games")
 			val shuffled = toListAndShuffle(waiting.toSeq)
 
 			val lesserPower2 = List(512, 256, 128, 64, 32, 16, 8, 4, 2, 1).find(_ < shuffled.size).get
@@ -57,15 +56,15 @@ class KnockoutCore extends Actor {
 			for (i <- lesserPower2 until shuffled.size) yield {
 				val (i1, i2) = (i, greaterPower2 - 1 - i) // indices
 				val (p1, p2) = (shuffled(i1), shuffled(i2)) // players
-				log.info("assigning game "+p1.name+"-"+p2.name)
+				logger.info(s"assigning game ${p1.name}-${p2.name}")
 				playing += ((p1, p2))
 				toZagram ! AssignGame(p1.name, p2.name)
 
 				if (Random.nextBoolean()) {
-					log.info("preparing winner in case of timeout: "+p1.name)
+					logger.info(s"preparing winner in case of timeout: ${p1.name}")
 					context.system.scheduler.scheduleOnce(gameTimeout.milliseconds, self, GameWon(p1.name, p2.name))
 				} else {
-					log.info("preparing winner in case of timeout: "+p2.name)
+					logger.info(s"preparing winner in case of timeout: ${p2.name}")
 					context.system.scheduler.scheduleOnce(gameTimeout.milliseconds, self, GameWon(p2.name, p1.name))
 				}
 			}
@@ -74,8 +73,8 @@ class KnockoutCore extends Actor {
 				waiting += new Branch(shuffled(j).name, shuffled(j) :: Nil)
 			}
 
-			log.info("waiting = \n"+waiting)
-			log.info("playing = \n"+playing)
+			logger.info(s"waiting = $waiting")
+			logger.info(s"playing = $playing")
 			WaitingSingleton ! waiting.toList
 			PlayingSingleton ! playing.toList
 
@@ -89,7 +88,7 @@ class KnockoutCore extends Actor {
 			if (info.nick startsWith "*") {
 				toZagram ! MessageToZagram(info.nick+", to take a part in the tournament, please, use a registered account.")
 			} else if (waiting.forall(_.name != info.nick)) {
-				log.info("registered "+info.nick)
+				logger.info(s"registered ${info.nick}")
 				waiting += Leaf(info.nick)
 				RegisteredListSingleton ! info.nick
 				ChatServer ! MessageFromAdmin("Player "+info.nick+" registered.")
@@ -97,7 +96,7 @@ class KnockoutCore extends Actor {
 			}
 		}
 		case StartTheTournament => {
-			log.info("Tournament started!")
+			logger.info("Tournament started!")
 			GlobalStatusSingleton ! GamePlaying(0)
 			prepareNextTour()
 			context.become(inProgress, discardOld = true)
@@ -121,19 +120,19 @@ class KnockoutCore extends Actor {
 				filter2.size != 0
 			}
 			if (containsWinnerLooser || containsLooserWinner) {
-				log.info("game won: "+winner+" > "+looser)
+				logger.info(s"game won: $winner > $looser")
 				ChatServer ! MessageFromAdmin(winner+" has won a game against "+looser)
 				WaitingSingleton ! waiting.toList
 				PlayingSingleton ! playing.toList
 				KnockedOutSingleton ! knockedOut.toList
 				if (playing.size == 0) {
 					if (waiting.size < 2) {
-						log.info("last game played. Calculating tournament result now.")
+						logger.info("last game played. Calculating tournament result now.")
 						prepareNextTour()
 					} else {
 						context.become(waitingNextTour, discardOld = true)
 						context.system.scheduler.scheduleOnce(tourBrakeTime.milliseconds, self, StartNextTour)
-						log.info("starting tournament break now.")
+						logger.info("starting tournament break now.")
 						GlobalStatusSingleton ! WaitingForNextTour(System.currentTimeMillis + tourBrakeTime)
 					}
 				}
@@ -148,7 +147,7 @@ class KnockoutCore extends Actor {
 
 	def waitingNextTour: Receive = {
 		case StartNextTour => {
-			log.info("starting next tour.")
+			logger.info("starting next tour.")
 			context.become(inProgress, discardOld = true)
 			GlobalStatusSingleton ! GamePlaying(0)
 			prepareNextTour()
@@ -157,14 +156,14 @@ class KnockoutCore extends Actor {
 
 	def receive = {
 		case StartRegistration(time) =>
-			log.info("registration assigned.")
+			logger.info("registration assigned.")
 			TimeStartSingleton ! time + registrationMillis // timeAsString
 			if (System.currentTimeMillis < time) {
-				log.info("added suspended notify (registration start)")
+				logger.info("added suspended notify (registration start)")
 				context.system.scheduler.scheduleOnce((time - System.currentTimeMillis).milliseconds, self, StartRegistration(time))
 				GlobalStatusSingleton ! RegistrationAssigned(time)
 			} else {
-				log info "registration started!"
+				logger.info("registration started!")
 				context.system.scheduler.scheduleOnce((time + registrationMillis - System.currentTimeMillis).milliseconds, self, StartTheTournament)
 				waiting.clear()
 				playing.clear()

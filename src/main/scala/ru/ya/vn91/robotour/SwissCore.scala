@@ -40,7 +40,7 @@ class SwissCore extends RegistrationCore {
 				logger.info("starting tournament. Number of registered players: "+registered.size)
 				if (registered.size % 2 != 0) {
 					// swiss tournament needs an even number of players
-					register(PlayerInfo("Empty", "en", 1200, 0, 0, 0))
+					register(PlayerInfo("Empty", 1200, 0, 0, 0))
 					//					registered += "Empty"
 					//					scores += "Empty" -> 0
 					//					RegisteredListSingleton ! "Empty"

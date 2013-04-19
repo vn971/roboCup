@@ -3,14 +3,14 @@ package code.comet
 import java.text.SimpleDateFormat
 import java.util.TimeZone
 import net.liftweb.actor._
-import net.liftweb.common.Logger
+import net.liftweb.common.Loggable
 import net.liftweb.http._
 
 sealed class MessageToChatServer
 case class MessageFromGuest(message: String) extends MessageToChatServer
 case class MessageFromAdmin(message: String) extends MessageToChatServer
 
-object ChatServer extends LiftActor with ListenerManager with Logger {
+object ChatServer extends LiftActor with ListenerManager with Loggable {
 
 	private var msgs = Vector[(MessageToChatServer, Long)]() // private state
 

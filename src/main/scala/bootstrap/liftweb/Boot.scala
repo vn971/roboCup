@@ -16,6 +16,8 @@ import ru.ya.vn91.robotour.Core
 class Boot extends Loggable {
 	def boot() {
 
+		logger.trace("booting.")
+
 		// where to search snippet
 		LiftRules.addToPackages("code")
 
@@ -32,7 +34,7 @@ class Boot extends Loggable {
 			Menu.i(tournamentName).path(if (isKnockout) "knockout" else "swiss"),
 			adminPage,
 			Menu.i("Chat").path("chat"),
-			Menu.i("P. L. 2013").path("pl2013") >> Hidden,
+			Menu.i("Pointsgame League 2013").path("pl2013"),
 			Menu.i("Language").path("language") >> Hidden,
 			Menu.i("About Swiss").path("aboutSwiss") >> Hidden,
 			Menu.i("About Knock-out").path("aboutKnockout") >> Hidden)

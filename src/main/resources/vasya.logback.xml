@@ -1,0 +1,24 @@
+<configuration>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>vasya.console.log</file>
+		<append>true</append>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
+			<!--<pattern>%-4relative %-5level [%thread] %logger{35} - %msg%n</pattern>-->
+		</encoder>
+	</appender>
+
+	<logger name="bootstrap.liftweb" level="trace"/>
+	<logger name="code" level="trace"/>
+	<logger name="ru.ya.vn91" level="trace"/>
+
+	<root level="warn">
+		<appender-ref ref="FILE"/>
+	</root>
+</configuration>

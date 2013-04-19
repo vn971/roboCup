@@ -1,6 +1,5 @@
 package ru.ya.vn91.robotour
 
-import akka.actor._
 
 object Main {
 

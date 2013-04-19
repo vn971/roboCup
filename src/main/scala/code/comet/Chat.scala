@@ -1,11 +1,8 @@
 package code.comet
 
-import net.liftweb._
-import http._
-import util._
-import Helpers._
-import scala.xml.{ NodeSeq, Text }
+import net.liftweb.http._
 import ru.ya.vn91.robotour.Constants._
+import scala.xml.NodeSeq
 
 class Chat extends CometActor with CometListener {
 	private var msgs: Vector[(MessageToChatServer, Long)] = Vector[(MessageToChatServer, Long)]()
@@ -29,7 +26,6 @@ class Chat extends CometActor with CometListener {
 						xml.Text(message)))
 				line
 			case (MessageFromAdmin(message), t: Long) =>
-				""
 				val line: NodeSeq =
 					NodeSeq.fromSeq(Seq(
 						xml.Text(timeLongToString(t)),

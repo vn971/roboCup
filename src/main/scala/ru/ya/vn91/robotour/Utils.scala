@@ -9,7 +9,7 @@ object Utils {
 		try {
 			val source = io.Source.fromURL(url, "UTF-8")
 			val result = source.mkString
-			source.close
+			source.close()
 			result
 		} catch {
 			case e: Exception =>
@@ -22,7 +22,7 @@ object Utils {
 		try {
 			val source = io.Source.fromFile(fileName, "UTF-8")
 			val content = source.mkString
-			source.close
+			source.close()
 			content
 		} catch {
 			case e: IOException => ""
@@ -43,16 +43,16 @@ object Utils {
 		replaceAll("&#34;", "\"").
 		replaceAll("&#45;", "-")
 
-	def writeToFile(content: String, fileName: String) = {
+	def writeToFile(content: String, fileName: String) {
 		var file: java.io.FileWriter = null
 		try {
 			file = new java.io.FileWriter(fileName)
 			file.write(content)
 		} finally {
 			try {
-				file.close
+				file.close()
 			} catch {
-				case e: IOException => e.printStackTrace
+				case e: IOException => e.printStackTrace()
 			}
 		}
 	}

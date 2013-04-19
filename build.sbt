@@ -3,7 +3,7 @@ name := "RoboCup tournaments"
 
 version := "0.56"
 
-scalaVersion := "2.10.0"
+scalaVersion := "2.10.1"
 
 organization := "ru.ya.vn91.roboTour"
 
@@ -14,6 +14,8 @@ retrieveManaged := true
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature")
 
 seq(com.github.siasia.WebPlugin.webSettings :_*)
+
+net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 Keys.`package` <<= (Keys.`package` in Compile) dependsOn (test in Test)
 
@@ -33,23 +35,22 @@ resolvers ++= Seq(
 	"Jetty Eclipse" at "http://repo1.maven.org/maven2/"
 )
 
+
 libraryDependencies ++= {
 	val liftVersion = "2.5-RC2"
 	Seq(
+		"net.liftmodules" %% "lift-jquery-module" % "2.5-RC2-2.2",
 		"net.liftweb" %% "lift-util" % liftVersion,
 		"net.liftweb" %% "lift-webkit" % liftVersion,
 		"net.liftweb" %% "lift-actor" % liftVersion,
-		"net.liftweb" %% "lift-common" % liftVersion,
-		"net.liftmodules" %% "lift-jquery-module" % "2.5-RC2-2.2"
+		"net.liftweb" %% "lift-common" % liftVersion
 	)
 }
 
 libraryDependencies ++= Seq(
-  "ch.qos.logback" % "logback-classic" % "0.9.26",
-	"org.eclipse.jetty" % "jetty-webapp" % "7.5.4.v20111024" % "container",
-	"org.mortbay.jetty" % "jetty" % "6.1.26" % "test",
-	"org.scala-tools.testing" %% "specs" % "1.6.9" % "test",
-	"junit" % "junit" % "4.7" % "test",
+	"ch.qos.logback" % "logback-classic" % "1.0.6",
+	"org.eclipse.jetty" % "jetty-webapp"        % "8.1.7.v20120910"  % "container,test",
+	"org.eclipse.jetty.orbit" % "javax.servlet" % "3.0.0.v201112011016" % "container,test" artifacts Artifact("javax.servlet", "jar", "jar"),
 	"com.typesafe.akka" % "akka-actor_2.10" % "2.1.2"
 )
 

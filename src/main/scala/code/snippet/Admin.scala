@@ -4,7 +4,7 @@ package snippet
 import akka.actor.Props
 import code.comet.GlobalStatusSingleton
 import code.comet.TournamentStatus._
-import net.liftweb.common.Logger
+import net.liftweb.common.Loggable
 import net.liftweb.http._
 import net.liftweb.http.js.JsCmds._
 import ru.ya.vn91.robotour.AssignGame
@@ -16,13 +16,11 @@ import ru.ya.vn91.robotour.StartRegistration
 import ru.ya.vn91.robotour.ToZagram
 import ru.ya.vn91.robotour.TryRegister
 
-object Admin {
-
-	private val log = Logger(Admin.getClass)
+object Admin extends Loggable {
 
 	def setTime() = SHtml.onSubmit(timeAsString => {
 		try {
-			log.info("tournament time set ("+timeAsString+")")
+			logger.info("tournament time set (" + timeAsString + ")")
 			val startTime = timeStringToLong(timeAsString)
 			val regTime = startTime - registrationMillis
 			Core.core ! StartRegistration(regTime)
@@ -36,19 +34,19 @@ object Admin {
 	})
 
 	def register = SHtml.onSubmit(nick => {
-		log info "registered "+nick+"."
-		Core.core ! new TryRegister(PlayerInfo(nick,"en",1200,0,0,0))
+		logger.info(s"registered $nick")
+		Core.core ! new TryRegister(PlayerInfo(nick, 1200, 0, 0, 0))
 		SetValById("playerRegistrator", "")
 	})
 
 	def setStatus() = SHtml.onSubmit(status => {
-		log info "setting status "+status
+		logger.info(s"setting status $status")
 		GlobalStatusSingleton ! CustomStatus(status)
 		SetValById("setStatus", "")
 	})
 
 	def winGame = SHtml.onSubmit(twoPlayers => {
-		log info "assigning winner: "+twoPlayers
+		logger.info(s"assigning winner: $twoPlayers")
 		val winner = twoPlayers.split('/')(0)
 		val looser = twoPlayers.split('/')(1)
 		Core.core ! GameWon(winner, looser)
@@ -56,7 +54,7 @@ object Admin {
 	})
 
 	def assignGame = SHtml.onSubmit(twoPlayers => {
-		log info "assigning game: "+twoPlayers
+		logger.info(s"assigning game: $twoPlayers")
 		val first = twoPlayers.split('/')(0)
 		val second = twoPlayers.split('/')(1)
 		Core.system.actorOf(Props[ToZagram], name = "core.toZagram") ! AssignGame(first, second)
