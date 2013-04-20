@@ -7,7 +7,7 @@ import net.liftweb.http.js.jquery.JQueryArtifacts
 import net.liftweb.sitemap.Loc._
 import net.liftweb.sitemap._
 import ru.ya.vn91.robotour.Constants._
-import ru.ya.vn91.robotour.Core
+import ru.ya.vn91.robotour.{Constants, Core}
 
 
 /** A class that's instantiated early and run.  It allows the application
@@ -22,7 +22,7 @@ class Boot extends Loggable {
 		LiftRules.addToPackages("code")
 
 		val adminPage =
-			sys.props.get("admin.page").map(
+			Constants.adminPage.map(
 				Menu.i("Administration").path(_) >> Hidden
 			).getOrElse(
 				Menu.i("Administration").path("admin")
@@ -31,7 +31,7 @@ class Boot extends Loggable {
 		def sitemap = SiteMap(
 			Menu.i("Main").path("index"),
 			Menu.i("Registration").path("register"),
-			Menu.i(tournamentName).path(if (isKnockout) "knockout" else "swiss"),
+			Menu.i(tournamentCodename).path(if (isKnockout) "knockout" else "swiss"),
 			adminPage,
 			Menu.i("Chat").path("chat"),
 			Menu.i("Pointsgame League 2013").path("pl2013"),

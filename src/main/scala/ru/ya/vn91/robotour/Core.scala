@@ -15,5 +15,5 @@ object Core extends Loggable {
 	else
 		system.actorOf(akka.actor.Props[SwissCore], name = "core")
 
-	logger.info(s"starting tournament ${Constants.tournamentName}")
+	logger.info(s"starting tournament ${Constants.tournamentCodename}")
 }

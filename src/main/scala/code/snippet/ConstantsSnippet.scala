@@ -1,6 +1,8 @@
 package code.snippet
 
+import net.liftweb.util.Helpers._
 import net.liftweb.http.S
+import net.liftweb.util.ClearNodes
 import ru.ya.vn91.robotour.Constants
 import scala.language.implicitConversions
 import scala.xml._
@@ -13,13 +15,10 @@ object ConstantsSnippet {
 
 	def tourBrakeTime: NodeSeq = Constants.tourBrakeTime / 1000 / 60
 
-	def secsPerTurn: NodeSeq = Constants.secsPerTurn
+	def secsPerTurn: NodeSeq = Constants.secondsPerTurn
 	def startingMinutes: NodeSeq = Constants.startingMinutes
-	def waitingNextTourMinutes: NodeSeq = Constants.secsPerTurn
-	def rankLimit: NodeSeq = {
-		val r = Constants.rankLimit
-		Text(if (r > 0) r.toString else "-")
-	}
+
+	def rankLimit = Constants.rankLimit.map(".value" #> _).getOrElse(ClearNodes)
 
 	def gameTimeout: NodeSeq = {
 		val minutes = Constants.gameTimeout.toInt / 1000 / 60
@@ -30,8 +29,7 @@ object ConstantsSnippet {
 
 	def timeInMoscow = Text(Constants.timeLongToHours(System.currentTimeMillis))
 
-	def robocupNumber = Text(Constants.tournamentName)
-	def organizatorName = Text(S ? Constants.organizerName)
+	def organizerName = Text(S ? Constants.organizerCodename)
 
 	def isFourCross = Text(if (Constants.isFourCross) S ? "yes" else S ? "no")
 	def isRated = Text(if (Constants.isRated) S ? "yes" else S ? "no")

@@ -37,7 +37,7 @@ class SwissCore extends RegistrationCore {
 	override def registrationInProgress =
 		super.registrationInProgress.orElse {
 			case StartTheTournament =>
-				logger.info("starting tournament. Number of registered players: "+registered.size)
+				logger.info(s"starting tournament. Number of registered players: ${registered.size}")
 				if (registered.size % 2 != 0) {
 					// swiss tournament needs an even number of players
 					register(PlayerInfo("Empty", 1200, 0, 0, 0))
@@ -51,29 +51,25 @@ class SwissCore extends RegistrationCore {
 				startNewRound()
 		}
 
-	override def register(info: PlayerInfo) {
-		if (registered.contains(info.nick)) {
+	override def register(p: PlayerInfo) {
+		if (registered.contains(p.nick)) {
 			// already registered
-		} else if (rankLimit > info.rank && info.nick != emptyPlayer) {
-			toZagram ! MessageToZagram(info.nick +
-					", sorry, rank limit is " + rankLimit +
-					". Not registered.")
-		} else if (info.nick startsWith "*") {
-			toZagram ! MessageToZagram(info.nick +
-					", to take a part in the tournament, " +
-					"please, use a registered account.")
+		} else if (rankLimit.map(_ > p.rank).getOrElse(false) && p.nick != emptyPlayer) {
+			toZagram ! MessageToZagram(s"${p.nick}, sorry, rank limit is $rankLimit. Not registered.")
+		} else if (p.nick startsWith "*") {
+			toZagram ! MessageToZagram(s"${p.nick}, to take a part in the tournament, please, use a registered account.")
 		} else {
-			if (importRankInSwiss && info.nick != emptyPlayer) {
-				scores += info.nick -> info.rank / 100
+			if (importRankInSwiss && p.nick != emptyPlayer) {
+				scores += p.nick -> p.rank / 100
 			} else {
-				scores += info.nick -> 0
+				scores += p.nick -> 0
 			}
-			registered += info.nick
-			RegisteredListSingleton ! info.nick
-			ChatServer ! MessageFromAdmin("Player "+info.nick+" registered.")
-			playedGames += info.nick -> ListBuffer[Game]()
+			registered += p.nick
+			RegisteredListSingleton ! p.nick
+			ChatServer ! MessageFromAdmin(s"Player ${p.nick} registered.")
+			playedGames += p.nick -> ListBuffer[Game]()
 			totalRounds = log2(registered.size) + 2
-			logger.info("registered player: "+info.nick+". Total rounds now: "+totalRounds)
+			logger.info(s"registered player: ${p.nick}. Total rounds now: $totalRounds")
 			notifyGui()
 		}
 
@@ -94,8 +90,8 @@ class SwissCore extends RegistrationCore {
 	def gamesInProgress: Receive = {
 		case GameWon(winner, looser) =>
 			if (openGames.contains(winner, looser)) {
-				logger.info("gameWon "+winner+" > "+looser)
-				ChatServer ! MessageFromAdmin(winner+" won a game against "+looser)
+				logger.info(s"gameWon $winner > $looser")
+				ChatServer ! MessageFromAdmin(s"$winner won a game against $looser")
 
 				openGames -= (winner, looser)
 				playedGames(winner) += Game(looser, Win)
@@ -108,8 +104,8 @@ class SwissCore extends RegistrationCore {
 			}
 		case GameDraw(first, second) =>
 			if (openGames.contains(first, second)) {
-				logger.info("gameDraw "+first+" = "+second)
-				ChatServer ! MessageFromAdmin("game "+first+" - "+second+" ended with draw")
+				logger.info(s"gameDraw $first = $second")
+				ChatServer ! MessageFromAdmin(s"game $first - $second ended with draw")
 
 				openGames -= (first, second)
 				playedGames(first) += Game(second, Draw)
@@ -122,7 +118,7 @@ class SwissCore extends RegistrationCore {
 			}
 		case RoundTimeout(round) =>
 			if (round == currentRound) {
-				if (sys.props.get("run.mode").getOrElse("") == "production") {
+				if (sys.props.get("run.mode") == Some("production")) {
 					openGames.toList.foreach(g => self ! GameDraw(g.a, g.b))
 				} else {
 					openGames.toList.foreach { g =>
@@ -142,7 +138,7 @@ class SwissCore extends RegistrationCore {
 				logger.info("tournament finished!")
 				context.become(finished)
 				val winners = scores.groupBy(_._2).toList.sortBy(_._1).last._2.toList.map(_._1)
-				logger.info("winners: " + winners)
+				logger.info(s"winners: $winners")
 				if (winners.size == 1)
 					GlobalStatusSingleton ! FinishedWithWinner(winners(0))
 				else
@@ -169,7 +165,7 @@ class SwissCore extends RegistrationCore {
 			for (i <- 0.until(sortedPlayers.length, 2)) {
 				val first = sortedPlayers(i)._1
 				val second = sortedPlayers(i + 1)._1
-				logger.info("assigning game " + first + "-" + second)
+				logger.info(s"assigning game $first-$second")
 				openGames +=(first, second)
 				toZagram ! AssignGame(first, second)
 			}

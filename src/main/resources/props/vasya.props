@@ -1,24 +1,25 @@
-adminPage=secret:)
-zagramIdGracza=secret:)
-zagramAssignGamePassword=secret:)
+adminPage
+zagramIdGracza=
+zagramAssignGamePassword=
 
 isFourCross=true
-secondsPerTurn=4
-startingMinutes=15
-registrationHours=3
-tourBreakMinutes=5
-sayHiTime=60
-isRated=true
+secondsPerTurn=1
+startingMinutes=1
+registrationHours=1
+tourBreakMinutes=1
+sayHiTime=999
+isRated=false
 
 // will be localized (translated)
 organizerCodename=vasya.novikov
 
 // used in zagram id, site menu.
 // modification of resources is also needed.
-tournamentCodename=RoboCup XIX
+tournamentCodename=TEST
 
 // optional
 // rankLimit=
 
 // optional, doesn't work with russian letters.
 createGameWith=vn971
+
