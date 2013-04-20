@@ -23,7 +23,8 @@ class Boot extends Loggable {
 
 		val adminPage =
 			Constants.adminPage.map(
-				Menu.i("Administration").path(_) >> Hidden
+				Menu.i("Administration").path(_) >> Hidden >>
+						TemplateBox(() => Templates("admin" :: Nil))
 			).getOrElse(
 				Menu.i("Administration").path("admin")
 			)

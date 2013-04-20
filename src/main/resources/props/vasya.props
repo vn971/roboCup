@@ -1,6 +1,6 @@
-adminPage
-zagramIdGracza=
-zagramAssignGamePassword=
+adminPage=1
+//zagramIdGracza=
+//zagramAssignGamePassword=
 
 isFourCross=true
 secondsPerTurn=1
