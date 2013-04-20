@@ -15,3 +15,4 @@
 *iml
 
 /vasya.console.log
+/src/main/resources/props/production.default.props
