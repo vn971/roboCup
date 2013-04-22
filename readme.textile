@@ -36,6 +36,7 @@ Authors:
 Bartek Duda:
 * proposing Swiss tournament system for the first time
 * all translations to Polish
+* providing API on zagram for RoboCups
 * advertising the tournament on zagram.
 
 Ivan Geyko:
