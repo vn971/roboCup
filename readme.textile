@@ -46,10 +46,10 @@ Ivan Geyko:
 * proposal of the name "RoboCup"
 
 Oleg Anokhin:
+* keeping the history of tournaments up to date on our site
 * choosing the default common rules to the very first tournaments
 * organising many of the tournaments in 2012
 * help in organising and advertising the tournament A LOT
-* keeping the history of tournaments up to date on our site
 
 Vasya Novikov:
 * invention of RoboCups
