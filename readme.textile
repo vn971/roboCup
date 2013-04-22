@@ -29,3 +29,34 @@ fr 20055
 sa 20419
 su 25775
 
+
+
+Authors:
+
+Bartek Duda:
+* proposing Swiss tournament system for the first time
+* all translations to Polish
+* advertising the tournament on zagram.
+
+Ivan Geyko:
+* proposing and proving that tournament rules should be very different each time
+* choosing the default common rules to the very first tournaments
+* organising many of the tournaments in 2012
+* help in organising and advertising the tournament A LOT
+* proposal of the name "RoboCup"
+
+Oleg Anokhin:
+* choosing the default common rules to the very first tournaments
+* organising many of the tournaments in 2012
+* help in organising and advertising the tournament A LOT
+* keeping the history of tournaments up to date on our site
+
+Vasya Novikov:
+* invention of RoboCups
+* 100% of code written here yet
+* adding and promoting 4cross rules
+* creation of the Swiss tournament system, promoting afterwards. This included
+the fight with the code, after that the fight with other organisers, after that
+the fight with inert players:). As a bonus, after several months the idea was
+widely accepted and now is a de-facto standard
+
