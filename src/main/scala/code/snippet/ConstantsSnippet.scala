@@ -21,7 +21,7 @@ object ConstantsSnippet {
 		(minutes / 60) + ":" + (minutes % 60)
 	}
 
-	def conf = Text(sys.props.getOrElse("run.mode", "none"))
+	def conf = "*" #> sys.props.getOrElse("run.mode", "none")
 
 	def timeInMoscow = Text(Constants.timeLongToHours(System.currentTimeMillis))
 
