@@ -6,16 +6,19 @@
 </head>
 <body class="lift:content_id=main">
 	<div id="main" class="lift:surround?with=default;at=content">
-		<h2>Gry</h2>
 
-		<table data-lift="comet?type=SwissTableActor">
-			<tbody>
+		<div data-lift="comet?type=SwissTableActor">
+			<h2>Gry</h2>
+
+			<table>
+				<tbody>
 				<tr>
 				</tr>
-			</tbody>
-		</table>
+				</tbody>
+			</table>
 
-		<!-- 
+		</div>
+		<!--
 		<h2>Rules</h2>
 		 -->
 		<h2>Zasady</h2>
@@ -27,13 +30,16 @@
 
 		<ul>
 
-			<li>System turniejowy: <a href="aboutSwiss" target="_blank">szwajcarski</a>. (Kliknij na link żeby zobaczyć szczegóły.)</li>
+			<li>System turniejowy:
+				<a href="aboutSwiss" target="_blank"><strong>szwajcarski</strong></a>.
+			</li>
 
 			<!-- 
 			<li>Zagram pass-through rating: 1400.  (any => jakikolwiek)</li>
 
 			 -->
-			<li>Minimalny ranking na zagram.org: <span data-lift="ConstantsSnippet.rankLimit"></span>.</li>
+			<li data-lift="ConstantsSnippet.rankLimit">
+				Minimalny ranking na zagram.org: <strong class="value"></strong>.</li>
 
 			<!-- <li>Zagram rating import is used: no.</li> -->
 
@@ -41,8 +47,8 @@
 			<li>Time between rounds (time to rest): <span
 				class="lift:ConstantsSnippet.tourBrakeTime"></span> minutes.</li>
 			 -->
-			<li>Czas pomiędzy rundami (na odpoczynek): <span
-				data-lift="ConstantsSnippet.tourBrakeTime"></span> minut.</li>
+			<li	data-lift="ConstantsSnippet.tourBrakeTime">
+				Czas pomiędzy rundami (na odpoczynek): <strong class="value"></strong> minut.</li>
 
 			<!-- 
 			<li>Waiting opponent time: 3 minute/minutes.</li>
@@ -52,26 +58,29 @@
 			<!-- 
 			<li>Starting time: 2 minutes.</li>
 			 -->
-			<li>Czas początkowy: <span class="lift:ConstantsSnippet.startingMinutes"></span> minutes.</li>
+			<li class="lift:ConstantsSnippet.startingMinutes">
+				Czas początkowy: <strong class="value"></strong> minutes.</li>
 
 			<!-- 
 			<li>Seconds per turn: 10.</li>
 			 -->
-			<li>Sekund na ruch: <span
-				data-lift="ConstantsSnippet.secsPerTurn"></span>.</li>
+			<li data-lift="ConstantsSnippet.secsPerTurn">
+				Sekund na ruch: <strong class="value"></strong>.</li>
 
 			<!-- 
 			<li>4-cross is used: yes. (nie / tak)</li>
 			 -->
-			<li>Pozycja początkowa to 4X: <span data-lift="ConstantsSnippet.isFourCross"></span>.</li>
+			<li data-lift="ConstantsSnippet.isFourCross">
+				Pozycja początkowa to 4X: <strong class="value"></strong>.</li>
 
 			<!-- 
 			<li>Games are rated: no. (nie / tak)</li>
 			 -->
-			<li>Gry są rankingowe: <span data-lift="ConstantsSnippet.isRated"></span>.</li>
+			<li data-lift="ConstantsSnippet.isRated">
+				Gry są rankingowe: <strong class="value"></strong>.</li>
 
-			<li>Organizatorem turnieju jest <span
-				data-lift="constantsSnippet.organizerName"></span>.
+			<li data-lift="constantsSnippet.organizerName">
+				Organizatorem turnieju jest <strong class="value"></strong>.
 			</li>
 
 		</ul>

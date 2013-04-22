@@ -6,26 +6,38 @@
 </head>
 <body class="lift:content_id=main">
 <div id="main" class="lift:surround?with=default;at=content">
-	<h2>Games</h2>
 
-	<table data-lift="comet?type=SwissTableActor">
-		<tbody>
-		<tr>
-		</tr>
-		</tbody>
-	</table>
+
+	<div data-lift="comet?type=SwissTableActor">
+		<h2>Games</h2>
+
+		<table>
+			<tbody>
+			<tr>
+			</tr>
+			</tbody>
+		</table>
+	</div>
 
 	<h2>Rules</h2>
 	Individual rules of this tournament: <br/> <br/>
 	<ul>
-		<li>Tournament system: <a href="aboutSwiss" target="_blank">Swiss</a>. (Visit the link to get the details.)</li>
-		<li data-lift="ConstantsSnippet.rankLimit">Zagram pass-through rating: <span class="value"></span>.</li>
-		<li>Time between rounds (time to rest): <span data-lift="ConstantsSnippet.tourBrakeTime"></span> minutes.</li>
-		<li>Starting time: <span data-lift="ConstantsSnippet.startingMinutes"></span> minutes.</li>
-		<li>Seconds per turn: <span data-lift="ConstantsSnippet.secsPerTurn"></span>.</li>
-		<li>4-cross is used: <span data-lift="ConstantsSnippet.isFourCross"></span>.</li>
-		<li>Games are rated: <span data-lift="ConstantsSnippet.isRated"></span>.</li>
-		<li>Tournament organizer is <span data-lift="constantsSnippet.organizerName"></span>.
+		<li>Tournament system:
+			<a class="swissRules" href="aboutSwiss" target="_blank"><strong>Swiss</strong></a>.
+		</li>
+		<li data-lift="ConstantsSnippet.rankLimit">
+			Zagram pass-through rating: <strong class="value"></strong>.</li>
+		<li data-lift="ConstantsSnippet.tourBrakeTime">
+			Time between rounds/games (time to rest): <strong class="value"></strong> minutes.</li>
+		<li data-lift="ConstantsSnippet.startingMinutes">Starting time: <strong class="value"></strong> minutes.</li>
+		<li data-lift="ConstantsSnippet.secsPerTurn">
+			Seconds per turn: <strong class="value"></strong>.</li>
+		<li data-lift="ConstantsSnippet.isFourCross">
+			4-cross is used: <strong class="value"></strong>.</li>
+		<li data-lift="ConstantsSnippet.isRated">
+			Games are rated: <strong class="value"></strong>.</li>
+		<li data-lift="constantsSnippet.organizerName">
+			Tournament organizer is <strong class="value"></strong>.
 		</li>
 	</ul>
 	<!--<table>-->

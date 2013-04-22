@@ -6,28 +6,38 @@
 </head>
 <body class="lift:content_id=main">
 	<div id="main" class="lift:surround?with=default;at=content">
-		<h2>Игры</h2>
 
-		<table data-lift="comet?type=SwissTableActor">
-			<tbody>
+		<div data-lift="comet?type=SwissTableActor">
+			<h2>Игры</h2>
+
+			<table>
+				<tbody>
 				<tr>
 				</tr>
-			</tbody>
-		</table>
+				</tbody>
+			</table>
+		</div>
 
 		<h2>Правила</h2>
 		Индивидуальные правила этого турнира: <br /> <br />
 		<ul>
-			<li>Система турнира: <a href="aboutSwiss" target="_blank">Швейцарская</a>. (Пройдите по ссылке чтобы узнать подробнее.)</li>
-			<li>Проходной рейтинг на заграме: <span data-lift="ConstantsSnippet.rankLimit"></span>.</li>
+			<li>Система турнира: <a href="aboutSwiss" target="_blank"><strong>Швейцарская</strong></a>.</li>
+			<li data-lift="ConstantsSnippet.rankLimit">
+				Проходной рейтинг на заграме: <strong class="value"></strong>.</li>
 			<!-- <li>Используется импорт рейтингов из заграма: нет.</li> -->
-			<li>Интервал между раундами турнира (время на "передых"): <span data-lift="ConstantsSnippet.tourBrakeTime"></span> минут.</li>
+			<li data-lift="ConstantsSnippet.tourBrakeTime">
+				Интервал между раундами турнира (время на "передых"): <strong class="value"></strong> минут.</li>
 			<!-- <li>Время ожидания соперника: 2 минуты.</li> -->
-			<li>Стартовое время: <span data-lift="ConstantsSnippet.startingMinutes"></span> минут.</li>
-			<li>Секунд на ход: <span data-lift="ConstantsSnippet.secsPerTurn"></span>.</li>
-			<li>Используется 4скрест: <span data-lift="ConstantsSnippet.isFourCross"></span>.</li>
-			<li>Игры являются рейтинговыми: <span data-lift="ConstantsSnippet.isRated"></span>.</li>
-			<li>Организатор турнира <span data-lift="constantsSnippet.organizerName"></span>.</li>
+			<li data-lift="ConstantsSnippet.startingMinutes">
+				Стартовое время: <strong class="value"></strong> минут.</li>
+			<li data-lift="ConstantsSnippet.secsPerTurn">
+				Секунд на ход: <strong class="value"></strong>.</li>
+			<li data-lift="ConstantsSnippet.isFourCross">
+				Используется 4скрест: <strong class="value"></strong>.</li>
+			<li data-lift="ConstantsSnippet.isRated">
+				Игры являются рейтинговыми: <strong class="value"></strong>.</li>
+			<li data-lift="constantsSnippet.organizerName">
+				Организатор турнира: <strong class="value"></strong>.</li>
 		</ul>
 
 

@@ -3,6 +3,7 @@ package code.comet
 import code.comet.GameResultEnumeration._
 import net.liftweb.http.CometActor
 import net.liftweb.http.CometListener
+import net.liftweb.util.ClearNodes
 
 class SwissTableActor extends CometActor with CometListener {
 
@@ -41,6 +42,9 @@ class SwissTableActor extends CometActor with CometListener {
 				<td>{ player.score }</td>
 			</tr>
 		}
-		"tr" #> (table.rows zip (1 to table.rows.size)).map(rowToHtml)
+
+//		if (table.rows.isEmpty) ClearNodes
+//		else
+			"tr" #> (table.rows zip (1 to table.rows.size)).map(rowToHtml)
 	}
 }

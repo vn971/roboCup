@@ -1,4 +1,4 @@
-adminPage=1
+//adminPage=
 //zagramIdGracza=
 //zagramAssignGamePassword=
 
@@ -18,7 +18,7 @@ organizerCodename=vasya.novikov
 tournamentCodename=TEST
 
 // optional
-// rankLimit=
+//rankLimit=
 
 // optional, doesn't work with russian letters.
 createGameWith=vn971
