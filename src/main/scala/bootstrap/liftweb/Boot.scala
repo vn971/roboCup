@@ -8,6 +8,8 @@ import net.liftweb.sitemap.Loc._
 import net.liftweb.sitemap._
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.{Constants, Core}
+import net.liftweb.http.provider.HTTPCookie
+import java.util.Locale
 
 
 /** A class that's instantiated early and run.  It allows the application
@@ -41,6 +43,17 @@ class Boot extends Loggable {
 			Menu.i("About Knock-out").path("aboutKnockout") >> Hidden)
 
 		LiftRules.setSiteMap(sitemap)
+
+		LiftRules.localeCalculator = boxReq =>
+			S.param("lang").map { s =>
+				S.addCookie(HTTPCookie("lang", s))
+				new Locale(s)
+			}.or {
+				S.cookieValue("lang").map(new Locale(_))
+			}.openOr {
+				LiftRules.defaultLocaleCalculator(boxReq)
+			}
+
 
 		LiftRules.unloadHooks.append { () =>
 			logger.info("roboCup actors shutdown")
