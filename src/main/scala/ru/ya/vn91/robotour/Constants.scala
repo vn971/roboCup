@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.TimeZone
 import net.liftweb.util.Props
+import scala.concurrent.duration._
 
 /** global tournament constants mostly
  */
@@ -18,21 +19,24 @@ object Constants {
 	// Перерыв между партиями (в минутах) ?
 	// Имя организатора (например, Vasya Novikov (Вася Новиков), Oleg Anokhin (agent47)) ?
 
-	val registrationHours: Long = Props.getLong("registrationHours").openOrThrowException("")
-	val registrationMillis: Long = 1000L * 60 * 60 * registrationHours
+	val registrationTime = Props.getLong("registrationHours").openOrThrowException("").hours
 
-	val startingMinutes: Int = Props.getInt("startingMinutes").openOrThrowException("")
-	val secondsPerTurn: Int = Props.getInt("secondsPerTurn").openOrThrowException("")
+	val startingTime = Props.getInt("startingMinutes").openOrThrowException("").minutes
 
-	val tourBrakeTime: Long = 1000L * 60 * Props.getLong("tourBreakMinutes").openOrThrowException("")
+	val perTurnTime = Props.getInt("secondsPerTurn").openOrThrowException("").seconds
 
-	val gameTimeout = 1000L * secondsPerTurn * 600
+	val gameTimeout = perTurnTime * 600
+
+	val breakTime = Props.getLong("tourBreakMinutes").openOrThrowException("").minutes
+
+	val expectedTourTime = (startingTime * 3 / 2) + breakTime + (perTurnTime * 300)
+	val expectedGameTime = (startingTime) + (perTurnTime * 130)
 
 	val isFourCross = Props.getBool("isFourCross").openOrThrowException("")
 
-	def zagramGameSettings = "3932noT"+(if (isFourCross) "4" else "1") +
-		(if (isRated) "R" else "F")+
-		"0."+(startingMinutes * 60)+"."+secondsPerTurn
+	def zagramGameSettings = "3932noT" + (if (isFourCross) "4" else "1") +
+			(if (isRated) "R" else "F") +
+			"0." + startingTime.toSeconds + "." + perTurnTime.toSeconds
 
 	val createGameWith = Props.get("createGameWith").flatMap(s => if (s.isEmpty) None else Some(s))
 

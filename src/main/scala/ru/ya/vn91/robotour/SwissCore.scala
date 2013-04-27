@@ -147,8 +147,8 @@ class SwissCore extends RegistrationCore {
 				logger.info("waiting for next round now")
 				context.become(waitingForNextRound, discardOld = true)
 				currentRound += 1
-				GlobalStatusSingleton ! WaitingForNextTour(System.currentTimeMillis + tourBrakeTime)
-				context.system.scheduler.scheduleOnce(tourBrakeTime.milliseconds, self, StartNextRound)
+				GlobalStatusSingleton ! WaitingForNextTour(System.currentTimeMillis + breakTime.toMillis)
+				context.system.scheduler.scheduleOnce(breakTime, self, StartNextRound)
 			}
 			notifyGui()
 		}
@@ -171,7 +171,7 @@ class SwissCore extends RegistrationCore {
 			}
 
 			context.become(gamesInProgress, discardOld = true)
-			context.system.scheduler.scheduleOnce(gameTimeout.milliseconds, self, RoundTimeout(currentRound))
+			context.system.scheduler.scheduleOnce(gameTimeout, self, RoundTimeout(currentRound))
 			GlobalStatusSingleton ! GamePlaying(0)
 			notifyGui()
 		}

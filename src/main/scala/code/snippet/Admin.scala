@@ -22,7 +22,7 @@ object Admin extends Loggable {
 		try {
 			logger.info("tournament time set (" + timeAsString + ")")
 			val startTime = timeStringToLong(timeAsString)
-			val regTime = startTime - registrationMillis
+			val regTime = startTime - registrationTime.toMillis
 			Core.core ! StartRegistration(regTime)
 			SetValById("timeSetter", "time set.")
 		} catch {

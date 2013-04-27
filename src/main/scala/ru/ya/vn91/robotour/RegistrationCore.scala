@@ -34,7 +34,7 @@ trait RegistrationCore extends Actor with Loggable {
 			context.become(registartionAssigned, discardOld = true)
 			context.system.scheduler.scheduleOnce((time - System.currentTimeMillis).millis, self, StartRegistrationReally(time))
 			GlobalStatusSingleton ! RegistrationAssigned(time)
-			TimeStartSingleton ! time + registrationMillis // timeAsString
+			TimeStartSingleton ! time + registrationTime.toMillis // timeAsString
 	}
 
 	def registartionAssigned: Receive = {
@@ -42,12 +42,12 @@ trait RegistrationCore extends Actor with Loggable {
 			logger.info("registrationStartedReally")
 			context.become(registrationInProgress)
 
-			context.system.scheduler.scheduleOnce((time + registrationMillis - System.currentTimeMillis).millis, self, StartTheTournament)
+			context.system.scheduler.scheduleOnce(registrationTime + (time - System.currentTimeMillis).millis, self, StartTheTournament)
 
 			for (cgw <- Constants.createGameWith) {
 				toZagram ! AssignGame("RoboCup", cgw, infiniteTime = true)
 			}
-			GlobalStatusSingleton ! RegistrationInProgress(time + registrationMillis)
+			GlobalStatusSingleton ! RegistrationInProgress(time + registrationTime.toMillis)
 	}
 
 	def register(playerInfo: PlayerInfo) {

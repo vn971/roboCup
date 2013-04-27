@@ -62,10 +62,10 @@ class KnockoutCore extends Actor with Loggable {
 
 				if (Random.nextBoolean()) {
 					logger.info(s"preparing winner in case of timeout: ${p1.name}")
-					context.system.scheduler.scheduleOnce(gameTimeout.milliseconds, self, GameWon(p1.name, p2.name))
+					context.system.scheduler.scheduleOnce(gameTimeout, self, GameWon(p1.name, p2.name))
 				} else {
 					logger.info(s"preparing winner in case of timeout: ${p2.name}")
-					context.system.scheduler.scheduleOnce(gameTimeout.milliseconds, self, GameWon(p2.name, p1.name))
+					context.system.scheduler.scheduleOnce(gameTimeout, self, GameWon(p2.name, p1.name))
 				}
 			}
 			waiting.clear()
@@ -131,9 +131,9 @@ class KnockoutCore extends Actor with Loggable {
 						prepareNextTour()
 					} else {
 						context.become(waitingNextTour, discardOld = true)
-						context.system.scheduler.scheduleOnce(tourBrakeTime.milliseconds, self, StartNextTour)
+						context.system.scheduler.scheduleOnce(breakTime, self, StartNextTour)
 						logger.info("starting tournament break now.")
-						GlobalStatusSingleton ! WaitingForNextTour(System.currentTimeMillis + tourBrakeTime)
+						GlobalStatusSingleton ! WaitingForNextTour(System.currentTimeMillis + breakTime.toMillis)
 					}
 				}
 			}
@@ -157,18 +157,18 @@ class KnockoutCore extends Actor with Loggable {
 	def receive = {
 		case StartRegistration(time) =>
 			logger.info("registration assigned.")
-			TimeStartSingleton ! time + registrationMillis // timeAsString
+			TimeStartSingleton ! time + registrationTime.toMillis // timeAsString
 			if (System.currentTimeMillis < time) {
 				logger.info("added suspended notify (registration start)")
 				context.system.scheduler.scheduleOnce((time - System.currentTimeMillis).milliseconds, self, StartRegistration(time))
 				GlobalStatusSingleton ! RegistrationAssigned(time)
 			} else {
 				logger.info("registration started!")
-				context.system.scheduler.scheduleOnce((time + registrationMillis - System.currentTimeMillis).milliseconds, self, StartTheTournament)
+				context.system.scheduler.scheduleOnce(registrationTime + (time - System.currentTimeMillis).milliseconds, self, StartTheTournament)
 				waiting.clear()
 				playing.clear()
 				knockedOut.clear()
-				GlobalStatusSingleton ! RegistrationInProgress(time + registrationMillis)
+				GlobalStatusSingleton ! RegistrationInProgress(time + registrationTime.toMillis)
 				context.become(registration, discardOld = true)
 			}
 	}

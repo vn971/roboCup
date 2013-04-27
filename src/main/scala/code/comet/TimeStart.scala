@@ -15,6 +15,6 @@ class TimeStart extends CometActor with CometListener {
 	}
 
 	def render = Text(
-		if (time > 0) timeLongToString(time - registrationMillis)
+		if (time > 0) timeLongToString(time - registrationTime.toMillis)
 		else "undefined yet")
 }
