@@ -29,8 +29,15 @@ object Constants {
 
 	val breakTime = Props.getLong("tourBreakMinutes").openOrThrowException("").minutes
 
-	val expectedTourTime = (startingTime * 3 / 2) + breakTime + (perTurnTime * 300)
-	val expectedGameTime = (startingTime) + (perTurnTime * 130)
+	val expectedTourTime = {
+		val turn = perTurnTime min (perTurnTime + 10.seconds) / 2
+		(startingTime * 3 / 2) + breakTime + (turn * 300)
+	}
+
+	val expectedGameTime = {
+		val turn = perTurnTime min (perTurnTime + 10.seconds) / 2
+		startingTime + turn * 130
+	}
 
 	val isFourCross = Props.getBool("isFourCross").openOrThrowException("")
 
