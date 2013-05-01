@@ -25,7 +25,7 @@ object Constants {
 
 	val perTurnTime = Props.getInt("secondsPerTurn").openOrThrowException("").seconds
 
-	val gameTimeout = perTurnTime * 600
+	val gameTimeout = (startingTime * 2) + perTurnTime * 9999
 
 	val breakTime = Props.getLong("tourBreakMinutes").openOrThrowException("").minutes
 
