@@ -41,9 +41,12 @@ object Constants {
 
 	val isFourCross = Props.getBool("isFourCross").openOrThrowException("")
 
-	def zagramGameSettings = "3932noT" + (if (isFourCross) "4" else "1") +
-			(if (isRated) "R" else "F") +
-			"0." + startingTime.toSeconds + "." + perTurnTime.toSeconds
+	def zagramGameSettings(
+			start: FiniteDuration = startingTime,
+			turn: FiniteDuration = perTurnTime) =
+		"3932noT" + (if (isFourCross) "4" else "1") +
+				(if (isRated) "R" else "F") +
+				"0." + start.toSeconds + "." + turn.toSeconds
 
 	val createGameWith = Props.get("createGameWith").flatMap(s => if (s.isEmpty) None else Some(s))
 

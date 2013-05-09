@@ -15,6 +15,8 @@ scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature")
 
 seq(com.github.siasia.WebPlugin.webSettings :_*)
 
+seq(ScctPlugin.instrumentSettings: _*)
+
 //net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 Keys.`package` <<= (Keys.`package` in Compile) dependsOn (test in Test)
