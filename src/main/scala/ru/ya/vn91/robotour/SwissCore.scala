@@ -166,8 +166,18 @@ class SwissCore extends RegistrationCore {
 				val first = sortedPlayers(i)._1
 				val second = sortedPlayers(i + 1)._1
 				logger.info(s"assigning game $first-$second")
-				openGames +=(first, second)
-				toZagram ! AssignGame(first, second)
+
+				if (first == emptyPlayer) {
+					logger.info(s"$second assigned as winner against $emptyPlayer")
+					self ! GameWon(second, emptyPlayer)
+				} else if (second == emptyPlayer) {
+					logger.info(s"$first assigned as winner against $emptyPlayer")
+					self ! GameWon(first, emptyPlayer)
+				} else {
+					logger.info(s"assigning game $first-$second")
+					openGames +=(first, second)
+					toZagram ! AssignGame(first, second)
+				}
 			}
 
 			context.become(gamesInProgress, discardOld = true)

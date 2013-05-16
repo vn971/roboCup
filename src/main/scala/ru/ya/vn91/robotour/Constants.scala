@@ -45,7 +45,7 @@ object Constants {
 			start: FiniteDuration = startingTime,
 			turn: FiniteDuration = perTurnTime) =
 		"3932noT" + (if (isFourCross) "4" else "1") +
-				(if (isRated) "R" else "F") +
+				(if (isRated) "r" else "F") +
 				"0." + start.toSeconds + "." + turn.toSeconds
 
 	val createGameWith = Props.get("createGameWith").flatMap(s => if (s.isEmpty) None else Some(s))
