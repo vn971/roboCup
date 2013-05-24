@@ -39,7 +39,7 @@ resolvers ++= Seq(
 
 
 libraryDependencies ++= {
-	val liftVersion = "2.5-RC2"
+	val liftVersion = "2.5-RC6"
 	Seq(
 		"net.liftmodules" %% "lift-jquery-module" % "2.5-RC2-2.2",
 		"net.liftweb" %% "lift-util" % liftVersion,

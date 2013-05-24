@@ -48,7 +48,7 @@ class FromZagram extends Actor with Loggable {
 									logger.info(s"failed to register: no userinfo for $nick")
 									context.parent ! MessageToZagram(s"Sorry, could not find zagram rank for $nick")
 								case Some(info) =>
-									logger.debug("tried to register: " + nick)
+									logger.info(s"tried to register: $nick")
 									context.parent ! TryRegister(info)
 							}
 						}
