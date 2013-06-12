@@ -3,7 +3,7 @@ name := "RoboCup tournaments"
 
 version := "0.56"
 
-scalaVersion := "2.10.1"
+scalaVersion := "2.10.2"
 
 organization := "ru.ya.vn91.roboTour"
 
@@ -15,9 +15,9 @@ scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature")
 
 seq(com.github.siasia.WebPlugin.webSettings :_*)
 
-seq(ScctPlugin.instrumentSettings: _*)
+// seq(ScctPlugin.instrumentSettings: _*)
 
-//net.virtualvoid.sbt.graph.Plugin.graphSettings
+// net.virtualvoid.sbt.graph.Plugin.graphSettings
 
 Keys.`package` <<= (Keys.`package` in Compile) dependsOn (test in Test)
 
@@ -39,7 +39,7 @@ resolvers ++= Seq(
 
 
 libraryDependencies ++= {
-	val liftVersion = "2.5-RC6"
+	val liftVersion = "2.5"
 	Seq(
 		"net.liftmodules" %% "lift-jquery-module" % "2.5-RC2-2.2",
 		"net.liftweb" %% "lift-util" % liftVersion,
