@@ -54,7 +54,7 @@ class SwissCore extends RegistrationCore {
 	override def register(p: PlayerInfo) {
 		if (registered.contains(p.nick)) {
 			// already registered
-		} else if (rankLimit.map(_ > p.rank).getOrElse(false) && p.nick != emptyPlayer) {
+		} else if (rankLimit.exists(_ > p.rank) && p.nick != emptyPlayer) {
 			toZagram ! MessageToZagram(s"${p.nick}, sorry, rank limit is $rankLimit. Not registered.")
 		} else if (p.nick startsWith "*") {
 			toZagram ! MessageToZagram(s"${p.nick}, to take a part in the tournament, please, use a registered account.")
