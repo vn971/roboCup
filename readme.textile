@@ -4,21 +4,21 @@ SBT as a build tool, git+github as a version control system.
 
 How to run roboCup:
 * Download and install Simple Build Tool "https://github.com/harrah/xsbt/":https://github.com/harrah/xsbt/
-* install git (on debian/ubuntu it's "aptitude install git", in suse/redhat it's "yum install git")
-* download RoboCup from the internet: "git clone https://github.com/vn971/robocup"
+* install git
+* download RoboCup from the internet: "git clone git@github.com:vn971/roboCup.git"
 * launch it! In command line type "sbt" > Enter > "container:start" > Enter
 * you should have RoboCup running now. Check it out on "http://localhost:8989":http://localhost:8989
 
-After running roboCup you may be interested in an IDE support.
+After running roboCup you may be interested in IDE support.
 To do this you can create intellij/eclipse projects automatically:
 * ./sbt eclipse with-sources="true"  (for eclipse)
 * ./sbt gen-idea  (for intellij-idea)
 
 To open in eclipse:
 * Download and install eclipse-scala IDE "http://scala-ide.org/":http://scala-ide.org/
-* In menu, "File" > Import > Existing Projects into workspace > enter roboCup directory path
+* In menu, "File" > "Import" > "Existing Projects into workspace" > find your project > Ok
 
-If you want to try out intellij-idea:
+To open in intellij-idea:
 * In menu, "File" > "Open" > find your project > Ok
 
 Feel free to contact me.:)
