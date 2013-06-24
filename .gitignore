@@ -1,18 +1,10 @@
 /.cache
-/.idea/
-/.rsync*
+/.idea*
 /.settings
-/bin/
 /lib_managed/
 /project/project/*
 /project/target/*
-/rsync*
-/src/main/webapp/hidden2*
 /target/
-
-*.jar
-*.class
-*iml
 
 /vasya.console.log
 /src/main/resources/props/production.default.props

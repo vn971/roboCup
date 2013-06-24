@@ -51,8 +51,8 @@ libraryDependencies ++= {
 
 libraryDependencies ++= Seq(
 	"ch.qos.logback" % "logback-classic" % "1.0.6",
+	"com.typesafe.akka" % "akka-actor_2.10" % "2.1.2",
 	"org.eclipse.jetty" % "jetty-webapp"        % "8.1.7.v20120910"  % "container,test",
-	"org.eclipse.jetty.orbit" % "javax.servlet" % "3.0.0.v201112011016" % "container,test" artifacts Artifact("javax.servlet", "jar", "jar"),
-	"com.typesafe.akka" % "akka-actor_2.10" % "2.1.2"
+	"org.eclipse.jetty.orbit" % "javax.servlet" % "3.0.0.v201112011016" % "container,test" artifacts Artifact("javax.servlet", "jar", "jar")
 )
 
