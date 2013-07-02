@@ -25,13 +25,13 @@ object Constants {
 
 	val perTurnTime = Props.getInt("secondsPerTurn").openOrThrowException("").seconds
 
-	val gameTimeout = (startingTime * 2) + perTurnTime * 9999
+	val gameTimeout = startingTime * 2 + perTurnTime * 9999
 
 	val breakTime = Props.getLong("tourBreakMinutes").openOrThrowException("").minutes
 
 	val expectedTourTime = {
 		val turn = perTurnTime min (perTurnTime + 10.seconds) / 2
-		(startingTime * 3 / 2) + breakTime + (turn * 300)
+		startingTime * 3 / 2 + breakTime + turn * 300
 	}
 
 	val expectedGameTime = {
@@ -41,38 +41,40 @@ object Constants {
 
 	val isFourCross = Props.getBool("isFourCross").openOrThrowException("")
 
+	val fieldSize = Props.get("fieldSize", "3932")
+
 	def zagramGameSettings(
 			start: FiniteDuration = startingTime,
 			turn: FiniteDuration = perTurnTime) =
-		"3932noT" + (if (isFourCross) "4" else "1") +
+		fieldSize + "noT" + (if (isFourCross) "4" else "1") +
 				(if (isRated) "r" else "F") +
 				"0." + start.toSeconds + "." + turn.toSeconds
 
-	val createGameWith = Props.get("createGameWith").flatMap(s => if (s.isEmpty) None else Some(s))
+	val createGameWith = Props.get("createGameWith")
 
 	val organizerCodename = Props.get("organizerCodename").openOrThrowException("")
 	val tournamentCodename = Props.get("tournamentCodename").openOrThrowException("")
 
-	val sayHiTime: Int = Props.getInt("sayHiTime").openOrThrowException("")
+	val sayHiTime = 60.seconds
 
 	val isKnockout = false
 
-	val isRated = Props.getBool("isRated").openOrThrowException("")
+	val isRated = Props.getBool("isRated").openOr(true)
 
-	val rankLimit: Option[Int] = Props.getInt("rankLimit")
+	val rankLimit = Props.getInt("rankLimit")
 
 	val importRankInSwiss = false
 
-	val adminPage = Props.get("adminPage").flatMap(s => if (s.isEmpty) None else Some(s))
+	val adminPage = Props.get("adminPage")
 
 	val zagramIdGracza = {
-		val z = Props.get("zagramIdGracza").flatMap(s => if (s.isEmpty) None else Some(s))
+		val z = Props.get("zagramIdGracza")
 		if (z.isEmpty) GlobalStatusSingleton ! ErrorStatus("zagram idGracza not found!")
 		z
 	}
 
 	val zagramAssignGamePassword = {
-		val z = Props.get("zagramAssignGamePassword").flatMap(s => if (s.isEmpty) None else Some(s))
+		val z = Props.get("zagramAssignGamePassword")
 		if (z.isEmpty) GlobalStatusSingleton ! ErrorStatus("zagram gameAssignPass not found!")
 		z
 	}

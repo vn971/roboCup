@@ -1,13 +1,13 @@
 package code.snippet
 
+import net.liftweb.common.Loggable
 import net.liftweb.http.S
 import net.liftweb.util.ClearNodes
 import net.liftweb.util.Helpers._
 import ru.ya.vn91.robotour.Constants
-import scala.xml._
 
 
-object ConstantsSnippet {
+object ConstantsSnippet extends Loggable {
 
 	def tourBrakeTime = ".value *" #> Constants.breakTime.toMinutes
 	def secsPerTurn = ".value *" #> Constants.perTurnTime.toSeconds
@@ -17,7 +17,7 @@ object ConstantsSnippet {
 	def isFourCross = ".value *" #> (if (Constants.isFourCross) S ? "yes" else S ? "no")
 	def isRated = ".value *" #> (if (Constants.isRated) S ? "yes" else S ? "no")
 
-	def rankLimit = Constants.rankLimit.map(".value *" #> _).getOrElse(ClearNodes)
+	def rankLimit = Constants.rankLimit.map(".value *" #> _).openOr(ClearNodes)
 
 
 	def gameTimeout = "*" #> {

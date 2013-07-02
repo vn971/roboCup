@@ -1,25 +1,26 @@
-//adminPage=
-//zagramIdGracza=
-//zagramAssignGamePassword=
+#adminPage=
+#zagramIdGracza=
+#zagramAssignGamePassword=
 
 isFourCross=true
 secondsPerTurn=1
 startingMinutes=1
 registrationHours=1
 tourBreakMinutes=1
-sayHiTime=999
 isRated=false
-
-// will be localized (translated)
+#### will be localized (translated)
 organizerCodename=vasya.novikov
 
-// used in zagram id, site menu.
-// modification of resources is also needed.
+#### used in zagram id, site menu.
+#### modification of resources is also needed.
 tournamentCodename=TEST
 
-// optional
-//rankLimit=
+#### optional
+#rankLimit=
 
-// optional, doesn't work with russian letters.
+#### zagram style of field size. Examples: 3932, 3030, 2525, 2020, 4040, 2121
+fieldSize=3030
+
+#### optional, doesn't work with russian letters.
 createGameWith=vn971
 

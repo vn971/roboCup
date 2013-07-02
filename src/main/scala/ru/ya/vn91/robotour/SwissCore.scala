@@ -40,12 +40,12 @@ class SwissCore extends RegistrationCore {
 				logger.info(s"starting tournament. Number of registered players: ${registered.size}")
 				if (registered.size % 2 != 0) {
 					// swiss tournament needs an even number of players
-					register(PlayerInfo("Empty", 1200, 0, 0, 0))
-					//					registered += "Empty"
-					//					scores += "Empty" -> 0
-					//					RegisteredListSingleton ! "Empty"
+					register(PlayerInfo(emptyPlayer, 1200, 0, 0, 0))
+					//					registered += emptyPlayer
+					//					scores += emptyPlayer -> 0
+					//					RegisteredListSingleton ! emptyPlayer
 					//					ChatServer ! MessageFromAdmin("Player Empty registered.")
-					//					playedGames += "Empty" -> ListBuffer[Game]()
+					//					playedGames += emptyPlayer -> ListBuffer[Game]()
 					//					totalRounds = log2(registered.size) + 2
 				}
 				startNewRound()
@@ -55,7 +55,7 @@ class SwissCore extends RegistrationCore {
 		if (registered.contains(p.nick)) {
 			// already registered
 		} else if (rankLimit.exists(_ > p.rank) && p.nick != emptyPlayer) {
-			toZagram ! MessageToZagram(s"${p.nick}, sorry, rank limit is $rankLimit. Not registered.")
+			toZagram ! MessageToZagram(s"${p.nick}, sorry, rank limit is ${rankLimit.openOr(0)}. Not registered.")
 		} else if (p.nick startsWith "*") {
 			toZagram ! MessageToZagram(s"${p.nick}, to take a part in the tournament, please, use a registered account.")
 		} else {
