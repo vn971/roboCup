@@ -69,8 +69,8 @@ class KnockoutCore extends Actor with Loggable {
 				}
 			}
 			waiting.clear()
-			for (j <- 0 until greaterPower2 - shuffled.size) yield {
-				waiting += new Branch(shuffled(j).name, shuffled(j) :: Nil)
+			for (j <- 0 until greaterPower2 - shuffled.size) {
+				waiting += GameNode(shuffled(j).name, shuffled(j))
 			}
 
 			logger.info(s"waiting = $waiting")
@@ -89,7 +89,7 @@ class KnockoutCore extends Actor with Loggable {
 				toZagram ! MessageToZagram(info.nick+", to take a part in the tournament, please, use a registered account.")
 			} else if (waiting.forall(_.name != info.nick)) {
 				logger.info(s"registered ${info.nick}")
-				waiting += Leaf(info.nick)
+				waiting += GameNode(info.nick)
 				RegisteredListSingleton ! info.nick
 				ChatServer ! MessageFromAdmin("Player "+info.nick+" registered.")
 				WaitingSingleton ! waiting.toList
@@ -108,14 +108,14 @@ class KnockoutCore extends Actor with Loggable {
 			val containsWinnerLooser = {
 				val filter1 = playing.filter(g => g._1.name == winner && g._2.name == looser)
 				playing --= filter1
-				waiting ++= filter1.map(g => Branch(winner, List(g._1, g._2)))
+				waiting ++= filter1.map(g => GameNode(winner, g._1, g._2))
 				knockedOut ++= filter1.map(_._2)
 				filter1.size != 0
 			}
 			val containsLooserWinner = {
 				val filter2 = playing.filter(g => g._1.name == looser && g._2.name == winner)
 				playing --= filter2
-				waiting ++= filter2.map(g => Branch(winner, List(g._1, g._2)))
+				waiting ++= filter2.map(g => GameNode(winner, g._1, g._2))
 				knockedOut ++= filter2.map(_._1)
 				filter2.size != 0
 			}
