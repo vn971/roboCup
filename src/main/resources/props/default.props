@@ -8,6 +8,7 @@ startingMinutes=1
 registrationHours=1
 tourBreakMinutes=1
 isRated=false
+
 #### will be localized (translated)
 organizerCodename=vasya.novikov
 
