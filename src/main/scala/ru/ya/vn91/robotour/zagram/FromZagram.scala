@@ -1,15 +1,12 @@
-package ru.ya.vn91.robotour
+package ru.ya.vn91.robotour.zagram
 
 import akka.actor.Actor
 import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.Utils._
+import ru.ya.vn91.robotour._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.util.Random
-
-case class GameInfo(first: String, second: String)
-
-case class PlayerInfo(nick: String, rank: Int, wins: Int, losses: Int, draws: Int)
 
 class FromZagram extends Actor with Loggable {
 
@@ -97,3 +94,7 @@ class FromZagram extends Actor with Loggable {
 	}
 
 }
+
+case class GameInfo(first: String, second: String)
+
+case class PlayerInfo(nick: String, rank: Int, wins: Int, losses: Int, draws: Int)

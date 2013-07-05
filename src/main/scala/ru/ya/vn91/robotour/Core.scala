@@ -2,6 +2,7 @@ package ru.ya.vn91.robotour
 
 import akka.actor.ActorSystem
 import net.liftweb.common.Loggable
+import ru.ya.vn91.robotour.zagram.PlayerInfo
 
 case class TryRegister(info: PlayerInfo)
 case class GameWon(winner: String, looser: String)

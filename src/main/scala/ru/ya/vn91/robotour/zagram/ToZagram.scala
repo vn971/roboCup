@@ -1,8 +1,9 @@
-package ru.ya.vn91.robotour
+package ru.ya.vn91.robotour.zagram
 
 import akka.actor.Actor
 import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.Utils._
+import ru.ya.vn91.robotour.{Utils, Constants}
 import scala.concurrent.duration._
 
 case class AssignGame(

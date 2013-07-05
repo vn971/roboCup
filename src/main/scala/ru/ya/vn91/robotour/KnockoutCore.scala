@@ -10,6 +10,7 @@ import code.comet.TournamentStatus._
 import code.comet.{WaitingSingleton, KnockedOutSingleton, PlayingSingleton}
 import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.Constants._
+import ru.ya.vn91.robotour.zagram._
 import scala.collection.mutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._

@@ -1,17 +1,13 @@
 package ru.ya.vn91.robotour
 
-import code.comet.ChatServer
 import code.comet.GameResultEnumeration._
-import code.comet.GlobalStatusSingleton
-import code.comet.MessageFromAdmin
-import code.comet.RegisteredListSingleton
-import code.comet.SwissTableSingleton
 import code.comet.TournamentStatus._
+import code.comet._
 import code.comet.{ Game, Player, SwissTableData }
 import ru.ya.vn91.robotour.Constants._
+import ru.ya.vn91.robotour.zagram._
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration._
 import scala.util.Random
 
 
@@ -75,7 +71,7 @@ class SwissCore extends RegistrationCore {
 
 	}
 
-	def notifyGui() {
+	protected def notifyGui() {
 		val rows = scores.map { s =>
 			val opponent = openGames.getOpponent(s._1)
 			val opponentList = if (opponent.nonEmpty)
@@ -132,7 +128,7 @@ class SwissCore extends RegistrationCore {
 			}
 	}
 
-	def tryWaitForNextRound() {
+	protected def tryWaitForNextRound() {
 		if (openGames.size == 0) {
 			if (currentRound + 1 > totalRounds) {
 				logger.info("tournament finished!")
@@ -158,7 +154,7 @@ class SwissCore extends RegistrationCore {
 		case StartNextRound => startNewRound()
 	}
 
-	def startNewRound() {
+	protected def startNewRound() {
 		if (openGames.size == 0) {
 			val sortedPlayers = scores.toList.sortBy(s => (s._2, Random.nextInt())).reverse
 
@@ -199,10 +195,10 @@ class GameSet {
 	private val openGames = collection.mutable.LinkedHashSet[Opponents]()
 
 	def +=(b: String, a: String) {
-		openGames += (new Opponents(a, b))
+		openGames += new Opponents(a, b)
 	}
 	def -=(b: String, a: String) {
-		openGames -= (new Opponents(a, b))
+		openGames -= new Opponents(a, b)
 	}
 	def size = openGames.size
 	def contains(a: String, b: String) = {
