@@ -17,8 +17,9 @@
 	<logger name="bootstrap.liftweb" level="trace"/>
 	<logger name="code" level="trace"/>
 	<logger name="ru.ya.vn91" level="trace"/>
+	<logger name="net.liftweb" level="warn"/>
 
-	<root level="warn">
+	<root level="info">
 		<appender-ref ref="FILE"/>
 	</root>
 </configuration>

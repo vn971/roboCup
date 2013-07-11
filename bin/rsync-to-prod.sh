@@ -2,8 +2,8 @@
 
 sbt package
 
-ssh root@net.pg.lenovo service tomcat7 stop
+ssh pointsgame.net service tomcat7 stop
 
-rsync -aruvz --progress --delete target/webapp/ root@net.pg.lenovo:/var/lib/tomcat7/webapps/tournament/
+rsync -aruvz --progress --delete target/webapp/ pointsgame.net:/var/lib/tomcat7/webapps/tournament/
 
-ssh root@net.pg.lenovo service tomcat7 start
+ssh pointsgame.net service tomcat7 start

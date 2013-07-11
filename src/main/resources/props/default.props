@@ -3,13 +3,14 @@
 #zagramAssignGamePassword=
 
 isFourCross=true
-secondsPerTurn=1
-startingMinutes=1
-registrationHours=1
-tourBreakMinutes=1
+secondsPerTurn=8
+startingMinutes=12
+registrationHours=10
+tourBreakMinutes=5
 isRated=false
 
 #### will be localized (translated)
+#### currently handled: vasya.novikov, oleg.anokhin
 organizerCodename=vasya.novikov
 
 #### used in zagram id, site menu.
@@ -19,8 +20,9 @@ tournamentCodename=TEST
 #### optional
 #rankLimit=
 
-#### zagram style of field size. Examples: 3932, 3030, 2525, 2020, 4040, 2121
-fieldSize=3030
+#### OK: 39*32, 30*30, 25*25, 20*20, 40*40, 21*21, 20*40
+fieldSizeX=25
+fieldSizeY=25
 
 #### optional, doesn't work with russian letters.
 createGameWith=vn971

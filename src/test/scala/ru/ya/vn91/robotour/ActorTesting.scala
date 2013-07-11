@@ -9,7 +9,7 @@ import ru.ya.vn91.robotour.zagram.PlayerInfo
 
 class ActorTesting extends FunSuite with ShouldMatchers with Loggable {
 
-	test("registration works OK") {
+	ignore("registration works OK") {
 		implicit val system = ActorSystem("test")
 		val actorRef = TestActorRef[SwissCore]
 

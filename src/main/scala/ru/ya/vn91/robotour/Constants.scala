@@ -29,19 +29,21 @@ object Constants {
 
 	val breakTime = Props.getLong("tourBreakMinutes").openOrThrowException("").minutes
 
+	val fieldSizeX = Props.getInt("fieldSizeX", 39)
+	val fieldSizeY = Props.getInt("fieldSizeY", 32)
+	val fieldSize = fieldSizeX.toString + fieldSizeY.toString
+
 	val expectedTourTime = {
 		val turn = perTurnTime min (perTurnTime + 10.seconds) / 2
-		startingTime * 3 / 2 + breakTime + turn * 300
+		(startingTime * 3 / 2 + breakTime + turn * 300) * fieldSizeX * fieldSizeY / 30 / 30
 	}
 
 	val expectedGameTime = {
 		val turn = perTurnTime min (perTurnTime + 10.seconds) / 2
-		startingTime + turn * 130
+		(startingTime + turn * 130) * fieldSizeX * fieldSizeY / 30 / 30
 	}
 
 	val isFourCross = Props.getBool("isFourCross").openOrThrowException("")
-
-	val fieldSize = Props.get("fieldSize", "3932")
 
 	def zagramGameSettings(
 			start: FiniteDuration = startingTime,
