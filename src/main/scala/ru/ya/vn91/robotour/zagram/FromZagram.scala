@@ -73,7 +73,7 @@ class FromZagram extends Actor with Loggable {
 						// player info
 						val player = dotSplit(0)
 						val (rating, wins, losses, draws) =
-							if (dotSplit.length >= 8)
+							if (line startsWith "i*")
 								(dotSplit(4).toInt, dotSplit(5).toInt, dotSplit(7).toInt, dotSplit(6).toInt)
 							else
 								(0, 0, 0, 0)
