@@ -10,16 +10,15 @@
 		<append>true</append>
 		<encoder>
 			<pattern>%d{HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
-			<!--<pattern>%-4relative %-5level [%thread] %logger{35} - %msg%n</pattern>-->
 		</encoder>
 	</appender>
 
 	<logger name="bootstrap.liftweb" level="trace"/>
-	<logger name="code" level="trace"/>
-	<logger name="ru.ya.vn91" level="trace"/>
+	<logger name="code" level="debug"/>
+	<logger name="ru.ya.vn91" level="debug"/>
 	<logger name="net.liftweb" level="warn"/>
 
 	<root level="info">
-		<appender-ref ref="FILE"/>
+		<appender-ref ref="STDOUT"/>
 	</root>
 </configuration>

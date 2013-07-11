@@ -1,15 +1,17 @@
 package bootstrap.liftweb
 
+import java.util.Locale
 import net.liftmodules.JQueryModule
 import net.liftweb.common._
 import net.liftweb.http._
 import net.liftweb.http.js.jquery.JQueryArtifacts
+import net.liftweb.http.provider.HTTPCookie
 import net.liftweb.sitemap.Loc._
 import net.liftweb.sitemap._
+import net.liftweb.util.Props
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.{Constants, Core}
-import net.liftweb.http.provider.HTTPCookie
-import java.util.Locale
+import scala.concurrent.duration._
 
 
 /** A class that's instantiated early and run.  It allows the application
@@ -18,7 +20,7 @@ import java.util.Locale
 class Boot extends Loggable {
 	def boot() {
 
-		logger.trace("booting.")
+		logger.info("logback.xml will be taken from: " + Props.toTry.map(_()))
 
 		// where to search snippet
 		LiftRules.addToPackages("code")
@@ -46,7 +48,7 @@ class Boot extends Loggable {
 
 		LiftRules.localeCalculator = boxReq =>
 			S.param("lang").map { s =>
-				S.addCookie(HTTPCookie("lang", s))
+				S.addCookie(HTTPCookie("lang", s).setPath("/").setMaxAge(10 * 365 * 24 * 60 * 60))
 				new Locale(s)
 			}.or {
 				S.cookieValue("lang").map(new Locale(_))
