@@ -2,39 +2,32 @@ package ru.ya.vn91.robotour
 
 import java.io.IOException
 import java.net.URLEncoder
+import net.liftweb.util.ControlHelpers._
 
 object Utils {
 
-	def getLinkContent(url: String): String = {
-		try {
+	def getLinkContent(url: String) =
+		tryo {
 			val source = io.Source.fromURL(url, "UTF-8")
 			val result = source.mkString
 			source.close()
 			result
-		} catch {
-			case e: Exception =>
-				// e.printStackTrace
-				""
 		}
-	}
 
-	def readFromFile(fileName: String) = {
-		try {
+	def readFromFile(fileName: String) =
+		tryo {
 			val source = io.Source.fromFile(fileName, "UTF-8")
 			val content = source.mkString
 			source.close()
 			content
-		} catch {
-			case e: IOException => ""
 		}
-	}
 
 	def getServerEncoded(s: String) =
 		// .replaceAll("@", "@A")
 		// .replaceAll("/", "@S")
 		URLEncoder.encode(s, "UTF-8")
 
-	def getServerDecoded(s: String) = s.
+	def getZagramDecoded(s: String) = s.
 		replaceAll("@S", "/").
 		replaceAll("@A", "@").
 		replaceAll("&#60;", "<").
