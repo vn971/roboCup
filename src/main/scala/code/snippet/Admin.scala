@@ -24,9 +24,6 @@ object Admin extends Loggable {
 		}
 	})
 
-	def startNow = SHtml.onSubmit(nick => {
-	})
-
 	def register = SHtml.onSubmit(nick => {
 		logger.info(s"registered $nick")
 		Core.core ! new TryRegister(PlayerInfo(nick, 1200, 0, 0, 0))
