@@ -8,16 +8,7 @@ import java.util.TimeZone
 import net.liftweb.util.Props
 import scala.concurrent.duration._
 
-/** global tournament constants mostly
- */
 object Constants {
-
-	// Имя турнира? Например, RoboCup XVII "все возраста". Можно отдельные имена на русском, англ и польском.
-	// Дата?
-	// Швейцарка? Импорт рейтов? Проходной рейт? Размер поля? Рейтовость?
-	// Сек/ход? 4скрест? Время регистрации игроков (в часах) ?
-	// Перерыв между партиями (в минутах) ?
-	// Имя организатора (например, Vasya Novikov (Вася Новиков), Oleg Anokhin (agent47)) ?
 
 	val registrationTime = Props.getLong("registrationHours").openOrThrowException("").hours
 

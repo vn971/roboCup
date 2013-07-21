@@ -3,26 +3,26 @@
 #zagramAssignGamePassword=
 
 isFourCross=true
-secondsPerTurn=8
-startingMinutes=12
+secondsPerTurn=7
+startingMinutes=7
 registrationHours=10
 tourBreakMinutes=5
-isRated=false
+isRated=true
 
 #### will be localized (translated)
-#### currently handled: vasya.novikov, oleg.anokhin
+#### currently handled: vasya.novikov, oleg.anokhin, vanya.geyko
 organizerCodename=vasya.novikov
 
 #### used in zagram id, site menu.
 #### modification of resources is also needed.
-tournamentCodename=TEST
+tournamentCodename=PGL RoboCup XII
 
 #### optional
 #rankLimit=1200
 
 #### OK: 39*32, 30*30, 25*25, 20*20, 40*40, 21*21, 20*40
-fieldSizeX=25
-fieldSizeY=25
+fieldSizeX=40
+fieldSizeY=40
 
 #### optional, doesn't work with russian letters.
 createGameWith=vn971
