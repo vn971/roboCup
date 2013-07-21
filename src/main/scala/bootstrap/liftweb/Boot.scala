@@ -46,15 +46,24 @@ class Boot extends Loggable {
 
 		LiftRules.setSiteMap(sitemap)
 
-		LiftRules.localeCalculator = boxReq =>
-			S.param("lang").map { s =>
+		LiftRules.localeCalculator = boxReq => {
+			def newCookie(s: String) = {
 				S.addCookie(HTTPCookie("lang", s).setPath("/").setMaxAge(10 * 365 * 24 * 60 * 60))
 				new Locale(s)
-			}.or {
-				S.cookieValue("lang").map(new Locale(_))
-			}.openOr {
-				LiftRules.defaultLocaleCalculator(boxReq)
 			}
+			def fromCookie = S.cookieValue("lang").map(new Locale(_))
+			def defaultCalculator = LiftRules.defaultLocaleCalculator(boxReq)
+
+			val locale = S.param("lang").map(newCookie).
+					or(fromCookie).
+					openOr(defaultCalculator)
+
+			if (locale.getLanguage.toLowerCase.matches(".*(ua|be|kz|ge).*")) {
+				new Locale("ru")
+			} else {
+				locale
+			}
+		}
 
 
 		LiftRules.unloadHooks.append { () =>

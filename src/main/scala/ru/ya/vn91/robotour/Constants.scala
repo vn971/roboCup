@@ -25,13 +25,13 @@ object Constants {
 
 	val perTurnTime = Props.getInt("secondsPerTurn").openOrThrowException("").seconds
 
-	val gameTimeout = startingTime * 2 + perTurnTime * 9999
-
 	val breakTime = Props.getLong("tourBreakMinutes").openOrThrowException("").minutes
 
 	val fieldSizeX = Props.getInt("fieldSizeX", 39)
 	val fieldSizeY = Props.getInt("fieldSizeY", 32)
 	val fieldSize = fieldSizeX.toString + fieldSizeY.toString
+
+	val gameTimeout = startingTime * 2 + perTurnTime * fieldSizeX * fieldSizeY
 
 	val expectedTourTime = {
 		val turn = perTurnTime min (perTurnTime + 10.seconds) / 2

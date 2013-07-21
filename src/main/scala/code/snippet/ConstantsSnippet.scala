@@ -2,34 +2,29 @@ package code.snippet
 
 import net.liftweb.common.Loggable
 import net.liftweb.http.S
-import net.liftweb.util.ClearNodes
 import net.liftweb.util.Helpers._
 import ru.ya.vn91.robotour.Constants
+import ru.ya.vn91.robotour.Constants._
+import scala.xml.Text
 
 
 object ConstantsSnippet extends Loggable {
 
-	def tourBrakeTime = ".value *" #> Constants.breakTime.toMinutes
-	def secsPerTurn = ".value *" #> Constants.perTurnTime.toSeconds
-	def startingMinutes = ".value *" #> Constants.startingTime.toMinutes
-	def organizerName = ".value *" #> (S ? Constants.organizerCodename)
+	def gameSettings =
+		".rankLimit" #> rankLimit.map(".value *" #> _) &
+				".tourBrakeTime *" #> breakTime.toMinutes &
+				".secsPerTurn *" #> perTurnTime.toSeconds &
+				".fieldSize *" #> Text(s"$fieldSizeX x $fieldSizeY") &
+				".startingMinutes *" #> startingTime.toMinutes &
+				".isFourCross *" #> (if (isFourCross) S ? "yes" else S ? "no") &
+				".isRated *" #> (if (isRated) S ? "yes" else S ? "no") &
+				".expectedGameTime *" #> expectedGameTime.toMinutes &
+				".expectedTourTime *" #> expectedTourTime.toMinutes &
+				".organizerName *" #> (S ? organizerCodename) &
+				".gameTimeout *" #> s"${gameTimeout.toMinutes / 60}:${gameTimeout.toMinutes % 60}"
 
-	def isFourCross = ".value *" #> (if (Constants.isFourCross) S ? "yes" else S ? "no")
-	def isRated = ".value *" #> (if (Constants.isRated) S ? "yes" else S ? "no")
+	def conf = Text(sys.props.getOrElse("run.mode", "none"))
 
-	def rankLimit = Constants.rankLimit.map(".value *" #> _).openOr(ClearNodes)
-
-
-	def gameTimeout = "*" #> {
-		val minutes = Constants.gameTimeout.toMinutes
-		(minutes / 60) + ":" + (minutes % 60)
-	}
-
-	def conf = "*" #> sys.props.getOrElse("run.mode", "none")
-
-	def timeInMoscow = "*" #> Constants.timeLongToHours(System.currentTimeMillis)
-
-	def expectedGameTime = "* *" #> Constants.expectedGameTime.toMinutes
-	def expectedTourTime = "* *" #> Constants.expectedTourTime.toMinutes
+	def timeInMoscow = Text(Constants.timeLongToHours(System.currentTimeMillis))
 
 }

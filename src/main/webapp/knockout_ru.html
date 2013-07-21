@@ -10,46 +10,36 @@
 
 		Играемые сейчас игры:
 		<ul data-lift="comet?type=Playing">
-			<li>A message</li>
-			<li class="clearable">Another message</li>
-			<li class="clearable">A third message</li>
+			<li></li>
 		</ul>
 
 		<br /> Уже сыгранные игры (победитель ждёт следующего тура):
 		<ul data-lift="comet?type=Waiting">
-			<li>A message</li>
-			<li class="clearable">Another message</li>
-			<li class="clearable">A third message</li>
+			<li></li>
 		</ul>
 
 		<!-- 
 		<br /> Выбывшие игроки:
 		<ul class="lift:comet?type=KnockedOut">
-			<li>A message</li>
-			<li class="clearable">Another message</li>
-			<li class="clearable">A third message</li>
+			<li></li>
 		</ul>
 		 -->
 
 		<h2>Правила</h2>
 		Индивидуальные правила этого турнира: <br /> <br />
-		<ul>
-			<li>Формат турнира: плэй-офф.</li>
-			<li>Настройки игр: 1 минута на первый ход, 3 минуты стартового
-				несгораемого времени, <span
-				data-lift="constantsSnippet.secsPerTurn"></span> сек/ход,
-				нерейтинг, 1-скрест.</li>
-			<li>Интервал между раундами турнира (время на "передых") - <span
-				data-lift="constantsSnippet.tourBrakeTime"></span> минут.</li>
-			<li>Оппоненты назначаются произвольно (сервером).</li>
-			<li>Рандомный игрок назначается победителем в двух случаях: или
-				продолжительность партии превысила <span
-				data-lift="constantsSnippet.gameTimeout"></span> (часы:минуты), или
-				игроки имеют одинаковое число точек к концу партии.
+		<ul data-lift="ConstantsSnippet.gameSettings">
+			<li>Формат турнира: <strong>плэй-офф</strong>.</li>
+			<li class="rankLimit">Проходной рейтинг на заграме: <strong class="value"></strong>.</li>
+			<li>Интервал между играми (время на "передых"): <strong class="tourBrakeTime"></strong> минут.</li>
+			<li>Стартовое время: <strong class="startingMinutes"></strong> минут.</li>
+			<li>Секунд на ход: <strong class="secsPerTurn"></strong>.</li>
+			<li>Используется 4скрест: <strong class="isFourCross"></strong>.</li>
+			<li>Игры являются рейтинговыми: <strong class="isRated"></strong>.</li>
+			<li>Рандомный игрок назначается победителем в двух случаях:
+				или продолжительность партии превысила <strong class="gameTimeout"></strong>&nbsp;(часы:минуты),
+				или игроки имеют <strong>одинаковое</strong> число точек к концу партии.
 			</li>
-			<li>Основной организатор турнира: <span
-				data-lift="constantsSnippet.organizerName"></span>.
-			</li>
+			<li>Организатор турнира: <strong class="organizerName"></strong>.</li>
 		</ul>
 
 	</div>

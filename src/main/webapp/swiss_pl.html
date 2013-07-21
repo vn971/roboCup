@@ -28,7 +28,7 @@
 		 -->
 		Szczególne zasady dla tego turnieju: <br /> <br />
 
-		<ul>
+		<ul data-lift="ConstantsSnippet.gameSettings">
 
 			<li>System turniejowy:
 				<a href="aboutSwiss" target="_blank"><strong>szwajcarski</strong></a>.
@@ -36,19 +36,14 @@
 
 			<!-- 
 			<li>Zagram pass-through rating: 1400.  (any => jakikolwiek)</li>
-
 			 -->
-			<li data-lift="ConstantsSnippet.rankLimit">
-				Minimalny ranking na zagram.org: <strong class="value"></strong>.</li>
+			<li class="rankLimit">Minimalny ranking na zagram.org: <strong class="value"></strong>.</li>
 
-			<!-- <li>Zagram rating import is used: no.</li> -->
-
-			<!-- 
+			<!--
 			<li>Time between games (time to rest): <span
 				class="lift:ConstantsSnippet.tourBrakeTime"></span> minutes.</li>
 			 -->
-			<li	data-lift="ConstantsSnippet.tourBrakeTime">
-				Czas pomiędzy grami (na odpoczynek): <strong class="value"></strong> minut.</li>
+			<li>Czas pomiędzy grami (na odpoczynek): <strong class="tourBrakeTime"></strong> minut.</li>
 
 			<!-- 
 			<li>Waiting opponent time: 3 minute/minutes.</li>
@@ -58,35 +53,29 @@
 			<!-- 
 			<li>Starting time: 2 minutes.</li>
 			 -->
-			<li class="lift:ConstantsSnippet.startingMinutes">
-				Czas początkowy: <strong class="value"></strong> minutes.</li>
+			<li>Czas początkowy: <strong class="startingMinutes"></strong> minutes.</li>
 
 			<!-- 
 			<li>Seconds per turn: 10.</li>
 			 -->
-			<li data-lift="ConstantsSnippet.secsPerTurn">
-				Sekund na ruch: <strong class="value"></strong>.</li>
+			<li>Sekund na ruch: <strong class="secsPerTurn"></strong>.</li>
 
 			<!-- 
 			<li>4-cross is used: yes. (nie / tak)</li>
 			 -->
-			<li data-lift="ConstantsSnippet.isFourCross">
-				Pozycja początkowa to 4X: <strong class="value"></strong>.</li>
+			<li>Pozycja początkowa to 4X: <strong class="isFourCross"></strong>.</li>
 
 			<!-- 
 			<li>Games are rated: no. (nie / tak)</li>
 			 -->
-			<li data-lift="ConstantsSnippet.isRated">
-				Gry są rankingowe: <strong class="value"></strong>.</li>
+			<li>Gry są rankingowe: <strong class="isRated"></strong>.</li>
 
 			<li>Average length of game:
-				<strong data-lift="ConstantsSnippet.expectedGameTime"></strong> minutes.
+				<strong class="expectedGameTime"></strong> minutes.
 				Expected time of round (maximum time for all players in round + break):
-				<strong data-lift="ConstantsSnippet.expectedTourTime"></strong> minutes.</li>
+				<strong class="expectedTourTime"></strong> minutes.</li>
 
-			<li data-lift="constantsSnippet.organizerName">
-				Organizatorem turnieju jest <strong class="value"></strong>.
-			</li>
+			<li>Organizatorem turnieju jest <strong class="organizerName"></strong>.</li>
 
 		</ul>
 

@@ -38,50 +38,56 @@
 		 -->
 		Szczególne zasady dla tego turnieju: <br /> <br />
 
-		<ul>
+		<ul data-lift="ConstantsSnippet.gameSettings">
 
 			<!-- 
 			<li>Tournament format is play-off.</li>
 		 -->
-			<li>Format turnieju: system pucharowy (play-off).</li>
+			<li>Format turnieju: <strong>system pucharowy</strong> (play-off).</li>
 
-			<!-- 
-			<li>Game settings are: 3 minutes for the first turn, 1 minute starting time, <span
-				class="lift:ConstantsSnippet.secsPerTurn"></span> sec/turn, unrated,
-				1-cross.</li>
-				</li>
-		 -->
-			<li>Ustawienia gry: 1 minuta na pierwszy ruch, 3 minuty na
-				rozpoczęcie, <span data-lift="ConstantsSnippet.secsPerTurn"></span>s/ruch,
-				gra towarzyska, pozycja początkowa 1 X.</li>
+			<!--
+			<li>Zagram pass-through rating: 1400.  (any => jakikolwiek)</li>
+			 -->
+			<li class="rankLimit">Minimalny ranking na zagram.org: <strong class="value"></strong>.</li>
 
-			<!-- 
-			<li>Time between rounds (time to rest) is set to <span
+			<!--
+			<li>Time between games (time to rest): <span
 				class="lift:ConstantsSnippet.tourBrakeTime"></span> minutes.</li>
 			 -->
-			<li>Czas pomiędzy rundami (na odpoczynek) jest ustawiony na <span
-				data-lift="ConstantsSnippet.tourBrakeTime"></span> minut.</li>
+			<li>Czas pomiędzy grami (na odpoczynek): <strong class="tourBrakeTime"></strong> minut.</li>
 
-			<!-- 
-			<li>Opponents are assigned randomly (by the server).</li>
+			<!--
+			<li>Starting time: 2 minutes.</li>
 			 -->
-			<li>Przeciwnicy są dobierani losowo (przez serwer).</li>
+			<li>Czas początkowy: <strong class="startingMinutes"></strong> minutes.</li>
 
-			<!-- 
+			<!--
+			<li>Seconds per turn: 10.</li>
+			 -->
+			<li>Sekund na ruch: <strong class="secsPerTurn"></strong>.</li>
+
+			<!--
+			<li>4-cross is used: yes. (nie / tak)</li>
+			 -->
+			<li>Pozycja początkowa to 4X: <strong class="isFourCross"></strong>.</li>
+
+			<!--
+			<li>Games are rated: no. (nie / tak)</li>
+			 -->
+			<li>Gry są rankingowe: <strong class="isRated"></strong>.</li>
+
+			<!--
 			<li>A random player is picked up as a winner in two cases:
 				either game length has exceeded <span
-				class="lift:ConstantsSnippet.gameTimeout"></span> (hours:minutes) or
+				class="gameTimeout"></span> (hours:minutes) or
 				players have equal dot count at the end of game.</li>
 			 -->
 			<li>Zwycięzca jest wybierany losowo w dwóch przypadkach: gdy
-				czas gry przekroczył <span data-lift="ConstantsSnippet.gameTimeout"></span>
-				(godzin:minut) lub gdy gracze zdobyli równą liczbę kropek do końca
+				czas gry przekroczył <strong class="gameTimeout"></strong>
+				(godzin:minut) lub gdy gracze zdobyli <strong>równą</strong> liczbę kropek do końca
 				gry.</li>
 
-			<!-- <li>Tournament organizer is ZZZ.</li> -->
-			<li>Organizatorem turnieju jest <span
-				data-lift="constantsSnippet.organizerName"></span>.
-			</li>
+			<li>Organizatorem turnieju jest <strong class="organizerName"></strong>.</li>
 
 		</ul>
 

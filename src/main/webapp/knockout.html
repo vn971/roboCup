@@ -27,23 +27,19 @@
 
 		<h2>Rules</h2>
 		Individual rules of this tournament: <br /> <br />
-		<ul>
-			<li>Tournament format is play-off.</li>
-			<li>Game settings are: <span data-lift="ConstantsSnippet.startingMinutes"></span> minutes
-				starting time, <span data-lift="ConstantsSnippet.secsPerTurn"></span>
-				sec/turn, unrated, 1-cross.
-			</li>
-			<li>Time between rounds (time to rest) is set to <span
-				data-lift="ConstantsSnippet.tourBrakeTime"></span> minutes.
-			</li>
-			<li>Opponents are assigned ramdomly (by the server).</li>
+		<ul data-lift="ConstantsSnippet.gameSettings">
+			<li>Tournament format is <strong>play-off</strong>.</li>
+			<li class="rankLimit">Zagram pass-through rating: <strong class="value"></strong>.</li>
+			<li>Starting time: <strong class="startingMinutes"></strong> minutes.</li>
+			<li>Seconds per turn: <strong class="secsPerTurn"></strong>.</li>
+			<li>4-cross is used: <strong class="isFourCross"></strong>.</li>
+			<li>Games are rated: <strong class="isRated"></strong>.</li>
+			<li>Time between games (time to rest): <strong class="tourBrakeTime"></strong> minutes.</li>
 			<li>A random player is assigned as a winner in two cases: either
-				game length has exceeds <span
-				data-lift="ConstantsSnippet.gameTimeout"></span> (hours:minutes) or
-				players get equal dot count at the end of game.
+				game length has exceeds <strong class="gameTimeout"></strong> (hours:minutes) or
+				players get <strong>equal</strong> dot count at the end of game.
 			</li>
-			<li>Tournament organizer is <span
-				data-lift="constantsSnippet.organizerName"></span>.
+			<li>Tournament organizer is <strong class="organizerName"></strong>.
 			</li>
 
 		</ul>
