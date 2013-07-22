@@ -6,6 +6,13 @@
 </head>
 <body class="lift:content_id=main">
 	<div id="main" class="lift:surround?with=default;at=content">
+
+		<head_merge>
+			<link rel="stylesheet" href="/static/css/bootstrap-datetimepicker-2.2.2.min.css"/>
+			<link rel="stylesheet" href="/static/css/bootstrap-combined-2.2.2.min.css"/>
+			<link href="/static/css/bootstrap-2.3.1.min.css" type="text/css" rel="stylesheet"/>
+		</head_merge>
+
 		<h2>Администрирование</h2>
 
 		<h3>Назначить время старта</h3>
@@ -14,10 +21,17 @@
 			2012.12.31 19:59 означает декабрь 31-ое число, игры начнутся в 19:59
 			по Москве, регистрация откроется на несколько часов раньше (сейчас 1
 			час).
-			<form class="lift:form.ajax">
-				<input class="lift:Admin.setTime" id="timeSetter" /> <input
-					type="submit" value="Назначить время старта" />
+			<form>
+				<label for="datePublish">Назначить время старта:</label>
+			<span class="input-append date dateTimePicker">
+				<input id="datePublish" class="input-medium inline" type="text" placeholder="yyyy.MM.dd hh:mm"/>
+				<span class="add-on"><i data-time-icon="icon-time" data-date-icon="icon-calendar"></i></span>
+			</span>
 			</form>
+			<!--<form class="lift:form.ajax">-->
+				<!--<input class="lift:Admin.setTime" id="timeSetter" /> <input-->
+					<!--type="submit" value="Назначить время старта" />-->
+			<!--</form>-->
 		</div>
 		<br />
 
@@ -72,6 +86,21 @@
 			run.mode = <span class="lift:ConstantsSnippet.conf"></span>
 		</div>
 		<br />
+
+
+		<tail>
+			<script type="text/javascript" src="/static/js/bootstrap-2.2.2.min.js"></script>
+			<script type="text/javascript" src="/static/js/bootstrap-datetimepicker-2.2.2.min.js"></script>
+			<script type="text/javascript" src="/static/js/bootstrap-datetimepicker-2.2.2.ru.js"></script>
+
+			<script type="text/javascript">
+				$('.dateTimePicker').datetimepicker({
+					format: 'yyyy.MM.dd hh:mm',
+					weekStart: 1,
+					pickSeconds: false
+				});
+			</script>
+		</tail>
 
 	</div>
 </body>
