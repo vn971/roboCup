@@ -12,7 +12,7 @@ import ru.ya.vn91.robotour.zagram.{AssignGame, ToZagram, PlayerInfo}
 
 object Admin extends Loggable {
 
-	def setTime() = SHtml.onSubmit(timeAsString => {
+	def setTime() = SHtml.onSubmit { timeAsString =>
 		try {
 			logger.info("tournament time set (" + timeAsString + ")")
 			val startTime = timeStringToLong(timeAsString)
@@ -20,21 +20,21 @@ object Admin extends Loggable {
 			Core.core ! StartRegistration(regTime)
 			SetValById("timeSetter", "time set.")
 		} catch {
-			case t: Exception => SetValById("timeSetter", "error. Try again...")
+			case t: Exception => Alert("ERROR")
 		}
-	})
+	}
 
-	def register = SHtml.onSubmit(nick => {
+	def register = SHtml.onSubmit { nick =>
 		logger.info(s"registered $nick")
 		Core.core ! new TryRegister(PlayerInfo(nick, 1200, 0, 0, 0))
 		SetValById("playerRegistrator", "")
-	})
+	}
 
-	def setStatus() = SHtml.onSubmit(status => {
+	def setStatus() = SHtml.onSubmit { status =>
 		logger.info(s"setting status $status")
 		GlobalStatusSingleton ! CustomStatus(status)
 		SetValById("setStatus", "")
-	})
+	}
 
 	def winGame = SHtml.onSubmit { twoPlayers =>
 		(for {
@@ -49,7 +49,7 @@ object Admin extends Loggable {
 		}
 	}
 
-	def assignGame = SHtml.onSubmit(twoPlayers => {
+	def assignGame = SHtml.onSubmit { twoPlayers =>
 		(for {
 			first <- twoPlayers.split('/').lift(0)
 			second <- twoPlayers.split('/').lift(1)
@@ -60,8 +60,6 @@ object Admin extends Loggable {
 		}).getOrElse {
 			Alert("ERROR")
 		}
-	})
-
-	def newTournament = SHtml.onSubmit(s => "")
+	}
 
 }
