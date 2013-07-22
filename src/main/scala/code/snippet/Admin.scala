@@ -36,20 +36,30 @@ object Admin extends Loggable {
 		SetValById("setStatus", "")
 	})
 
-	def winGame = SHtml.onSubmit(twoPlayers => {
-		logger.info(s"assigning winner: $twoPlayers")
-		val winner = twoPlayers.split('/')(0)
-		val looser = twoPlayers.split('/')(1)
-		Core.core ! GameWon(winner, looser)
-		SetValById("winGame", "OK, game result sent")
-	})
+	def winGame = SHtml.onSubmit { twoPlayers =>
+		(for {
+			winner <- twoPlayers.split('/').lift(0)
+			looser <- twoPlayers.split('/').lift(1)
+		} yield {
+			logger.info(s"assigning game result: $winner > $looser")
+			Core.core ! GameWon(winner, looser)
+			SetValById("winGame", "OK, game result sent")
+		}).getOrElse {
+			Alert("ERROR")
+		}
+	}
 
 	def assignGame = SHtml.onSubmit(twoPlayers => {
-		logger.info(s"assigning game: $twoPlayers")
-		val first = twoPlayers.split('/')(0)
-		val second = twoPlayers.split('/')(1)
-		Core.system.actorOf(Props[ToZagram], name = "core.toZagram") ! AssignGame(first, second)
-		SetValById("assignGame", "")
+		(for {
+			first <- twoPlayers.split('/').lift(0)
+			second <- twoPlayers.split('/').lift(1)
+		} yield {
+			logger.info(s"assigning game: $twoPlayers")
+			Core.system.actorOf(Props[ToZagram], name = "core.toZagram") ! AssignGame(first, second)
+			SetValById("assignGame", "OK, assigned")
+		}).getOrElse {
+			Alert("ERROR")
+		}
 	})
 
 	def newTournament = SHtml.onSubmit(s => "")
