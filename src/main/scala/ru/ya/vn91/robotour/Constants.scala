@@ -22,7 +22,7 @@ object Constants {
 	val fieldSizeY = Props.getInt("fieldSizeY", 32)
 	val fieldSize = fieldSizeX.toString + fieldSizeY.toString
 
-	val gameTimeout = startingTime * 2 + perTurnTime * fieldSizeX * fieldSizeY
+	val gameTimeout = startingTime * 2 + perTurnTime * fieldSizeX * fieldSizeY + 10.minutes
 
 	val expectedTourTime = {
 		val turn = perTurnTime min (perTurnTime + 10.seconds) / 2
