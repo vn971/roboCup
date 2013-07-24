@@ -15,7 +15,7 @@
 
 	<logger name="bootstrap.liftweb" level="trace"/>
 	<logger name="code" level="debug"/>
-	<logger name="ru.ya.vn91" level="debug"/>
+	<logger name="ru.ya.vn91.robotour" level="debug"/>
 	<logger name="net.liftweb" level="warn"/>
 
 	<root level="info">

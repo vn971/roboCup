@@ -7,4 +7,4 @@
 /target/
 
 /vasya.console.log
-/src/main/resources/props/production.default.props
+/src/main/resources/props/production.*
