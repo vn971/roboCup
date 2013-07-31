@@ -2,12 +2,9 @@ package ru.ya.vn91.robotour
 
 import akka.actor.Actor
 import akka.actor.Props
-import code.comet.ChatServer
-import code.comet.GlobalStatusSingleton
-import code.comet.MessageFromAdmin
-import code.comet.RegisteredListSingleton
-import code.comet.TimeStartSingleton
-import code.comet.TournamentStatus._
+import code.comet.TournamentStatus.RegistrationAssigned
+import code.comet.TournamentStatus.RegistrationInProgress
+import code.comet._
 import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.zagram._
@@ -56,7 +53,7 @@ trait RegistrationCore extends Actor with Loggable {
 			logger.info(s"registered ${playerInfo.nick}")
 			registered += playerInfo.nick
 			RegisteredListSingleton ! playerInfo.nick
-			ChatServer ! MessageFromAdmin(s"Player ${playerInfo.nick} registered.")
+			ChatServer ! MessageToChatServer(s"Player ${playerInfo.nick} registered.")
 		}
 	}
 

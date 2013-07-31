@@ -62,7 +62,7 @@ class SwissCore extends RegistrationCore {
 			}
 			registered += p.nick
 			RegisteredListSingleton ! p.nick
-			ChatServer ! MessageFromAdmin(s"Player ${p.nick} registered.")
+			ChatServer ! MessageToChatServer(s"Player ${p.nick} registered.")
 			playedGames += p.nick -> ListBuffer[Game]()
 			totalRounds = log2(registered.size) + 2
 			logger.info(s"registered player: ${p.nick}. Total rounds now: $totalRounds")
@@ -87,7 +87,7 @@ class SwissCore extends RegistrationCore {
 		case GameWon(winner, looser) =>
 			if (openGames.contains(winner, looser)) {
 				logger.info(s"gameWon $winner > $looser")
-				ChatServer ! MessageFromAdmin(s"$winner won a game against $looser")
+				ChatServer ! MessageToChatServer(s"$winner won a game against $looser")
 
 				openGames -= (winner, looser)
 				playedGames(winner) += Game(looser, Win)
@@ -101,7 +101,7 @@ class SwissCore extends RegistrationCore {
 		case GameDraw(first, second) =>
 			if (openGames.contains(first, second)) {
 				logger.info(s"gameDraw $first = $second")
-				ChatServer ! MessageFromAdmin(s"game $first - $second ended with draw")
+				ChatServer ! MessageToChatServer(s"game $first - $second ended with draw")
 
 				openGames -= (first, second)
 				playedGames(first) += Game(second, Draw)

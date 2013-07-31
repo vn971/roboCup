@@ -1,13 +1,8 @@
 package ru.ya.vn91.robotour
 
 import akka.actor._
-import code.comet.ChatServer
-import code.comet.GlobalStatusSingleton
-import code.comet.MessageFromAdmin
-import code.comet.RegisteredListSingleton
-import code.comet.TimeStartSingleton
 import code.comet.TournamentStatus._
-import code.comet.{WaitingSingleton, KnockedOutSingleton, PlayingSingleton}
+import code.comet._
 import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.zagram._
@@ -92,7 +87,7 @@ class KnockoutCore extends Actor with Loggable {
 				logger.info(s"registered ${info.nick}")
 				waiting += GameNode(info.nick)
 				RegisteredListSingleton ! info.nick
-				ChatServer ! MessageFromAdmin("Player "+info.nick+" registered.")
+				ChatServer ! MessageToChatServer("Player "+info.nick+" registered.")
 				WaitingSingleton ! waiting.toList
 			}
 		}
@@ -122,7 +117,7 @@ class KnockoutCore extends Actor with Loggable {
 			}
 			if (containsWinnerLooser || containsLooserWinner) {
 				logger.info(s"game won: $winner > $looser")
-				ChatServer ! MessageFromAdmin(winner+" has won a game against "+looser)
+				ChatServer ! MessageToChatServer(winner+" has won a game against "+looser)
 				WaitingSingleton ! waiting.toList
 				PlayingSingleton ! playing.toList
 				KnockedOutSingleton ! knockedOut.toList

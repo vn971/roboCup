@@ -12,6 +12,7 @@ import net.liftweb.util.Props
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.{Constants, Core}
 import scala.concurrent.duration._
+import code.rest.ChatAtom
 
 
 /** A class that's instantiated early and run.  It allows the application
@@ -24,6 +25,8 @@ class Boot extends Loggable {
 
 		// where to search snippet
 		LiftRules.addToPackages("code")
+
+		LiftRules.statelessDispatch.append(ChatAtom)
 
 		val adminPage =
 			Constants.adminPage.map(

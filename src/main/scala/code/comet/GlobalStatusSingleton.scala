@@ -18,45 +18,45 @@ object GlobalStatusSingleton extends LiftActor with ListenerManager {
 		case s: RegistrationAssigned =>
 			status = s
 			updateListeners()
-			ChatServer ! MessageFromAdmin("Assigned tournament start!")
-			ChatServer ! MessageFromAdmin("Registration starts at: "+timeLongToString(s.time))
-			ChatServer ! MessageFromAdmin(
+			ChatServer ! MessageToChatServer("Assigned tournament start!")
+			ChatServer ! MessageToChatServer("Registration starts at: "+timeLongToString(s.time))
+			ChatServer ! MessageToChatServer(
 				"First round (start of games): " +
 						timeLongToString(s.time + registrationTime.toMillis))
 		case s: RegistrationInProgress =>
 			status = s
 			updateListeners()
-			ChatServer ! MessageFromAdmin("Registration opened!")
+			ChatServer ! MessageToChatServer("Registration opened!")
 		case s: GamePlaying =>
 			status = s
 			updateListeners()
-			ChatServer ! MessageFromAdmin("Started next round!")
+			ChatServer ! MessageToChatServer("Started next round!")
 		case s: WaitingForNextTour =>
 			status = s
 			updateListeners()
-			ChatServer ! MessageFromAdmin("Next round will start at "+timeLongToHours(s.time))
+			ChatServer ! MessageToChatServer("Next round will start at "+timeLongToHours(s.time))
 		case s: FinishedWithWinner =>
 		status = s
 		updateListeners()
-		ChatServer ! MessageFromAdmin("Tournament finished!")
-		ChatServer ! MessageFromAdmin("Winner: "+s.winner)
+		ChatServer ! MessageToChatServer("Tournament finished!")
+		ChatServer ! MessageToChatServer("Winner: "+s.winner)
 		case s: FinishedWithWinners =>
 			status = s
 			updateListeners()
-			ChatServer ! MessageFromAdmin("Tournament finished!")
-			ChatServer ! MessageFromAdmin("Winners: "+s.winners.mkString(", "))
+			ChatServer ! MessageToChatServer("Tournament finished!")
+			ChatServer ! MessageToChatServer("Winners: "+s.winners.mkString(", "))
 		case FinishedWithDraw =>
 			status = FinishedWithDraw
 			updateListeners()
-			ChatServer ! MessageFromAdmin("Tournament finished!")
-			ChatServer ! MessageFromAdmin("Result: draw!")
+			ChatServer ! MessageToChatServer("Tournament finished!")
+			ChatServer ! MessageToChatServer("Result: draw!")
 		case s: CustomStatus =>
 			status = s
 			updateListeners()
 		case s: ErrorStatus =>
 			status = s
 			updateListeners()
-			ChatServer ! MessageFromAdmin("В серверном обработчике турнира произошла ошибка: "+s.reason)
+			ChatServer ! MessageToChatServer("В серверном обработчике турнира произошла ошибка: "+s.reason)
 		case any: Status =>
 			status = any
 			updateListeners()
