@@ -6,17 +6,10 @@ case "0.11.3" => "com.github.siasia" %% "xsbt-web-plugin" % "0.11.3-0.2.11.1"
 case x if (x.startsWith("0.12")) => "com.github.siasia" %% "xsbt-web-plugin" % "0.12.0-0.2.11.1"
 })
 
-resolvers += "Sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/"
+addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "1.5.1") // sbt command: gen-idea
 
-addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "2.0.0")
+addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.1.2") // dependency-update
 
-addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "1.2.0")
+addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "2.2.0") // eclipse with-sources=true
 
-//addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.7.1")
-
-
-resolvers += Classpaths.typesafeResolver
-
-// resolvers += "scct-github-repository" at "http://mtkopone.github.com/scct/maven-repo"
-
-// addSbtPlugin("reaktor" % "sbt-scct" % "0.2-SNAPSHOT")
+addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.7.4") // dependency-graph

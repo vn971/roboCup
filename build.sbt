@@ -9,22 +9,21 @@ organization := "ru.ya.vn91.roboTour"
 
 description := "Automatic tournaments for the game Points"
 
-retrieveManaged := true
-
-scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature")
 
 seq(com.github.siasia.WebPlugin.webSettings :_*)
 
-// seq(ScctPlugin.instrumentSettings: _*)
+net.virtualvoid.sbt.graph.Plugin.graphSettings
 
-// net.virtualvoid.sbt.graph.Plugin.graphSettings
+
+retrieveManaged := true
+
+scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature")
 
 Keys.`package` <<= (Keys.`package` in Compile) dependsOn (test in Test)
 
 port in container.Configuration := 8989
 
-// using 0.2.4+ of the sbt web plugin
-scanDirectories in Compile := Nil
+scanDirectories in Compile := Nil // using 0.2.4+ of the sbt web plugin
 
 
 resolvers ++= Seq(
@@ -38,21 +37,15 @@ resolvers ++= Seq(
 )
 
 
-libraryDependencies ++= {
-	val liftVersion = "2.5"
-	Seq(
-		"net.liftmodules" %% "lift-jquery-module" % "2.5-RC2-2.2",
-		"net.liftweb" %% "lift-util" % liftVersion,
-		"net.liftweb" %% "lift-webkit" % liftVersion,
-		"net.liftweb" %% "lift-actor" % liftVersion,
-		"net.liftweb" %% "lift-common" % liftVersion
-	)
-}
-
 libraryDependencies ++= Seq(
-	"ch.qos.logback" % "logback-classic" % "1.0.6",
-	"com.typesafe.akka" % "akka-actor_2.10" % "2.1.2",
-	"com.typesafe.akka" % "akka-testkit_2.10" % "2.1.2" % "test",
+	"ch.qos.logback" % "logback-classic" % "1.0.13",
+	"com.typesafe.akka" % "akka-actor_2.10" % "2.2.0",
+	"com.typesafe.akka" % "akka-testkit_2.10" % "2.2.0" % "test",
+	"net.liftmodules" %% "lift-jquery-module" % "2.5-RC4-2.3",
+	"net.liftweb"     %% "lift-util"   % "2.5.1",
+	"net.liftweb"     %% "lift-webkit" % "2.5.1",
+	"net.liftweb"     %% "lift-actor"  % "2.5.1",
+	"net.liftweb"     %% "lift-common" % "2.5.1",
 	"org.eclipse.jetty" % "jetty-webapp"        % "8.1.7.v20120910"  % "container,test",
 	"org.eclipse.jetty.orbit" % "javax.servlet" % "3.0.0.v201112011016" % "container,test" artifacts Artifact("javax.servlet", "jar", "jar"),
 	"org.scalatest" %% "scalatest" % "1.9.1" % "test"
