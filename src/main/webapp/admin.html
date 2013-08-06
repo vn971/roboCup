@@ -1,5 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
 <title>Hidden</title>
@@ -10,12 +8,13 @@
 
 		<h3>Назначить время старта</h3>
 		<div>
-			Назначить время старта турнира по Московскому времени. <br /> Запись
-			2012.12.31 19:59 означает декабрь 31-ое число, игры начнутся в 19:59
-			по Москве, регистрация откроется на несколько часов раньше (сейчас 1
-			час).
+			Назначить время старта турнира по
+			<a href="http://time.yandex.ru/" target="_blank">Московскому времени</a>.
+			<br/> Запись <strong>2012.12.31 19:59</strong>
+			означает декабрь 31-ое число, игры начнутся в 19:59 по Москве,
+			регистрация откроется на несколько часов раньше (сейчас 1 час).
 			<form class="lift:form.ajax">
-				<input class="lift:Admin.setTime" id="timeSetter" /> <input
+				<input class="lift:Admin.setTime" id="timeSetter" type="text" /> <input
 					type="submit" value="Назначить время старта" />
 			</form>
 		</div>
@@ -23,7 +22,7 @@
 
 		<h3>Назначить игру</h3>
 		<div>
-			Введите имена игроков в виде "Вася/Фрося".
+			Введите имена игроков в виде <strong>Вася/Фрося</strong>.
 			<form class="lift:form.ajax">
 				<input class="lift:Admin.assignGame" id="assignGame" /> <input
 					type="submit" value="назначить игру" />
@@ -55,14 +54,15 @@
 		<br />
 
 		<h3>Назначить победителя</h3>
+
 		<div>
 			Введите имена игроков в виде "победитель/проигравший". Например,
-			"Вася Новиков/Фрося Марусевна". Игрок "Вася Новиков" будет назначен
-			выигравшим на во встрече. На заграме, при этом, эта игра закончена не
-			будет. <br /> Осторожно!
+			<strong>Вася Новиков/Фрося Марусевна</strong>. Игрок "Вася Новиков" будет назначен
+			выигравшим на во встрече. На заграме, при этом, эта <strong>игра закончена не
+			будет</strong>. <br/> Осторожно!
 			<form class="lift:form.ajax">
-				<input class="lift:Admin.winGame" id="winGame" /> <input
-					type="submit" value="назначить победителя" />
+				<input class="lift:Admin.winGame" id="winGame"/> <input
+					type="submit" value="назначить победителя"/>
 			</form>
 		</div>
 		<br />
@@ -72,6 +72,10 @@
 			run.mode = <span class="lift:ConstantsSnippet.conf"></span>
 		</div>
 		<br />
+
+		<h3>различные тесты</h3>
+		Например, тест выбора даты:
+		<datepicker type="normal" value="2013-03-26"/>
 
 	</div>
 </body>

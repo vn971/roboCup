@@ -82,12 +82,12 @@ class KnockoutCore extends Actor with Loggable {
 	def registration: Receive = {
 		case TryRegister(info) => {
 			if (info.nick startsWith "*") {
-				toZagram ! MessageToZagram(info.nick+", to take a part in the tournament, please, use a registered account.")
+				toZagram ! MessageToZagram(s"${info.nick}, to take a part in the tournament, please, use a registered account.")
 			} else if (waiting.forall(_.name != info.nick)) {
 				logger.info(s"registered ${info.nick}")
 				waiting += GameNode(info.nick)
 				RegisteredListSingleton ! info.nick
-				ChatServer ! MessageToChatServer("Player "+info.nick+" registered.")
+				ChatServer ! MessageToChatServer(s"Player ${info.nick} registered.")
 				WaitingSingleton ! waiting.toList
 			}
 		}
@@ -117,7 +117,7 @@ class KnockoutCore extends Actor with Loggable {
 			}
 			if (containsWinnerLooser || containsLooserWinner) {
 				logger.info(s"game won: $winner > $looser")
-				ChatServer ! MessageToChatServer(winner+" has won a game against "+looser)
+				ChatServer ! MessageToChatServer(s"$winner has won a game against $looser")
 				WaitingSingleton ! waiting.toList
 				PlayingSingleton ! playing.toList
 				KnockedOutSingleton ! knockedOut.toList

@@ -4,7 +4,6 @@ import akka.actor.Actor
 import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.Utils._
 import ru.ya.vn91.robotour.{Utils, Constants}
-import scala.concurrent.duration._
 
 case class AssignGame(
 		first: String, second: String,
@@ -50,14 +49,14 @@ class ToZagram extends Actor with Loggable {
 		}
 
 		case AssignGame(first, second, round, isInfiniteTime) => {
-			for (key <- Constants.zagramAssignGamePassword) {
+			for (password <- Constants.zagramAssignGamePassword) {
 				// http://zagram.org/a.kropki?co=setUpTable&key=yourKey&gameType=3030noT4r0.180.20&pl1=e&pl2=g&sayHiTimes=60.60&tourn=test&tRound=2%20%28playoff%29
 				logger.info(s"assigning game: $first - $second")
 				val sayHiTime: Long = if (isInfiniteTime) 0 else Constants.sayHiTime.toSeconds
 
 				val url = "http://zagram.org/a.kropki" +
 						"?co=setUpTable" +
-						"&key=" + key +
+						"&key=" + password +
 						"&gameType=" + Constants.zagramGameSettings(isInfiniteTime) +
 						"&pl1=" + getServerEncoded(first) +
 						"&pl2=" + getServerEncoded(second) +

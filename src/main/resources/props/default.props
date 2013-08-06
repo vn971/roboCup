@@ -16,14 +16,14 @@ organizerCodename=vasya.novikov
 
 #### used in zagram id, site menu.
 #### modification of resources is also needed.
-tournamentCodename=PGL RoboCup XII
+tournamentCodename=TEST
 
 #### optional
 #rankLimit=1200
 
 #### OK: 39*32, 30*30, 25*25, 20*20, 40*40, 21*21, 20*40
-fieldSizeX=40
-fieldSizeY=40
+fieldSizeX=20
+fieldSizeY=20
 
 #### optional, doesn't work with russian letters.
 createGameWith=vn971
