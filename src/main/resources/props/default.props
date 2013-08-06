@@ -10,7 +10,7 @@ tourBreakMinutes=5
 isRated=true
 
 #### will be localized (translated)
-#### currently handled: vasya.novikov, oleg.anokhin, vanya.geyko
+#### currently handled: vasya.novikov, oleg.anokhin, vanya.geyko, roman.saraskin
 organizerCodename=vasya.novikov
 
 #### used in zagram id, site menu.
