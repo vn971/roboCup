@@ -16,7 +16,7 @@ object ConstantsSnippet extends Loggable {
 				".secsPerTurn *" #> perTurnTime.toSeconds &
 				".fieldSize *" #> Text(s"$fieldSizeX x $fieldSizeY") &
 				".startingMinutes *" #> startingTime.toMinutes &
-				".isFourCross *" #> (if (isFourCross) S ? "yes" else S ? "no") &
+				".crossesCount *" #> crossesCount &
 				".isRated *" #> (if (isRated) S ? "yes" else S ? "no") &
 				".expectedGameTime *" #> expectedGameTime.toMinutes &
 				".expectedTourTime *" #> expectedTourTime.toMinutes &

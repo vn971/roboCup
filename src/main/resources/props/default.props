@@ -2,7 +2,7 @@
 #zagramIdGracza=
 #zagramAssignGamePassword=
 
-isFourCross=true
+crossesCount=0
 withTerritory=false
 secondsPerTurn=7
 startingMinutes=7

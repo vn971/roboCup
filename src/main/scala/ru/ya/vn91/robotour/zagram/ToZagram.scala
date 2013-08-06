@@ -49,19 +49,16 @@ class ToZagram extends Actor with Loggable {
 			}
 		}
 
-		case AssignGame(first, second, round, infiniteTime) => {
+		case AssignGame(first, second, round, isInfiniteTime) => {
 			for (key <- Constants.zagramAssignGamePassword) {
 				// http://zagram.org/a.kropki?co=setUpTable&key=yourKey&gameType=3030noT4r0.180.20&pl1=e&pl2=g&sayHiTimes=60.60&tourn=test&tRound=2%20%28playoff%29
 				logger.info(s"assigning game: $first - $second")
-				val sayHiTime: Long = if (infiniteTime) 0 else Constants.sayHiTime.toSeconds
+				val sayHiTime: Long = if (isInfiniteTime) 0 else Constants.sayHiTime.toSeconds
 
-				val gameSettings =
-					if (infiniteTime) Constants.zagramGameSettings(0.millis, 0.millis)
-					else Constants.zagramGameSettings()
 				val url = "http://zagram.org/a.kropki" +
 						"?co=setUpTable" +
 						"&key=" + key +
-						"&gameType=" + gameSettings +
+						"&gameType=" + Constants.zagramGameSettings(isInfiniteTime) +
 						"&pl1=" + getServerEncoded(first) +
 						"&pl2=" + getServerEncoded(second) +
 						"&sayHiTimes=" + sayHiTime + "." + sayHiTime +

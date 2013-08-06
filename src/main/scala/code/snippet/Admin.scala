@@ -55,7 +55,8 @@ object Admin extends Loggable {
 			second <- twoPlayers.split('/').lift(1)
 		} yield {
 			logger.info(s"assigning game: $twoPlayers")
-			Core.system.actorOf(Props[ToZagram], name = "core.toZagram") ! AssignGame(first, second)
+			Core.system.actorOf(Props[ToZagram], name = "core.toZagram") !
+					AssignGame(first.trim, second.trim, infiniteTime = false)
 			SetValById("assignGame", "OK, assigned")
 		}).getOrElse {
 			Alert("ERROR")

@@ -21,9 +21,10 @@ object Constants {
 
 	val withTerritory = Props.getBool("withTerritory").openOr(false)
 
+	val crossesCount = Props.getInt("crossesCount").openOrThrowException("")
+
 	val fieldSizeX = Props.getInt("fieldSizeX", 39)
 	val fieldSizeY = Props.getInt("fieldSizeY", 32)
-	val fieldSize = fieldSizeX.toString + fieldSizeY.toString
 
 	val gameTimeout = startingTime * 2 + perTurnTime * fieldSizeX * fieldSizeY + 10.minutes
 
@@ -43,14 +44,19 @@ object Constants {
 		startingTime + turn * dotCount
 	}
 
-	val isFourCross = Props.getBool("isFourCross").openOrThrowException("")
-
-	def zagramGameSettings(
-			start: FiniteDuration = startingTime,
-			turn: FiniteDuration = perTurnTime) =
-		fieldSize + "noT" + (if (isFourCross) "4" else "1") +
-				(if (isRated) "r" else "F") +
-				"0." + start.toSeconds + "." + turn.toSeconds
+	/** @see http://zagram.org/doc.html */
+	def zagramGameSettings(isInfiniteTime: Boolean) = {
+		val x = fieldSizeX
+		val y = fieldSizeY
+		val territory = if (withTerritory) "t" else "n"
+		val instantWin = "0" // disable
+		val crosses = if (crossesCount == 0) "" else crossesCount.toString
+		val rated = if (isRated) "R" else "F"
+		val infinite = if (isInfiniteTime) "n" else "a"
+		val start = if (isInfiniteTime) "" else startingTime.toSeconds.toString
+		val turn = if (isInfiniteTime) "" else perTurnTime.toSeconds.toString
+		s"$x$y$territory$instantWin.$crosses.a.$rated.$infinite.$start.$turn.."
+	}
 
 	val createGameWith = Props.get("createGameWith")
 
