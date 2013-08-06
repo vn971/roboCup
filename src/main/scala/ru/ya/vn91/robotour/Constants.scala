@@ -7,6 +7,7 @@ import java.util.Date
 import java.util.TimeZone
 import net.liftweb.util.Props
 import scala.concurrent.duration._
+import scala.math._
 
 object Constants {
 
@@ -18,6 +19,8 @@ object Constants {
 
 	val breakTime = Props.getLong("tourBreakMinutes").openOrThrowException("").minutes
 
+	val withTerritory = Props.getBool("withTerritory").openOr(false)
+
 	val fieldSizeX = Props.getInt("fieldSizeX", 39)
 	val fieldSizeY = Props.getInt("fieldSizeY", 32)
 	val fieldSize = fieldSizeX.toString + fieldSizeY.toString
@@ -25,13 +28,19 @@ object Constants {
 	val gameTimeout = startingTime * 2 + perTurnTime * fieldSizeX * fieldSizeY + 10.minutes
 
 	val expectedTourTime = {
+		val dotCount =
+			if (withTerritory) fieldSizeX * fieldSizeY
+			else 2 * pow(fieldSizeX * fieldSizeY, 0.75).toInt
 		val turn = perTurnTime min (perTurnTime + 10.seconds) / 2
-		(startingTime * 3 / 2 + breakTime + turn * 300) * fieldSizeX * fieldSizeY / 30 / 30
+		startingTime * 3 / 2 + breakTime + turn * dotCount
 	}
 
 	val expectedGameTime = {
+		val dotCount =
+			if (withTerritory) fieldSizeX * fieldSizeY
+			else pow(fieldSizeX * fieldSizeY, 0.75).toInt
 		val turn = perTurnTime min (perTurnTime + 10.seconds) / 2
-		(startingTime + turn * 130) * fieldSizeX * fieldSizeY / 30 / 30
+		startingTime + turn * dotCount
 	}
 
 	val isFourCross = Props.getBool("isFourCross").openOrThrowException("")
@@ -73,6 +82,7 @@ object Constants {
 	}
 
 	def timeLongToString(long: Long) = dateFormatter.format(new Date(long))
+
 	def timeStringToLong(s: String) = dateFormatter.parse(s).getTime
 
 	def timeLongToHours(long: Long) = hoursFormatter.format(new Date(long))

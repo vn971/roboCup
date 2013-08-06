@@ -3,6 +3,7 @@
 #zagramAssignGamePassword=
 
 isFourCross=true
+withTerritory=false
 secondsPerTurn=7
 startingMinutes=7
 registrationHours=10
