@@ -39,7 +39,7 @@ class Boot extends Loggable {
 		def sitemap = SiteMap(
 			Menu.i("Main").path("index"),
 			Menu.i("Registration").path("register"),
-			Menu.i(tournamentCodename).path(if (isKnockout) "knockout" else "swiss"),
+			Menu.i(tournamentCodename).path(if (isSwiss) "swiss" else "knockout"),
 			adminPage,
 			Menu.i("Chat").path("chat"),
 			Menu.i("Pointsgame League 2013").path("pl2013"),

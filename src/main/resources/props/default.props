@@ -2,16 +2,19 @@
 #zagramIdGracza=
 #zagramAssignGamePassword=
 
-crossesCount=0
-withTerritory=false
-secondsPerTurn=7
-startingMinutes=7
+#### allowed values are: 0,1,2,4
+crossesCount=4
+
+isSwiss=true
+withTerritory=true
+secondsPerTurn=5
+startingMinutes=1
 registrationHours=10
 tourBreakMinutes=5
 isRated=true
 
 #### will be localized (translated)
-#### currently handled: vasya.novikov, oleg.anokhin, vanya.geyko, roman.saraskin
+#### allowed: vasya.novikov, oleg.anokhin, vanya.geyko, roman.saraskin
 organizerCodename=vasya.novikov
 
 #### used in zagram id, site menu.
@@ -21,7 +24,7 @@ tournamentCodename=TEST
 #### optional
 #rankLimit=1200
 
-#### OK: 39*32, 30*30, 25*25, 20*20, 40*40, 21*21, 20*40
+#### allowed: 39*32, 30*30, 25*25, 20*20, 40*40, 21*21, 20*40
 fieldSizeX=20
 fieldSizeY=20
 

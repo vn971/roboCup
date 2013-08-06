@@ -11,10 +11,10 @@ case class StartRegistration(timeStart: Long)
 
 object Core extends Loggable {
 	val system = ActorSystem("robo")
-	val core = if (Constants.isKnockout)
-		system.actorOf(akka.actor.Props[KnockoutCore], name = "core")
-	else
+	val core = if (Constants.isSwiss)
 		system.actorOf(akka.actor.Props[SwissCore], name = "core")
+	else
+		system.actorOf(akka.actor.Props[KnockoutCore], name = "core")
 
 	logger.info(s"starting tournament ${Constants.tournamentCodename}")
 }

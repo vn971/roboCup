@@ -38,7 +38,7 @@ object Constants {
 
 	val expectedGameTime = {
 		val dotCount =
-			if (withTerritory) fieldSizeX * fieldSizeY
+			if (withTerritory) fieldSizeX * fieldSizeY * 8 / 10
 			else pow(fieldSizeX * fieldSizeY, 0.75).toInt
 		val turn = perTurnTime min (perTurnTime + 10.seconds) / 2
 		startingTime + turn * dotCount
@@ -65,7 +65,7 @@ object Constants {
 
 	val sayHiTime = 60.seconds
 
-	val isKnockout = false
+	val isSwiss = Props.getBool("isSwiss").openOr(true)
 
 	val isRated = Props.getBool("isRated").openOr(true)
 
