@@ -1,7 +1,7 @@
 
 name := "RoboCup tournaments"
 
-version := "0.56"
+version := "0.115"
 
 scalaVersion := "2.10.2"
 
