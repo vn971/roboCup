@@ -1,15 +1,12 @@
 package code.rest
 
-import net.liftweb.util.BindHelpers._
+import code.comet.{MessageToChatServer, ChatServer}
+import java.text.SimpleDateFormat
+import java.util.{TimeZone, Date}
 import net.liftweb.common.Loggable
 import net.liftweb.http._
 import net.liftweb.http.rest._
-import net.liftweb.json._
-import code.comet.{MessageToChatServer, ChatServer}
-import scala.xml.Text
-import java.text.SimpleDateFormat
-import java.util.{TimeZone, Date}
-import net.liftweb.util.PassThru
+import net.liftweb.util.BindHelpers._
 
 object ChatAtom extends RestHelper with Loggable {
 
