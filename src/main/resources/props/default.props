@@ -3,13 +3,13 @@
 #zagramAssignGamePassword=
 
 #### allowed values are: 0,1,2,4
-crossesCount=4
+crossesCount=2
 
 isSwiss=true
-withTerritory=true
-secondsPerTurn=5
-startingMinutes=1
-registrationHours=10
+withTerritory=false
+secondsPerTurn=6
+startingMinutes=12
+registrationHours=2
 tourBreakMinutes=5
 isRated=true
 
@@ -25,8 +25,8 @@ tournamentCodename=TEST
 #rankLimit=1200
 
 #### allowed: 39*32, 30*30, 25*25, 20*20, 40*40, 21*21, 20*40
-fieldSizeX=20
-fieldSizeY=20
+fieldSizeX=25
+fieldSizeY=25
 
 #### optional, doesn't work with russian letters.
 createGameWith=vn971

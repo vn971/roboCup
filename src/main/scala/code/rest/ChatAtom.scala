@@ -19,7 +19,7 @@ object ChatAtom extends RestHelper with Loggable {
 	serve {
 		case Get("api" :: "chatFeed" :: Nil, _) =>
 
-			val messages = ChatServer.msgs
+			val messages = ChatServer.msgs.takeRight(100).reverse
 
 			def msgTransform(m: MessageToChatServer) = {
 				val user = if (m.isAdmin) "serv" else "local"
