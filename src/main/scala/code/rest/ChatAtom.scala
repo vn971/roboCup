@@ -23,7 +23,7 @@ object ChatAtom extends RestHelper with Loggable {
 
 			def msgTransform(m: MessageToChatServer) = {
 				val user = if (m.isAdmin) "serv" else "local"
-				"id *+" #> m.hashCode &
+				"id *+" #> m.hashCode.toHexString &
 						"title *" #> m.message.take(100) &
 						"updated *" #> longToTimestamp(m.time) &
 						"content span *" #> m.message.take(1000) &
