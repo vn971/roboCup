@@ -4,18 +4,19 @@
 </head>
 <body class="lift:content_id=main">
 	<div id="main" class="lift:surround?with=default;at=content">
-		<h2>Администрирование</h2>
+		<h2>Админка</h2>
 
-		<h3>Назначить время старта</h3>
+		<h3>Назначить время старта турнира</h3>
 		<div>
-			Назначить время старта турнира по
-			<a href="http://time.yandex.ru/" target="_blank">Московскому времени</a>.
-			<br/> Запись <strong>2012.12.31 19:59</strong>
-			означает декабрь 31-ое число, игры начнутся в 19:59 по Москве,
-			регистрация откроется на несколько часов раньше (сейчас 1 час).
+
+			Образец для копирования: <strong data-lift="ConstantsSnippet.dateInMoscow"></strong>.
+
+			<br/> Не забудьте, игры назначаются по Московскому времени!
+			Если что -- сверьтесь с <a href="http://time.yandex.ru/" target="_blank">time.yandex.ru</a>.
+
 			<form class="lift:form.ajax">
-				<input class="lift:Admin.setTime" id="timeSetter" type="text" /> <input
-					type="submit" value="Назначить время старта" />
+				<input class="lift:Admin.setTime" id="timeSetter" type="text"/> <input
+					type="submit" value="Назначить время старта"/>
 			</form>
 		</div>
 		<br />
@@ -45,7 +46,7 @@
 
 		<h3>Выставить статус турнира</h3>
 		<div>
-			Это то что слева-снизу около меню.
+			Это текст слева-снизу около меню.
 			<form class="lift:form.ajax">
 				<input class="lift:Admin.setStatus" id="setStatus" /> <input
 					type="submit" value="Выставить статус" />
@@ -58,7 +59,7 @@
 		<div>
 			Введите имена игроков в виде "победитель/проигравший". Например,
 			<strong>Вася Новиков/Фрося Марусевна</strong>. Игрок "Вася Новиков" будет назначен
-			выигравшим на во встрече. На заграме, при этом, эта <strong>игра закончена не
+			выигравшим во встрече. На заграме, при этом, эта <strong>игра закончена не
 			будет</strong>. <br/> Осторожно!
 			<form class="lift:form.ajax">
 				<input class="lift:Admin.winGame" id="winGame"/> <input
@@ -69,13 +70,9 @@
 
 		<h3>Для Васи - конфигурация сервера</h3>
 		<div>
-			run.mode = <span class="lift:ConstantsSnippet.conf"></span>
+			run.mode = <span data-lift="ConstantsSnippet.conf"></span>
 		</div>
 		<br />
-
-		<h3>различные тесты</h3>
-		Например, тест выбора даты:
-		<datepicker type="normal" value="2013-03-26"/>
 
 	</div>
 </body>

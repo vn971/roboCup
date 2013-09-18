@@ -28,4 +28,6 @@ object ConstantsSnippet extends Loggable {
 
 	def timeInMoscow = Text(Constants.timeLongToHours(System.currentTimeMillis))
 
+	def dateInMoscow = "* *" #> Text(Constants.timeLongToString(System.currentTimeMillis))
+
 }
