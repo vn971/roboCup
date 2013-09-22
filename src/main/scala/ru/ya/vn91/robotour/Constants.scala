@@ -5,11 +5,12 @@ import code.comet.TournamentStatus.ErrorStatus
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.TimeZone
+import net.liftweb.common.Loggable
 import net.liftweb.util.Props
 import scala.concurrent.duration._
 import scala.math._
 
-object Constants {
+object Constants extends Loggable {
 
 	val registrationTime = Props.getLong("registrationHours").openOrThrowException("").hours
 
@@ -28,20 +29,16 @@ object Constants {
 
 	val gameTimeout = startingTime * 2 + perTurnTime * fieldSizeX * fieldSizeY + 10.minutes
 
-	val expectedTourTime = {
-		val dotCount =
+	/** "tour time" means maximum for all games in a tour
+		*/
+	val (expectedGameTime, expectedTourTime) = {
+		val realDotCount =
 			if (withTerritory) fieldSizeX * fieldSizeY
-			else 2 * pow(fieldSizeX * fieldSizeY, 0.75).toInt
-		val turn = perTurnTime min (perTurnTime + 10.seconds) / 2
-		startingTime * 3 / 2 + breakTime + turn * dotCount
-	}
-
-	val expectedGameTime = {
-		val dotCount =
-			if (withTerritory) fieldSizeX * fieldSizeY * 8 / 10
 			else pow(fieldSizeX * fieldSizeY, 0.75).toInt
-		val turn = perTurnTime min (perTurnTime + 10.seconds) / 2
-		startingTime + turn * dotCount
+		val realTurnTime = perTurnTime min (perTurnTime + 10.seconds) / 2
+		val game = startingTime + realTurnTime * realDotCount
+		val tour = startingTime * 3 / 2 + breakTime + realTurnTime * realDotCount * 3 / 2
+		(game, tour)
 	}
 
 	/** @see http://zagram.org/doc.html */
@@ -63,7 +60,7 @@ object Constants {
 	val organizerCodename = Props.get("organizerCodename").openOrThrowException("")
 	val tournamentCodename = Props.get("tournamentCodename").openOrThrowException("")
 
-	val sayHiTime = 60.seconds
+	val sayHiTime = 30.seconds
 
 	val isSwiss = Props.getBool("isSwiss").openOr(true)
 

@@ -9,6 +9,7 @@ import net.liftweb.http.js.JsCmds._
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour._
 import ru.ya.vn91.robotour.zagram.{AssignGame, ToZagram, PlayerInfo}
+import scala.concurrent.duration._
 
 object Admin extends Loggable {
 
@@ -17,10 +18,16 @@ object Admin extends Loggable {
 			logger.info("tournament time set (" + timeAsString + ")")
 			val startTime = timeStringToLong(timeAsString)
 			val regTime = startTime - registrationTime.toMillis
-			Core.core ! StartRegistration(regTime)
-			SetValById("timeSetter", "time set.")
+			if (startTime < System.currentTimeMillis ||
+					startTime > System.currentTimeMillis + 28.days.toMillis) {
+				Alert("Кажется, вы ошиблись с датой, она слишком далёкая. \n" +
+						"На всякий случай я вас остановлю.")
+			} else {
+				Core.core ! StartRegistration(regTime)
+				SetValById("timeSetter", "time set.")
+			}
 		} catch {
-			case t: Exception => Alert("ERROR")
+			case t: Exception => Alert("Неправильный формат даты. Пожалуйста, будьте аккуратны!")
 		}
 	}
 

@@ -3,7 +3,7 @@ package comet
 
 import net.liftweb.http._
 import ru.ya.vn91.robotour.Constants._
-import scala.xml.{Text, NodeSeq}
+import scala.xml.Text
 
 class TimeStart extends CometActor with CometListener {
 	private var time = 0L
