@@ -3,7 +3,7 @@ package ru.ya.vn91.robotour
 import code.comet.GameResultEnumeration._
 import code.comet.TournamentStatus._
 import code.comet._
-import code.comet.{ Game, Player, SwissTableData }
+import code.comet.{Game, Player, SwissTableData}
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.zagram._
 import scala.collection.mutable.ListBuffer
@@ -161,7 +161,6 @@ class SwissCore extends RegistrationCore {
 			for (i <- 0.until(sortedPlayers.length, 2)) {
 				val first = sortedPlayers(i)._1
 				val second = sortedPlayers(i + 1)._1
-				logger.info(s"assigning game $first-$second")
 
 				openGames +=(first, second)
 				if (first == emptyPlayer) {
