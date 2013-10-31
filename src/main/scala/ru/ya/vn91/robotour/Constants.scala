@@ -8,7 +8,6 @@ import java.util.TimeZone
 import net.liftweb.common.Loggable
 import net.liftweb.util.Props
 import scala.concurrent.duration._
-import scala.math._
 
 object Constants extends Loggable {
 
@@ -32,12 +31,13 @@ object Constants extends Loggable {
 	/** "tour time" means maximum for all games in a tour
 		*/
 	val (expectedGameTime, expectedTourTime) = {
-		val realDotCount =
-			if (withTerritory) fieldSizeX * fieldSizeY
-			else pow(fieldSizeX * fieldSizeY, 0.75).toInt
+		def dotCount(power: Double) = math.pow(fieldSizeX * fieldSizeY, power)
+		val tourDotCount = if (withTerritory) dotCount(1.0) else dotCount(0.75)
+		val gameDotCount = if (withTerritory) dotCount(1.0) * 0.8 else dotCount(0.75) * 0.5
+
 		val realTurnTime = perTurnTime min (perTurnTime + 10.seconds) / 2
-		val game = startingTime + realTurnTime * realDotCount
-		val tour = startingTime * 3 / 2 + breakTime + realTurnTime * realDotCount * 3 / 2
+		val game = startingTime + realTurnTime * gameDotCount
+		val tour = startingTime * 1.5 + breakTime + realTurnTime * tourDotCount
 		(game, tour)
 	}
 

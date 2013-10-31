@@ -19,7 +19,7 @@ organizerCodename=vasya.novikov
 
 #### used in zagram id, site menu.
 #### modification of resources is also needed.
-tournamentCodename=TEST
+tournamentCodename=TEST TOURNAMENT
 
 #### optional
 #rankLimit=1200
