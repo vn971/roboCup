@@ -65,17 +65,17 @@ class FromZagram extends Actor with Loggable {
 	private def handleChat(dotSplit: Array[String], line: String) {
 		val innerSplit = line.split("\\.", 4)
 		val nick = innerSplit(1)
-		val chatMessage = getZagramDecoded(innerSplit(3))
-		if (chatMessage.startsWith("!register") ||
-				chatMessage.startsWith("!register") ||
-				chatMessage.startsWith("!register")) {
+		val msg = getZagramDecoded(innerSplit(3)).toLowerCase
+		if (msg.startsWith("!register") ||
+				msg.startsWith("!register") ||
+				msg.startsWith("!register")) {
 			playerSet.get(nick) match {
-				case None =>
-					logger.info(s"registration attempt failed: no user info for $nick")
-					context.parent ! MessageToZagram(s"Sorry, could not find zagram rank for $nick")
 				case Some(info) =>
 					logger.info(s"registration attempt caught: $info")
 					context.parent ! TryRegister(info)
+				case _ =>
+					logger.info(s"registration attempt failed: no user info for $nick")
+					context.parent ! MessageToZagram(s"Sorry, could not find zagram rank for $nick")
 			}
 		}
 	}
