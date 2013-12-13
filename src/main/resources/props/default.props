@@ -2,7 +2,7 @@
 #zagramIdGracza=
 #zagramAssignGamePassword=
 
-#### allowed values are: 0,1,2,4
+#### valid values are: 0,1,2,4
 crossesCount=2
 
 isSwiss=true

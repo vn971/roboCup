@@ -35,6 +35,7 @@ object Constants extends Loggable {
 		val tourDotCount = if (withTerritory) dotCount(1.0) else dotCount(0.75)
 		val gameDotCount = if (withTerritory) dotCount(1.0) * 0.8 else dotCount(0.75) * 0.5
 
+		logger.info(s"gameDotCount: ${gameDotCount.toInt}, tour: ${tourDotCount.toInt}")
 		val realTurnTime = perTurnTime min (perTurnTime + 10.seconds) / 2
 		val game = startingTime + realTurnTime * gameDotCount
 		val tour = startingTime * 1.5 + breakTime + realTurnTime * tourDotCount
