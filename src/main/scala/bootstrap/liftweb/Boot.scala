@@ -43,6 +43,7 @@ class Boot extends Loggable {
 			adminPage,
 			Menu.i("Chat").path("chat"),
 			Menu.i("Pointsgame League 2013").path("pl2013"),
+			Menu.i("League Results Table").path("leagueTable") >> Hidden,
 			Menu.i("Language").path("language") >> Hidden,
 			Menu.i("About Swiss").path("aboutSwiss") >> Hidden,
 			Menu.i("About Knock-out").path("aboutKnockout") >> Hidden)
