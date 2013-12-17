@@ -22,7 +22,7 @@ trait RegistrationCore extends Actor with Loggable {
 
 	val registered = mutable.LinkedHashSet[String]()
 
-	override def preStart() {
+	{
 		context.actorOf(Props[FromZagram], name = "fromZagram")
 	}
 

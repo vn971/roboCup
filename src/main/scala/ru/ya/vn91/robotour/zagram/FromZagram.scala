@@ -28,20 +28,21 @@ class FromZagram extends Actor with Loggable {
 	}
 
 	def receive = {
-		case Tick => try {
-			val urlAsString = s"http://zagram.org/a.kropki?idGracza=$idGracza&co=getMsg&msgNo=$messageCount&wiad=x"
-			val zagramResponseBox = getLinkContent(urlAsString)
-			logger.trace(s"HTTP GET $urlAsString => $zagramResponseBox")
-			for {
-				response <- zagramResponseBox
-				if response.startsWith("sd") && response.endsWith("end")
-				line <- response.split('/') if line.length > 0
-			} {
-				handleLine(line)
+		case Tick =>
+			try {
+				val urlAsString = s"http://zagram.org/a.kropki?idGracza=$idGracza&co=getMsg&msgNo=$messageCount&wiad=x"
+				val zagramResponseBox = getLinkContent(urlAsString)
+				logger.trace(s"HTTP GET $urlAsString => $zagramResponseBox")
+				for {
+					response <- zagramResponseBox
+					if response.startsWith("sd") && response.endsWith("end")
+					line <- response.split('/') if line.length > 0
+				} {
+					handleLine(line)
+				}
+			} catch {
+				case e: Exception => logger.warn(s"error in the main loop: $e")
 			}
-		} catch {
-			case e: Exception => logger.warn(s"error in the main loop: $e")
-		}
 			context.system.scheduler.scheduleOnce(7.seconds, self, Tick)
 	}
 

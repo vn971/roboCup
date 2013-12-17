@@ -1,15 +1,5 @@
-libraryDependencies <+= sbtVersion(v => v match {
-case "0.11.0" => "com.github.siasia" %% "xsbt-web-plugin" % "0.11.0-0.2.8"
-case "0.11.1" => "com.github.siasia" %% "xsbt-web-plugin" % "0.11.1-0.2.10"
-case "0.11.2" => "com.github.siasia" %% "xsbt-web-plugin" % "0.11.2-0.2.11"
-case "0.11.3" => "com.github.siasia" %% "xsbt-web-plugin" % "0.11.3-0.2.11.1"
-case x if (x.startsWith("0.12")) => "com.github.siasia" %% "xsbt-web-plugin" % "0.12.0-0.2.11.1"
-})
+addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "2.4.0") // eclipse with-sources=true
 
-addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "1.5.1") // sbt command: gen-idea
+addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "1.5.2") // sbt command: gen-idea
 
-addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.1.2") // dependency-update
-
-addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "2.2.0") // eclipse with-sources=true
-
-addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.7.4") // dependency-graph
+addSbtPlugin("com.earldouglas" % "xsbt-web-plugin" % "0.5.0")

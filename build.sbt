@@ -3,27 +3,23 @@ name := "RoboCup tournaments"
 
 version := "0.115"
 
-scalaVersion := "2.10.2"
+scalaVersion := "2.10.3"
 
 organization := "ru.ya.vn91.roboTour"
 
 description := "Automatic tournaments for the game Points"
 
-
-seq(com.github.siasia.WebPlugin.webSettings :_*)
-
-net.virtualvoid.sbt.graph.Plugin.graphSettings
-
-
-retrieveManaged := true
-
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature")
 
-Keys.`package` <<= (Keys.`package` in Compile) dependsOn (test in Test)
+
+seq(com.earldouglas.xsbtwebplugin.WebPlugin.webSettings :_*)
 
 port in container.Configuration := 8989
 
-scanDirectories in Compile := Nil // using 0.2.4+ of the sbt web plugin
+Keys.`package` <<= (Keys.`package` in Compile) dependsOn (test in Test)
+
+
+fork in Test := true
 
 
 resolvers ++= Seq(
@@ -46,7 +42,8 @@ libraryDependencies ++= Seq(
 	"net.liftweb"     %% "lift-webkit" % "2.5.1",
 	"net.liftweb"     %% "lift-actor"  % "2.5.1",
 	"net.liftweb"     %% "lift-common" % "2.5.1",
-	"org.eclipse.jetty" % "jetty-webapp"        % "8.1.7.v20120910"  % "container,test",
+	"org.eclipse.jetty" % "jetty-webapp" % "9.1.0.v20131115" % "container",
+	"org.eclipse.jetty" % "jetty-plus"   % "9.1.0.v20131115" % "container",
 	"org.eclipse.jetty.orbit" % "javax.servlet" % "3.0.0.v201112011016" % "container,test" artifacts Artifact("javax.servlet", "jar", "jar"),
 	"org.scalatest" %% "scalatest" % "1.9.1" % "test"
 )
