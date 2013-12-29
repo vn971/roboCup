@@ -20,7 +20,7 @@ object ChatServer extends LiftActor with ListenerManager with Loggable {
 
 	override def lowPriority = {
 		case m: MessageToChatServer =>
-			_msgs = _msgs :+ m.copy(time = System.currentTimeMillis) takeRight (80)
+			_msgs = _msgs :+ m.copy(time = System.currentTimeMillis) takeRight 80
 			updateListeners(msgs)
 	}
 }

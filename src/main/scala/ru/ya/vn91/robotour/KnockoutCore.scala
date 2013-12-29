@@ -44,7 +44,7 @@ class KnockoutCore extends Actor with Loggable {
 			context.become(receive, discardOld = true)
 		} else {
 			logger.info("shuffling and assigning games")
-			val shuffled = toListAndShuffle(waiting.toSeq)
+			val shuffled = toVectorAndShuffle(waiting)
 
 			val lesserPower2 = List(512, 256, 128, 64, 32, 16, 8, 4, 2, 1).find(_ < shuffled.size).get
 			val greaterPower2 = lesserPower2 * 2
@@ -80,7 +80,7 @@ class KnockoutCore extends Actor with Loggable {
 	}
 
 	def registration: Receive = {
-		case TryRegister(info) => {
+		case TryRegister(info) =>
 			if (info.nick startsWith "*") {
 				toZagram ! MessageToZagram(s"${info.nick}, to take a part in the tournament, please, use a registered account.")
 			} else if (waiting.forall(_.name != info.nick)) {
@@ -90,17 +90,17 @@ class KnockoutCore extends Actor with Loggable {
 				ChatServer ! MessageToChatServer(s"Player ${info.nick} registered.")
 				WaitingSingleton ! waiting.toList
 			}
-		}
-		case StartTheTournament => {
+
+		case StartTheTournament =>
 			logger.info("Tournament started!")
 			GlobalStatusSingleton ! GamePlaying(0)
 			prepareNextTour()
 			context.become(inProgress, discardOld = true)
-		}
+
 	}
 
 	def inProgress: Receive = {
-		case GameWon(winner, looser) => {
+		case GameWon(winner, looser) =>
 			val containsWinnerLooser = {
 				val filter1 = playing.filter(g => g._1.name == winner && g._2.name == looser)
 				playing --= filter1
@@ -133,7 +133,7 @@ class KnockoutCore extends Actor with Loggable {
 					}
 				}
 			}
-		}
+
 		case GameDraw(first, second) =>
 			if (Random.nextBoolean())
 				self ! GameWon(first, second)
@@ -142,12 +142,11 @@ class KnockoutCore extends Actor with Loggable {
 	}
 
 	def waitingNextTour: Receive = {
-		case StartNextTour => {
+		case StartNextTour =>
 			logger.info("starting next tour.")
 			context.become(inProgress, discardOld = true)
 			GlobalStatusSingleton ! GamePlaying(0)
 			prepareNextTour()
-		}
 	}
 
 	def receive = {
@@ -169,8 +168,8 @@ class KnockoutCore extends Actor with Loggable {
 			}
 	}
 
-	def toListAndShuffle[T](set: collection.Seq[T]): List[T] = {
-		val buffer = set.toBuffer[T]
+	def toVectorAndShuffle[T](set: mutable.LinkedHashSet[T]) = {
+		val buffer = set.toBuffer
 
 		def transpose(i1: Int, i2: Int) { // transpose two elements in list
 			val temp = buffer(i1)
@@ -182,7 +181,7 @@ class KnockoutCore extends Actor with Loggable {
 			val transposeWith = i + Random.nextInt(buffer.size - i)
 			transpose(i, transposeWith)
 		}
-		buffer.toList
+		buffer.toVector
 	}
 
 }

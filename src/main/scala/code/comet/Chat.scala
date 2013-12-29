@@ -15,7 +15,7 @@ class Chat extends CometActor with CometListener {
 	}
 
 	def render = "li *" #> msgs.map { m =>
-		val user = if (m.isAdmin) "serv" else "local"
+		val user = if (m.isAdmin) "server" else "user"
 		val color = if (m.isAdmin) "red" else "green"
 
 		".time" #> timeLongToString(m.time) &

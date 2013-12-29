@@ -11,9 +11,9 @@ import net.liftweb.util.BindHelpers._
 object ChatAtom extends RestHelper with Loggable {
 
 	def longToTimestamp(l: Long) = {
-		val frmt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-		frmt.setTimeZone(TimeZone.getTimeZone("UTC"))
-		frmt.format(new Date(l))
+		val formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+		formatter.setTimeZone(TimeZone.getTimeZone("UTC"))
+		formatter.format(new Date(l))
 	}
 
 	serve {
@@ -22,7 +22,7 @@ object ChatAtom extends RestHelper with Loggable {
 			val messages = ChatServer.msgs.takeRight(100).reverse
 
 			def msgTransform(m: MessageToChatServer) = {
-				val user = if (m.isAdmin) "serv" else "local"
+				val user = if (m.isAdmin) "server" else "user"
 				"id *+" #> m.hashCode.toHexString &
 						"title *" #> m.message.take(100) &
 						"updated *" #> longToTimestamp(m.time) &
