@@ -22,6 +22,9 @@ Keys.`package` <<= (Keys.`package` in Compile) dependsOn (test in Test)
 fork in Test := true
 
 
+EclipseKeys.withSource := true
+
+
 resolvers ++= Seq(
 	"Scala Tools Releases" at "http://scala-tools.org/repo-releases/",
 	"Java.net Maven2 Repository" at "http://download.java.net/maven/2/",
