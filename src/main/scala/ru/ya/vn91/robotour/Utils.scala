@@ -2,12 +2,12 @@ package ru.ya.vn91.robotour
 
 import java.io.IOException
 import java.net.URLEncoder
-import net.liftweb.util.ControlHelpers._
+import scala.util.Try
 
 object Utils {
 
 	def getLinkContent(url: String) =
-		tryo {
+		Try {
 			val source = io.Source.fromURL(url, "UTF-8")
 			val result = source.mkString
 			source.close()
@@ -15,17 +15,17 @@ object Utils {
 		}
 
 	def readFromFile(fileName: String) =
-		tryo {
+		Try {
 			val source = io.Source.fromFile(fileName, "UTF-8")
 			val content = source.mkString
 			source.close()
 			content
 		}
 
-	def getServerEncoded(s: String) =
-		// .replaceAll("@", "@A")
-		// .replaceAll("/", "@S")
-		URLEncoder.encode(s, "UTF-8")
+//	/** also consider to use .replaceAll("@", "@A").replaceAll("/", "@S")
+//		*/
+//	def getZagramEncoded(s: String) =
+//		URLEncoder.encode(s, "UTF-8")
 
 	def getZagramDecoded(s: String) = s.
 		replaceAll("@S", "/").

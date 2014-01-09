@@ -29,25 +29,29 @@ class FromZagram extends Actor with Loggable {
 
 	def receive = {
 		case Tick =>
-			try {
-				val urlAsString = s"http://zagram.org/a.kropki?idGracza=$idGracza&co=getMsg&msgNo=$messageCount&wiad=x"
-				val zagramResponseBox = getLinkContent(urlAsString)
-				logger.trace(s"HTTP GET $urlAsString => $zagramResponseBox")
-				for {
-					response <- zagramResponseBox
-					if response.startsWith("sd") && response.endsWith("end")
-					line <- response.split('/') if line.length > 0
-				} {
-					handleLine(line)
-				}
-			} catch {
-				case e: Exception => logger.warn(s"error in the main loop: $e")
-			}
 			context.system.scheduler.scheduleOnce(7.seconds, self, Tick)
+			val urlAsString = dispatch.url("http://zagram.org/a.kropki").
+					addQueryParameter("idGracza", idGracza).
+					addQueryParameter("co", "getMsg").
+					addQueryParameter("msgNo", messageCount.toString).
+					addQueryParameter("wiad", "x").url
+
+			// async impossible because of zagram protocol
+			val tryZagramResponse = getLinkContent(urlAsString)
+
+			logger.trace(s"assign game: $urlAsString => $tryZagramResponse")
+			for {
+				response <- tryZagramResponse.toOption
+				if response.startsWith("sd") && response.endsWith("end")
+				line <- response.split('/')
+			} {
+				handleLine(line)
+			}
+
 	}
 
 	private def handleLine(line: String) = try {
-		val dotSplit = line.substring(1).split('.')
+		val dotSplit = line.drop(1).split('.')
 		if (line startsWith "m") {
 			messageCount = line.split('.')(1).toLong
 		} else if (line startsWith "ca") {
@@ -60,7 +64,7 @@ class FromZagram extends Actor with Loggable {
 			handleUserInfo(dotSplit)
 		}
 	} catch {
-		case e: Exception => logger.warn(s"error processing line: $line, exception: $e")
+		case e: Exception => logger.warn(s"error processing line: $line", e)
 	}
 
 	private def handleChat(dotSplit: Array[String], line: String) {

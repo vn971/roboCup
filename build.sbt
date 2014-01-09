@@ -40,6 +40,7 @@ libraryDependencies ++= Seq(
 	"ch.qos.logback" % "logback-classic" % "1.0.13",
 	"com.typesafe.akka" % "akka-actor_2.10" % "2.2.0",
 	"com.typesafe.akka" % "akka-testkit_2.10" % "2.2.0" % "test",
+	"net.databinder.dispatch" %% "dispatch-core" % "0.11.0",
 	"net.liftmodules" %% "lift-jquery-module" % "2.5-RC4-2.3",
 	"net.liftweb"     %% "lift-util"   % "2.5.1",
 	"net.liftweb"     %% "lift-webkit" % "2.5.1",
