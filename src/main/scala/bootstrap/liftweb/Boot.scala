@@ -5,7 +5,7 @@ import net.liftmodules.JQueryModule
 import net.liftweb.common._
 import net.liftweb.http._
 import net.liftweb.http.js.jquery.JQueryArtifacts
-import net.liftweb.http.provider.HTTPCookie
+import net.liftweb.http.provider.{HTTPParam, HTTPCookie}
 import net.liftweb.sitemap.Loc._
 import net.liftweb.sitemap._
 import net.liftweb.util.Props
@@ -51,14 +51,14 @@ class Boot extends Loggable {
 		LiftRules.setSiteMap(sitemap)
 
 		LiftRules.localeCalculator = boxReq => {
-			def newCookie(s: String) = {
+			def setLanguageCookie(s: String) = {
 				S.addCookie(HTTPCookie("lang", s).setPath("/").setMaxAge(10 * 365 * 24 * 60 * 60))
 				new Locale(s)
 			}
 			def fromCookie = S.cookieValue("lang").map(new Locale(_))
 			def defaultCalculator = LiftRules.defaultLocaleCalculator(boxReq)
 
-			val locale = S.param("lang").map(newCookie).
+			val locale = S.param("lang").map(setLanguageCookie).
 					or(fromCookie).
 					openOr(defaultCalculator)
 
@@ -69,6 +69,11 @@ class Boot extends Loggable {
 			}
 		}
 
+		LiftRules.supplimentalHeaders = _.addHeaders(
+			HTTPParam("X-Frame-Options", "DENY") ::
+					HTTPParam("Content-Security-Policy", "default-src 'self' 'unsafe-inline' 'unsafe-eval'") ::
+					Nil
+		)
 
 		LiftRules.unloadHooks.append { () =>
 			logger.info("roboCup actors shutdown")
