@@ -22,7 +22,7 @@ object ConstantsSnippet extends Loggable {
 				".expectedGameTime *" #> expectedGameTime.toMinutes &
 				".expectedTourTime *" #> expectedTourTime.toMinutes &
 				".organizerName *" #> (S ? organizerCodename) &
-				".gameTimeout *" #> s"${gameTimeout.toMinutes / 60}:${gameTimeout.toMinutes % 60}"
+				".gameTimeout *" #> f"${gameTimeout.toMinutes / 60}%d:${gameTimeout.toMinutes % 60}%02d"
 
 	def conf = Text(sys.props.getOrElse("run.mode", "none"))
 
