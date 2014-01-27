@@ -29,17 +29,20 @@ class Boot extends Loggable {
 		LiftRules.statelessDispatch.append(ChatAtom)
 
 		val adminPage =
-			Constants.adminPage.map(
+			Constants.adminPage.map {
 				Menu.i("Админка").path(_) >> Hidden >>
 						TemplateBox(() => Templates("admin" :: Nil))
-			).getOrElse(
+			}.getOrElse {
 				Menu.i("Админка").path("admin")
-			)
+			}
 
 		def sitemap = SiteMap(
 			Menu.i("Main").path("index"),
 			Menu.i("Registration").path("register"),
-			Menu.i(tournamentCodename).path(if (isSwiss) "swiss" else "knockout"),
+			Menu.i(tournamentCodename).path("current") >> Loc.TemplateBox { () =>
+				if (isSwiss) Templates("swiss" :: Nil)
+				else Templates("knockout" :: Nil)
+			},
 			adminPage,
 			Menu.i("Chat").path("chat"),
 			Menu.i("Pointsgame League 2013").path("pl2013"),

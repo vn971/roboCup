@@ -20,7 +20,7 @@ object Admin extends Loggable {
 			val regTime = startTime - registrationTime.toMillis
 			if (startTime < System.currentTimeMillis ||
 					startTime > System.currentTimeMillis + 28.days.toMillis) {
-				Alert("Кажется, вы ошиблись с датой, она слишком далёкая. \n" +
+				Alert("Кажется, вы ошиблись с датой, она выглядит неправильно. \n" +
 						"На всякий случай я вас остановлю.")
 			} else {
 				Core.core ! StartRegistration(regTime)
