@@ -15,7 +15,7 @@ object Admin extends Loggable {
 
 	def setTime() = SHtml.onSubmit { timeAsString =>
 		try {
-			logger.info("tournament time set (" + timeAsString + ")")
+			logger.info(s"setting tournament time: $timeAsString")
 			val startTime = timeStringToLong(timeAsString)
 			val regTime = startTime - registrationTime.toMillis
 			if (startTime < System.currentTimeMillis ||

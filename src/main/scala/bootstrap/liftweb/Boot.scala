@@ -32,11 +32,12 @@ class Boot extends Loggable {
 			Constants.adminPage.map {
 				Menu.i("Админка").path(_) >> Hidden >>
 						TemplateBox(() => Templates("admin" :: Nil))
-			}.getOrElse {
-				Menu.i("Админка").path("admin")
+			}.openOr {
+				if (Props.productionMode) sys.error("no admin page")
+				else Menu.i("Админка").path("admin")
 			}
 
-		def sitemap = SiteMap(
+		val sitemap = SiteMap(
 			Menu.i("Main").path("index"),
 			Menu.i("Registration").path("register"),
 			Menu.i(tournamentCodename).path("current") >> Loc.TemplateBox { () =>
