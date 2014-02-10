@@ -23,13 +23,9 @@ class Playing extends CometActor with CometListener {
 
 	def gameToHtml(game: (GameNode, GameNode)) = {
 		val duel = GameNode("???", game._1, game._2)
-		<pre>
-			{duel.toTreeString}
-		</pre>: NodeSeq
+		<pre>{duel.toTreeString}</pre>: NodeSeq
 	}
 
-	def render =
-		"li *" #> playing.map(gameToHtml) &
-				ClearClearable
+	def render = "li *+" #> playing.map(gameToHtml)
 
 }

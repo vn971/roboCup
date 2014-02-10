@@ -17,7 +17,7 @@ object Constants extends Loggable {
 
 	val perTurnTime = Props.getInt("secondsPerTurn").openOrThrowException("").seconds
 
-	val breakTime = Props.getLong("tourBreakMinutes").openOrThrowException("").minutes
+	val breakTime = Props.getLong("tourBreakMinutes", 5).minutes
 
 	val withTerritory = Props.getBool("withTerritory").openOr(false)
 

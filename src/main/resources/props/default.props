@@ -10,7 +10,6 @@ withTerritory=false
 secondsPerTurn=6
 startingMinutes=12
 registrationHours=2
-tourBreakMinutes=5
 isRated=true
 
 #### will be localized (translated)
