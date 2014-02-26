@@ -6,6 +6,7 @@ import code.comet._
 import code.comet.{Game, Player, SwissTableData}
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.zagram._
+import scala.collection._
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Random
@@ -15,8 +16,8 @@ class SwissCore extends RegistrationCore {
 
 	val emptyPlayer = "Empty"
 	val openGames = new GameSet()
-	val playedGames = collection.mutable.LinkedHashMap[String, ListBuffer[Game]]()
-	val scores = collection.mutable.LinkedHashMap[String, Int]()
+	val playedGames = mutable.LinkedHashMap[String, ListBuffer[Game]]()
+	val scores = mutable.LinkedHashMap[String, Int]()
 	var totalRounds = 0
 	var currentRound = 1
 
@@ -26,9 +27,6 @@ class SwissCore extends RegistrationCore {
 
 	def log2(x: Int) = (1 to 30).find(degree => (1 << degree) >= x).get
 
-	// def receive: -- method in parent class
-
-	// def registrationAssigned: -- method in parent class
 
 	override def registrationInProgress =
 		super.registrationInProgress.orElse {
@@ -37,12 +35,6 @@ class SwissCore extends RegistrationCore {
 				if (registered.size % 2 != 0) {
 					// swiss tournament needs an even number of players
 					register(PlayerInfo(emptyPlayer, 1200, 0, 0, 0))
-					//					registered += emptyPlayer
-					//					scores += emptyPlayer -> 0
-					//					RegisteredListSingleton ! emptyPlayer
-					//					ChatServer ! MessageFromAdmin("Player Empty registered.")
-					//					playedGames += emptyPlayer -> ListBuffer[Game]()
-					//					totalRounds = log2(registered.size) + 2
 				}
 				startNewRound()
 		}
@@ -71,7 +63,7 @@ class SwissCore extends RegistrationCore {
 
 	}
 
-	protected def notifyGui() {
+	def notifyGui() {
 		val rows = scores.map { s =>
 			val opponent = openGames.getOpponent(s._1)
 			val opponentList = if (opponent.nonEmpty)
@@ -135,10 +127,11 @@ class SwissCore extends RegistrationCore {
 				context.become(finished)
 				val winners = scores.groupBy(_._2).toList.sortBy(_._1).last._2.toList.map(_._1)
 				logger.info(s"winners: $winners")
-				if (winners.size == 1)
+				if (winners.size == 1) {
 					GlobalStatusSingleton ! FinishedWithWinner(winners(0))
-				else
+				} else {
 					GlobalStatusSingleton ! FinishedWithWinners(winners)
+				}
 			} else {
 				logger.info("waiting for next round now")
 				context.become(waitingForNextRound, discardOld = true)
@@ -154,7 +147,7 @@ class SwissCore extends RegistrationCore {
 		case StartNextRound => startNewRound()
 	}
 
-	protected def startNewRound() {
+	def startNewRound() {
 		if (openGames.size == 0) {
 			val sortedPlayers = scores.toList.sortBy(s => (s._2, Random.nextInt())).reverse
 
@@ -217,7 +210,7 @@ class Opponents(val a: String, val b: String) {
 	override def equals(other: Any) = {
 		val o = other.asInstanceOf[Opponents]
 		(o.a == a && o.b == b) || (o.a == b && o.b == a)
-		// that's a very bad definition of equals, I know...
+		// that's a bad definition of equals, I know...
 	}
 	override def hashCode = a.hashCode + b.hashCode
 }

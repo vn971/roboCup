@@ -21,7 +21,7 @@ import code.rest.ChatAtom
 class Boot extends Loggable {
 	def boot() {
 
-		logger.info("props will be taken from: " + Props.toTry.map(_()))
+		logger.info("props will be taken from: " + Props.toTry.map(_.apply()))
 
 		// where to search snippet
 		LiftRules.addToPackages("code")

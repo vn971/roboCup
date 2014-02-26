@@ -19,7 +19,7 @@ port in container.Configuration := 8989
 Keys.`package` <<= (Keys.`package` in Compile) dependsOn (test in Test)
 
 
-fork in Test := true
+fork := true
 
 
 EclipseKeys.withSource := true
@@ -49,6 +49,6 @@ libraryDependencies ++= Seq(
 	"org.eclipse.jetty" % "jetty-webapp" % "9.1.0.v20131115" % "container",
 	"org.eclipse.jetty" % "jetty-plus"   % "9.1.0.v20131115" % "container",
 	"org.eclipse.jetty.orbit" % "javax.servlet" % "3.0.0.v201112011016" % "container,test" artifacts Artifact("javax.servlet", "jar", "jar"),
-	"org.scalatest" %% "scalatest" % "1.9.1" % "test"
+	"org.scalatest" %% "scalatest" % "2.0" % "test"
 )
 

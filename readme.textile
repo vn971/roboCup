@@ -67,5 +67,5 @@ the fight with inert players:). As a bonus, after several months the idea was
 widely accepted and now is a de-facto standard
 
 
-Copyright: Vasya Novikov 2013
+Copyright: Vasya Novikov
 License: GPL v2 license (you may contact me if you want a different license)

@@ -13,5 +13,6 @@ case class GameNode(name: String, subNodes: GameNode*) {
 		firstLine + children.mkString
 	}
 
-	def toTreeString = tree("", isTail = true)
+	override def toString = tree("", isTail = true)
+	def toTreeString = toString
 }
