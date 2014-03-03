@@ -2,24 +2,6 @@
 #zagramIdGracza=
 #zagramAssignGamePassword=
 
-#### valid values are: 0,1,2,4
-crossesCount=2
-
-isSwiss=true
-withTerritory=false
-secondsPerTurn=6
-startingMinutes=12
-registrationHours=2
-isRated=true
-
-#### will be localized (translated)
-#### allowed: vasya.novikov, oleg.anokhin, vanya.geyko, roman.saraskin
-organizerCodename=vasya.novikov
-
-#### used in zagram id, site menu.
-#### modification of resources is also needed.
-tournamentCodename=TEST TOURNAMENT
-
 #### optional
 #rankLimit=1200
 
@@ -27,6 +9,24 @@ tournamentCodename=TEST TOURNAMENT
 fieldSizeX=25
 fieldSizeY=25
 
-#### optional, doesn't work with russian letters.
-createGameWith=vn971
+#### valid values are: 0,1,2,4
+crossesCount=2
 
+isSwiss=true
+withTerritory=false
+secondsPerTurn=5
+startingMinutes=5
+registrationHours=10
+isRated=true
+
+#### used in zagram id, site menu.
+#### modification of resources is also needed.
+tournamentCodename=TEST TOURNAMENT
+
+#### will be localized (translated)
+#### allowed: vasya.novikov, oleg.anokhin, vanya.geyko, roman.saraskin
+organizerCodename=vasya.novikov
+
+#### optional, doesn't work with russian letters.
+#### example: vn971, agent47, Romati, ysipysi
+createGameWith=vn971

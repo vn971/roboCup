@@ -9,7 +9,7 @@ import ru.ya.vn91.robotour.zagram.PlayerInfo
 
 class ActorTesting extends FunSuite with Matchers with Loggable {
 
-	ignore("registration works OK") {
+	ignore("registration goes correctly") {
 		implicit val system = ActorSystem("test")
 		val actorRef = TestActorRef[SwissCore]
 
@@ -22,6 +22,8 @@ class ActorTesting extends FunSuite with Matchers with Loggable {
 		assert(actor.openGames.size == 0)
 		assert(actor.registered.size == 2)
 		system.shutdown()
+
+
 	}
 
 }
