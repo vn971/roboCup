@@ -5,7 +5,7 @@
 #### optional
 #rankLimit=1200
 
-#### allowed: 39*32, 30*30, 25*25, 20*20, 40*40, 21*21, 20*40
+#### allowed: 39*32, 30*30, 25*25, 20*20, 40*40, 21*21, 20*40 (more than 20, less than 40)
 fieldSizeX=25
 fieldSizeY=25
 
@@ -16,7 +16,7 @@ isSwiss=true
 withTerritory=false
 secondsPerTurn=5
 startingMinutes=5
-registrationHours=10
+registrationHours=24
 isRated=true
 
 #### used in zagram id, site menu.

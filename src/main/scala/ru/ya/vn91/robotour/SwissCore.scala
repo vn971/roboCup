@@ -6,7 +6,7 @@ import code.comet._
 import code.comet.{Game, Player, SwissTableData}
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.zagram._
-import scala.collection._
+import scala.collection.immutable.{HashSet, HashMap}
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Random
@@ -15,9 +15,9 @@ import scala.util.Random
 class SwissCore extends RegistrationCore {
 
 	val emptyPlayer = "Empty"
-	val openGames = new GameSet()
-	val playedGames = mutable.LinkedHashMap[String, ListBuffer[Game]]()
-	val scores = mutable.LinkedHashMap[String, Int]()
+	var openGames = new GameSet()
+	var playedGames = HashMap[String, ListBuffer[Game]]()
+	var scores = HashMap[String, Int]()
 	var totalRounds = 0
 	var currentRound = 1
 
@@ -85,8 +85,8 @@ class SwissCore extends RegistrationCore {
 				playedGames(winner) += Game(looser, Win)
 				playedGames(looser) += Game(winner, Loss)
 
-				scores.put(winner, scores(winner) + winPrice)
-				scores.put(looser, scores(looser) + lossPrice)
+				scores += winner -> (scores(winner) + winPrice)
+				scores += looser -> (scores(looser) + lossPrice)
 				if (openGames.size == 0) tryWaitForNextRound()
 				else notifyGui()
 			}
@@ -99,8 +99,8 @@ class SwissCore extends RegistrationCore {
 				playedGames(first) += Game(second, Draw)
 				playedGames(second) += Game(first, Draw)
 
-				scores.put(first, scores(first) + drawPrice)
-				scores.put(second, scores(second) + drawPrice)
+				scores += first -> (scores(first) + drawPrice)
+				scores += second -> (scores(second) + drawPrice)
 				if (openGames.size == 0) tryWaitForNextRound()
 				else notifyGui()
 			}
@@ -183,15 +183,13 @@ private object StartNextRound
 
 case class RoundTimeout(round: Int)
 
-class GameSet {
-	private val openGames = collection.mutable.LinkedHashSet[Opponents]()
 
-	def +=(b: String, a: String) {
-		openGames += new Opponents(a, b)
-	}
-	def -=(b: String, a: String) {
-		openGames -= new Opponents(a, b)
-	}
+class GameSet(openGames: HashSet[Opponents] = HashSet.empty) {
+
+	def +(b: String, a: String) = new GameSet(openGames + new Opponents(a, b))
+
+	def -(b: String, a: String) = new GameSet(openGames - new Opponents(a, b))
+
 	def size = openGames.size
 	def contains(a: String, b: String) = {
 		openGames.contains(new Opponents(a, b))
@@ -206,11 +204,12 @@ class GameSet {
 	def toList = openGames.toList
 }
 
+
 class Opponents(val a: String, val b: String) {
 	override def equals(other: Any) = {
 		val o = other.asInstanceOf[Opponents]
 		(o.a == a && o.b == b) || (o.a == b && o.b == a)
-		// that's a bad definition of equals, I know...
+		// that's a bad definition of equals, I know.
 	}
 	override def hashCode = a.hashCode + b.hashCode
 }

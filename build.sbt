@@ -1,18 +1,19 @@
+import com.typesafe.sbteclipse.core.EclipsePlugin.EclipseKeys
 
-name := "RoboCup tournaments"
+name := "robocup"
 
 version := "0.115"
 
 scalaVersion := "2.10.3"
 
-organization := "ru.ya.vn91.roboTour"
+organization := "net.pointsgame"
 
 description := "Automatic tournaments for the game Points"
 
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature")
 
 
-seq(com.earldouglas.xsbtwebplugin.WebPlugin.webSettings :_*)
+com.earldouglas.xsbtwebplugin.WebPlugin.webSettings
 
 port in container.Configuration := 8989
 
@@ -41,7 +42,7 @@ libraryDependencies ++= Seq(
 	"com.typesafe.akka" % "akka-actor_2.10" % "2.2.0",
 	"com.typesafe.akka" % "akka-testkit_2.10" % "2.2.0" % "test",
 	"net.databinder.dispatch" %% "dispatch-core" % "0.11.0",
-	"net.liftmodules" %% "lift-jquery-module" % "2.5-RC4-2.3",
+	"net.liftmodules" %% "lift-jquery-module_2.5" % "2.6",
 	"net.liftweb"     %% "lift-util"   % "2.5.1",
 	"net.liftweb"     %% "lift-webkit" % "2.5.1",
 	"net.liftweb"     %% "lift-actor"  % "2.5.1",
@@ -51,4 +52,3 @@ libraryDependencies ++= Seq(
 	"org.eclipse.jetty.orbit" % "javax.servlet" % "3.0.0.v201112011016" % "container,test" artifacts Artifact("javax.servlet", "jar", "jar"),
 	"org.scalatest" %% "scalatest" % "2.0" % "test"
 )
-

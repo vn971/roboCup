@@ -6,7 +6,7 @@ import code.comet._
 import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.zagram._
-import scala.collection.mutable
+import scala.collection.immutable.HashSet
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.util.Random
@@ -18,18 +18,18 @@ class KnockoutCore extends Actor with Loggable {
 	object StartNextTour
 
 	val toZagram = context.actorOf(Props[ToZagram], name = "toZagram")
-	val fromZagram = context.actorOf(Props[FromZagram], name = "fromZagram")
+	context.actorOf(Props[FromZagram], name = "fromZagram")
 
-	val waiting = mutable.LinkedHashSet[GameNode]()
-	val playing = mutable.LinkedHashSet[(GameNode, GameNode)]() // each inner set must contain 2 players
-	val knockedOut = mutable.LinkedHashSet[GameNode]()
+	var waiting = HashSet[GameNode]()
+	var playing = HashSet[(GameNode, GameNode)]() // each inner set must contain 2 players
+	var knockedOut = HashSet[GameNode]()
 
 	override def preStart() {
 		logger.info("initialized")
 	}
 
 	def prepareNextTour() {
-		logger.info("prepare next tour.")
+		logger.info("prepare next tour")
 		if (playing.size > 0) throw new IllegalStateException
 		else if (waiting.size < 2) {
 			logger.info("tournament finished!")
@@ -64,7 +64,7 @@ class KnockoutCore extends Actor with Loggable {
 					context.system.scheduler.scheduleOnce(gameTimeout, self, GameWon(p2.name, p1.name))
 				}
 			}
-			waiting.clear()
+			waiting = HashSet.empty
 			for (j <- 0 until greaterPower2 - shuffled.size) {
 				waiting += GameNode(shuffled(j).name, shuffled(j))
 			}
@@ -160,15 +160,15 @@ class KnockoutCore extends Actor with Loggable {
 			} else {
 				logger.info("registration started!")
 				context.system.scheduler.scheduleOnce(registrationTime + (time - System.currentTimeMillis).milliseconds, self, StartTheTournament)
-				waiting.clear()
-				playing.clear()
-				knockedOut.clear()
+				waiting = HashSet.empty
+				playing = HashSet.empty
+				knockedOut = HashSet.empty
 				GlobalStatusSingleton ! RegistrationInProgress(time + registrationTime.toMillis)
 				context.become(registration, discardOld = true)
 			}
 	}
 
-	def toVectorAndShuffle[T](set: mutable.LinkedHashSet[T]) = {
+	def toVectorAndShuffle[T](set: Set[T]) = {
 		val buffer = set.toBuffer
 
 		def transpose(i1: Int, i2: Int) { // transpose two elements in list
