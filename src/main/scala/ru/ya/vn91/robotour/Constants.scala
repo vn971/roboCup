@@ -26,7 +26,8 @@ object Constants extends Loggable {
 	val fieldSizeX = Props.getInt("fieldSizeX", 39)
 	val fieldSizeY = Props.getInt("fieldSizeY", 32)
 
-	val gameTimeout = startingTime * 2 + perTurnTime * fieldSizeX * fieldSizeY + 10.minutes
+	val gameTimeout = startingTime * 2 + perTurnTime * fieldSizeX * fieldSizeY +
+			(if (Props.devMode) 10.seconds else 10.minutes)
 
 	/** "tour time" means maximum for all games in a tour
 		*/

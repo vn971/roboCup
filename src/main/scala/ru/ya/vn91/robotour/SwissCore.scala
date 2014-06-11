@@ -10,6 +10,7 @@ import scala.collection.immutable.{HashSet, HashMap}
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Random
+import net.liftweb.util.Props
 
 
 class SwissCore extends RegistrationCore {
@@ -106,9 +107,7 @@ class SwissCore extends RegistrationCore {
 			}
 		case RoundTimeout(round) =>
 			if (round == currentRound) {
-				if (sys.props.get("run.mode") == Some("production")) {
-					openGames.toList.foreach(g => self ! GameDraw(g.a, g.b))
-				} else {
+				if (Props.devMode) {
 					openGames.toList.foreach { g =>
 						Random.nextInt(3) match {
 							case 0 => self ! GameWon(g.a, g.b)
@@ -116,6 +115,8 @@ class SwissCore extends RegistrationCore {
 							case _ => self ! GameDraw(g.a, g.b)
 						}
 					}
+				} else {
+					openGames.toList.foreach(g => self ! GameDraw(g.a, g.b))
 				}
 			}
 	}

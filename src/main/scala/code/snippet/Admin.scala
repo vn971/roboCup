@@ -27,14 +27,20 @@ object Admin extends Loggable {
 				SetValById("timeSetter", "time set.")
 			}
 		} catch {
-			case t: Exception => Alert("Неправильный формат даты. Пожалуйста, будьте аккуратны!")
+			case t: Exception => Alert("Неправильный формат даты.")
 		}
 	}
 
 	def register = SHtml.onSubmit { nick =>
-		logger.info(s"registered $nick")
-		Core.core ! new TryRegister(PlayerInfo(nick, 1200, 0, 0, 0))
-		SetValById("playerRegistrator", "")
+		val trimmed = nick.trim
+		if (trimmed.nonEmpty) {
+			logger.info(s"registered $trimmed")
+			Core.core ! new TryRegister(PlayerInfo(trimmed, 1200, 0, 0, 0))
+			SetValById("playerRegistrator", "")
+		} else {
+			logger.debug(s"tried to register, but failed: '$trimmed'")
+			Alert("Пустое или некорректное имя, не буду добавлять в список игроков.")
+		}
 	}
 
 	def setStatus() = SHtml.onSubmit { status =>
@@ -60,6 +66,7 @@ object Admin extends Loggable {
 		(for {
 			first <- twoPlayers.split('/').lift(0)
 			second <- twoPlayers.split('/').lift(1)
+			if twoPlayers.split('/').length == 2
 		} yield {
 			logger.info(s"assigning game: $twoPlayers")
 			Core.system.actorOf(Props[ToZagram], name = "core.toZagram") !
