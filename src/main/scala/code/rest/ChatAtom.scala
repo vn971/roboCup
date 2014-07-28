@@ -17,6 +17,9 @@ object ChatAtom extends RestHelper with Loggable {
 	}
 
 	serve {
+		case Get("test" :: Nil, _) =>
+			OkResponse()
+
 		case Get("api" :: "chatFeed" :: Nil, _) =>
 
 			val messages = ChatServer.msgs.takeRight(100).reverse

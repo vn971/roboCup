@@ -207,9 +207,9 @@ class GameSet(openGames: HashSet[Opponents] = HashSet.empty) {
 
 
 class Opponents(val a: String, val b: String) {
-	override def equals(other: Any) = {
-		val o = other.asInstanceOf[Opponents]
-		(o.a == a && o.b == b) || (o.a == b && o.b == a)
+	override def equals(otherAny: Any) = {
+		val other = otherAny.asInstanceOf[Opponents]
+		(other.a == a && other.b == b) || (other.a == b && other.b == a)
 		// that's a bad definition of equals, I know.
 	}
 	override def hashCode = a.hashCode + b.hashCode

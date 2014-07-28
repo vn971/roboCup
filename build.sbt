@@ -1,4 +1,6 @@
 import com.typesafe.sbteclipse.core.EclipsePlugin.EclipseKeys
+import com.earldouglas.xsbtwebplugin.WebPlugin._
+import com.earldouglas.xsbtwebplugin._
 
 name := "robocup"
 
@@ -15,7 +17,7 @@ scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature")
 
 com.earldouglas.xsbtwebplugin.WebPlugin.webSettings
 
-port in container.Configuration := 8989
+PluginKeys.port in container.Configuration := 8989
 
 Keys.`package` <<= (Keys.`package` in Compile) dependsOn (test in Test)
 
