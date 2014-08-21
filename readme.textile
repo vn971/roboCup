@@ -25,16 +25,6 @@ Feel free to contact me.:)
 
 
 -----
-zagram activity by week day:
-mo 26398
-tu 27580
-we 26477
-th 25495
-fr 20055
-sa 20419
-su 25775
-
-
 
 Authors:
 
@@ -68,4 +58,4 @@ widely accepted and now is a de-facto standard
 
 
 Copyright: Vasya Novikov
-License: GPL v2 license (you may contact me if you want a different license)
+License: AGPL v3 license (you may contact me if you want a different license)
