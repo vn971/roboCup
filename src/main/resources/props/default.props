@@ -24,7 +24,7 @@ isRated=true
 tournamentCodename=TEST TOURNAMENT
 
 #### will be localized (translated)
-#### allowed: vasya.novikov, oleg.anokhin, vanya.geyko, roman.saraskin
+#### allowed: vasya.novikov, oleg.anokhin, vanya.geyko, roman.saraskin, rinat.rin
 organizerCodename=vasya.novikov
 
 #### optional, doesn't work with russian letters.

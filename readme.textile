@@ -58,4 +58,4 @@ widely accepted and now is a de-facto standard
 
 
 Copyright: Vasya Novikov
-License: AGPL v3 license (you may contact me if you want a different license)
+License: AGPL v3 license
