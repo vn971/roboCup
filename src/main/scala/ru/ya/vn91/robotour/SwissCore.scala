@@ -45,8 +45,6 @@ class SwissCore extends RegistrationCore {
 			// already registered
 		} else if (rankLimit.exists(_ > p.rank) && p.nick != emptyPlayer) {
 			toZagram ! MessageToZagram(s"${p.nick}, sorry, rank limit is ${rankLimit.openOr(0)}. Not registered.")
-		} else if (p.nick startsWith "*") {
-			toZagram ! MessageToZagram(s"${p.nick}, to take a part in the tournament, please, use a registered account.")
 		} else {
 			if (importRankInSwiss && p.nick != emptyPlayer) {
 				scores += p.nick -> p.rank / 100

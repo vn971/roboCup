@@ -81,9 +81,7 @@ class KnockoutCore extends Actor with Loggable {
 
 	def registration: Receive = {
 		case TryRegister(info) =>
-			if (info.nick startsWith "*") {
-				toZagram ! MessageToZagram(s"${info.nick}, to take a part in the tournament, please, use a registered account.")
-			} else if (waiting.forall(_.name != info.nick)) {
+			if (waiting.forall(_.name != info.nick)) {
 				logger.info(s"registered ${info.nick}")
 				waiting += GameNode(info.nick)
 				RegisteredListSingleton ! info.nick

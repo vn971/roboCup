@@ -75,10 +75,13 @@ class FromZagram extends Actor with Loggable {
 				msg.startsWith("!register") ||
 				msg.startsWith("!register")) {
 			playerSet.get(nick) match {
+				case _ if nick.startsWith("*") =>
+					logger.info(s"registration attempt failed, guests not allowed: $nick")
+					context.parent ! MessageToZagram(s"$nick, to take a part in the tournament, please, use a registered account.")
 				case Some(info) =>
 					logger.info(s"registration attempt caught: $info")
 					context.parent ! TryRegister(info)
-				case _ =>
+				case None =>
 					logger.info(s"registration attempt failed: no user info for $nick")
 					context.parent ! MessageToZagram(s"Sorry, could not find zagram rank for $nick")
 			}
