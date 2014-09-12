@@ -5,10 +5,12 @@
 		</encoder>
 	</appender>
 
-	<logger name="bootstrap.liftweb" level="info"/>
-	<logger name="net.liftweb" level="warn"/>
+	<logger name="bootstrap.liftweb" level="debug"/>
+	<logger name="code" level="debug"/>
+	<logger name="ru.ya.vn91" level="debug"/>
+	<logger name="net.liftweb.util.TimeHelpers" level="warn"/>
 
-	<root level="debug">
+	<root level="info">
 		<appender-ref ref="STDOUT"/>
 	</root>
 </configuration>

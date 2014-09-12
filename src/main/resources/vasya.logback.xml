@@ -13,10 +13,10 @@
 		</encoder>
 	</appender>
 
-	<logger name="bootstrap.liftweb" level="trace"/>
+	<logger name="bootstrap.liftweb" level="debug"/>
 	<logger name="code" level="debug"/>
-	<logger name="ru.ya.vn91.robotour" level="debug"/>
-	<logger name="net.liftweb" level="warn"/>
+	<logger name="ru.ya.vn91" level="debug"/>
+	<logger name="net.liftweb.util.TimeHelpers" level="warn"/>
 
 	<root level="info">
 		<appender-ref ref="STDOUT"/>
