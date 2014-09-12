@@ -28,7 +28,7 @@ class FromZagram extends Actor with Loggable {
 	}
 
 	def receive = {
-		case Tick =>
+		case Tick => try { // not ideologically right, but needed for zagram
 			context.system.scheduler.scheduleOnce(7.seconds, self, Tick)
 			val urlAsString = dispatch.url("http://zagram.org/a.kropki").
 					addQueryParameter("idGracza", idGracza).
@@ -47,13 +47,20 @@ class FromZagram extends Actor with Loggable {
 			} {
 				handleLine(line)
 			}
+		} catch {
+			case e: Exception => logger.error("exception in main cycle", e)
+		}
 
 	}
 
 	private def handleLine(line: String) = try {
 		val dotSplit = line.drop(1).split('.')
 		if (line startsWith "m") {
-			messageCount = line.split('.')(1).toLong
+			val newMessageCount = line.split('.')(1).toLong
+			if (newMessageCount < messageCount) {
+				logger.warn(s"message counter decreased, seems like a server restart ($messageCount => $newMessageCount)")
+			}
+			messageCount = newMessageCount
 		} else if (line startsWith "ca") {
 			handleChat(dotSplit, line)
 		} else if (line startsWith "x") {
