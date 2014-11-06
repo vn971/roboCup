@@ -25,8 +25,8 @@ object PlayingSingleton extends LiftActor with ListenerManager {
 	 *  messages, and then update all the listeners.
 	 */
 	override def lowPriority = {
-		case s: List[(GameNode, GameNode)] =>
-			playing = s
+		case s: List[_] =>
+			playing = s.asInstanceOf[List[(GameNode, GameNode)]]
 			updateListeners()
 	}
 }

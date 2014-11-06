@@ -16,8 +16,8 @@ class Playing extends CometActor with CometListener {
 	def registerWith = PlayingSingleton
 
 	override def lowPriority = {
-		case v: List[(GameNode, GameNode)] =>
-			playing = v
+		case v: List[_] =>
+			playing = v.asInstanceOf[List[(GameNode, GameNode)]]
 			reRender()
 	}
 
