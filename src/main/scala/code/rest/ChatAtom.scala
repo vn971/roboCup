@@ -18,7 +18,7 @@ object ChatAtom extends RestHelper with Loggable {
 
 	serve {
 		case Get("test" :: Nil, _) =>
-			OkResponse()
+			PlainTextResponse("test confirmed")
 
 		case Get("api" :: "chatFeed" :: Nil, _) =>
 

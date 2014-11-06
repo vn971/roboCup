@@ -1,10 +1,15 @@
+# IDE
 /.cache
 /.idea*
 /.settings
-/lib_managed/
-/project/project/*
-/project/target/*
-/target/
+/projectFilesBackup
 
+# SBT
+/lib_managed
+/project/project
+/project/target
+/target
+
+# sensitive info
 /vasya.console.log
 /src/main/resources/props/production.*
