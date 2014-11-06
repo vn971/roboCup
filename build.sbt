@@ -6,7 +6,7 @@ name := "robocup"
 
 version := "0.115"
 
-scalaVersion := "2.10.3"
+scalaVersion := "2.10.4"
 
 organization := "net.pointsgame"
 
