@@ -6,11 +6,25 @@ import ru.ya.vn91.robotour.GameNode._
 
 class GameNodeTest extends FunSuite with Matchers with TypeCheckedTripleEquals {
 
+  test("empty") {
+    assert(toTree(GameNode("")) === "")
+  }
+
   test("simple") {
     assert(toTree(GameNode("vasya")) === "vasya")
   }
 
   test("full") {
+    val string =
+      """
+        |vasya
+        |├── frosya
+        |│   ├── petya
+        |│   │   └── masha
+        |│   └── kolya
+        |└── frosya2
+      """.stripMargin.trim
+
     val node = GameNode("vasya",
       GameNode("frosya",
         GameNode("petya",
@@ -22,17 +36,6 @@ class GameNodeTest extends FunSuite with Matchers with TypeCheckedTripleEquals {
     )
     // println(GameNode.legacyPrint(node))
     // println(GameNode.print(node))
-
-    val string =
-      """
-        |vasya
-        |├── frosya
-        |│   ├── petya
-        |│   │   └── masha
-        |│   └── kolya
-        |└── frosya2
-      """.stripMargin.trim
-
     assert(GameNode.toTree(node) === string)
   }
 
