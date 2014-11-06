@@ -1,9 +1,7 @@
 package code.comet
 
 import code.comet.GameResultEnumeration._
-import net.liftweb.http.CometActor
-import net.liftweb.http.CometListener
-import net.liftweb.util.ClearNodes
+import net.liftweb.http.{CometActor, CometListener}
 
 class SwissTableActor extends CometActor with CometListener {
 

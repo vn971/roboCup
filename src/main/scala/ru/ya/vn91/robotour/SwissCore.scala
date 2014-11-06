@@ -2,15 +2,14 @@ package ru.ya.vn91.robotour
 
 import code.comet.GameResultEnumeration._
 import code.comet.TournamentStatus._
-import code.comet._
-import code.comet.{Game, Player, SwissTableData}
+import code.comet.{Game, Player, SwissTableData, _}
+import net.liftweb.util.Props
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.zagram._
-import scala.collection.immutable.{HashSet, HashMap}
+import scala.collection.immutable.{HashMap, HashSet}
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Random
-import net.liftweb.util.Props
 
 
 class SwissCore extends RegistrationCore {

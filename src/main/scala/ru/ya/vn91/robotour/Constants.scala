@@ -3,8 +3,7 @@ package ru.ya.vn91.robotour
 import code.comet.GlobalStatusSingleton
 import code.comet.TournamentStatus.ErrorStatus
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.TimeZone
+import java.util.{Date, TimeZone}
 import net.liftweb.common.Loggable
 import net.liftweb.util.Props
 import scala.concurrent.duration._

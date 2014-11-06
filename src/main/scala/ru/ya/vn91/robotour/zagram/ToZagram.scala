@@ -5,7 +5,7 @@ import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.Constants
 import ru.ya.vn91.robotour.Utils._
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{Success, Failure}
+import scala.util.{Failure, Success}
 
 case class AssignGame(
 		first: String, second: String,

@@ -1,7 +1,6 @@
 package ru.ya.vn91.robotour
 
 import java.io.IOException
-import java.net.URLEncoder
 import scala.util.Try
 
 object Utils {

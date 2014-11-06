@@ -1,6 +1,6 @@
 package code.snippet
 
-import code.comet.{MessageToChatServer, ChatServer}
+import code.comet.{ChatServer, MessageToChatServer}
 import net.liftweb.common.Loggable
 import net.liftweb.http._
 import net.liftweb.http.js.JsCmds._

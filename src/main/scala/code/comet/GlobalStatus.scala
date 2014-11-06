@@ -1,9 +1,9 @@
 package code.comet
 
 import code.comet.TournamentStatus._
-import net.liftweb.http.{ CometActor, CometListener }
+import net.liftweb.http.{CometActor, CometListener}
 import ru.ya.vn91.robotour.Constants._
-import scala.xml.{Unparsed, Text}
+import scala.xml.Unparsed
 
 class GlobalStatus extends CometActor with CometListener {
 

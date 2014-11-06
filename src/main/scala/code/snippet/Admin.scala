@@ -8,7 +8,7 @@ import net.liftweb.http._
 import net.liftweb.http.js.JsCmds._
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour._
-import ru.ya.vn91.robotour.zagram.{AssignGame, ToZagram, PlayerInfo}
+import ru.ya.vn91.robotour.zagram.{AssignGame, PlayerInfo, ToZagram}
 import scala.concurrent.duration._
 
 object Admin extends Loggable {

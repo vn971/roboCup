@@ -1,18 +1,17 @@
 package bootstrap.liftweb
 
+import code.rest.ChatAtom
 import java.util.Locale
 import net.liftmodules.JQueryModule
 import net.liftweb.common._
 import net.liftweb.http._
 import net.liftweb.http.js.jquery.JQueryArtifacts
-import net.liftweb.http.provider.{HTTPParam, HTTPCookie}
+import net.liftweb.http.provider.{HTTPCookie, HTTPParam}
 import net.liftweb.sitemap.Loc._
 import net.liftweb.sitemap._
 import net.liftweb.util.Props
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.{Constants, Core}
-import scala.concurrent.duration._
-import code.rest.ChatAtom
 
 
 /** A class that's instantiated early and run.  It allows the application

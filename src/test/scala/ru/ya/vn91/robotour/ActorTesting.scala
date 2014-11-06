@@ -3,8 +3,7 @@ package ru.ya.vn91.robotour
 import akka.actor.ActorSystem
 import akka.testkit.TestActorRef
 import net.liftweb.common.Loggable
-import org.scalatest.FunSuite
-import org.scalatest.Matchers
+import org.scalatest.{FunSuite, Matchers}
 import ru.ya.vn91.robotour.zagram.PlayerInfo
 
 class ActorTesting extends FunSuite with Matchers with Loggable {

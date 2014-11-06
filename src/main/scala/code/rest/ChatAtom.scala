@@ -1,8 +1,8 @@
 package code.rest
 
-import code.comet.{MessageToChatServer, ChatServer}
+import code.comet.{ChatServer, MessageToChatServer}
 import java.text.SimpleDateFormat
-import java.util.{TimeZone, Date}
+import java.util.{Date, TimeZone}
 import net.liftweb.common.Loggable
 import net.liftweb.http._
 import net.liftweb.http.rest._

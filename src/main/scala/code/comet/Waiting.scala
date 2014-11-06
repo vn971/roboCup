@@ -1,8 +1,6 @@
 package code.comet
 
-import net.liftweb.http.CometActor
-import net.liftweb.http.CometListener
-import net.liftweb.util.ClearClearable
+import net.liftweb.http.{CometActor, CometListener}
 import ru.ya.vn91.robotour.GameNode
 
 /** The screen real estate on the browser will be represented

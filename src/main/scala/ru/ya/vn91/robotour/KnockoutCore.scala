@@ -24,11 +24,11 @@ class KnockoutCore extends Actor with Loggable {
 	var playing = HashSet[(GameNode, GameNode)]() // each inner set must contain 2 players
 	var knockedOut = HashSet[GameNode]()
 
-	override def preStart() {
+	override def preStart(): Unit = {
 		logger.info("initialized")
 	}
 
-	def prepareNextTour() {
+	def prepareNextTour(): Unit = {
 		logger.info("prepare next tour")
 		if (playing.size > 0) throw new IllegalStateException
 		else if (waiting.size < 2) {
@@ -169,7 +169,7 @@ class KnockoutCore extends Actor with Loggable {
 	def toVectorAndShuffle[T](set: Set[T]) = {
 		val buffer = set.toBuffer
 
-		def transpose(i1: Int, i2: Int) { // transpose two elements in list
+		def transpose(i1: Int, i2: Int): Unit = { // transpose two elements in list
 			val temp = buffer(i1)
 			buffer.update(i1, buffer(i2))
 			buffer.update(i2, temp)
