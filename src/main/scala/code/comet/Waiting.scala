@@ -20,7 +20,7 @@ class Waiting extends CometActor with CometListener {
 	}
 
 	def render = {
-		val nodeSeqList : List[xml.NodeSeq] = waiting.map(node => <pre>{ node.toTreeString }</pre>)
+		val nodeSeqList : List[xml.NodeSeq] = waiting.map(node => <pre>{ GameNode.toTree(node) }</pre>)
 		"li *+" #> nodeSeqList
 	}
 }
