@@ -1,16 +1,1 @@
-<configuration>
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-			<pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
-		</encoder>
-	</appender>
-
-	<logger name="bootstrap.liftweb" level="debug"/>
-	<logger name="code" level="debug"/>
-	<logger name="ru.ya.vn91" level="debug"/>
-	<logger name="net.liftweb.util.TimeHelpers" level="warn"/>
-
-	<root level="info">
-		<appender-ref ref="STDOUT"/>
-	</root>
-</configuration>
+logback.xml
