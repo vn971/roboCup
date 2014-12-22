@@ -22,8 +22,8 @@ EclipseKeys.withSource := true
 resolvers ++= Seq(
 	"Scala Tools Releases" at "http://scala-tools.org/repo-releases/",
 	"Java.net Maven2 Repository" at "http://download.java.net/maven/2/",
-	"Sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots",
-	"Sonatype releases" at "http://oss.sonatype.org/content/repositories/releases",
+	"Sonatype Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots",
+	"Sonatype Releases"  at "http://oss.sonatype.org/content/repositories/releases",
 	"Typesafe Snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",
 	"Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/",
 	"Jetty Eclipse" at "http://repo1.maven.org/maven2/"
