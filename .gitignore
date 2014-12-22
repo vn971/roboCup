@@ -1,8 +1,11 @@
 # IDE
 /.cache
 /.idea*
+/.classpath
 /.settings
+/.project
 /projectFilesBackup
+/.ensime*
 
 # SBT
 /lib_managed

@@ -18,7 +18,7 @@ import ru.ya.vn91.robotour.{Constants, Core}
  *  to modify lift's environment
  */
 class Boot extends Loggable {
-	def boot() {
+	def boot(): Unit = {
 
 		logger.info("props will be taken from: " + Props.toTry.map(_.apply()))
 
