@@ -13,5 +13,8 @@
 /project/project
 
 # sensitive info
-/vasya.console.log
 /src/main/resources/props/production.*
+
+# app output
+/*log
+/*.pid

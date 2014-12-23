@@ -1,4 +1,3 @@
-import com.typesafe.sbt.packager.archetypes.ServerLoader
 
 name := "robocup"
 version := "1.1.6"
@@ -10,16 +9,15 @@ scalaVersion := "2.11.4"
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-Xfatal-warnings")
 
 spray.revolver.RevolverPlugin.Revolver.settings.settings
-
-fork := true
+fork in Test := true
 
 EclipseKeys.withSource := true
 
-//assemblyJarName := "robocup.jar"
+assemblyJarName := "robocup.jar"
 
 packageDescription <+= description
 packageSummary <+= description
-serverLoading in Debian := ServerLoader.SystemV
+serverLoading in Debian := com.typesafe.sbt.packager.archetypes.ServerLoader.SystemV
 bashScriptExtraDefines += "addJava '-Drun.mode=production'" // for liftweb
 packageBin in Compile <<= (packageBin in Compile) dependsOn (test in Test)
 enablePlugins(JavaServerAppPackaging)

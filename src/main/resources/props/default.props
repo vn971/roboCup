@@ -1,7 +1,3 @@
-#adminPage=
-#zagramIdGracza=
-#zagramAssignGamePassword=
-
 #### optional
 #rankLimit=1200
 
@@ -9,7 +5,7 @@
 fieldSizeX=25
 fieldSizeY=25
 
-#### valid values are: 0,1,2,4
+#### allowed: 0,1,2,4
 crossesCount=2
 
 isSwiss=true
@@ -30,3 +26,9 @@ organizerCodename=vasya.novikov
 #### optional, doesn't work with russian letters.
 #### example: vn971, agent47, Romati, ysipysi
 createGameWith=vn971
+
+
+#adminPage=
+#zagramIdGracza=
+#zagramAssignGamePassword=
+jetty.port=8989

@@ -1,0 +1,8 @@
+/home/robocup-sbt/dir/log/*log {
+    daily
+    rotate 30
+    missingok
+    notifempty
+    compress
+    copytruncate
+}

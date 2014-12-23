@@ -5,7 +5,7 @@
 		</encoder>
 	</appender>
 	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
-		<file>/var/log/robocup/robocup.log</file>
+		<file>./log/log.log</file>
 		<append>true</append>
 		<encoder>
 			<pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
@@ -17,6 +17,6 @@
 	<logger name="net.liftweb" level="warn"/>
 
 	<root level="info">
-		<appender-ref ref="FILE"/>
+		<appender-ref ref="STDOUT"/>
 	</root>
 </configuration>
