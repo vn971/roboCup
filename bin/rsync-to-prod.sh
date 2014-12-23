@@ -1,10 +1,12 @@
 #!/bin/bash -e
 
-cd `dirname $0`/../
 host='deb7vostro.pointsgame.net'
 
-./bin/sbt package
+cd `dirname $0`/../
 
-ssh ${host} service tomcat7 stop
-rsync -aruvz --progress --delete target/webapp/ ${host}:/var/lib/tomcat7/webapps/tournament/
-ssh ${host} service tomcat7 start
+rm ./target/*.deb || true
+./bin/sbt debian:packageBin
+scp ./target/*.deb ${host}:/root/
+
+# also consider this for building packages on a remote machine:
+# rsync -aruvz --progress --delete --exclude='/.git' --filter="dir-merge,- .gitignore"  ./ ${host}:/home/robocup-build/dir/

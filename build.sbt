@@ -1,23 +1,37 @@
-import com.typesafe.sbteclipse.core.EclipsePlugin.EclipseKeys
-import com.earldouglas.xsbtwebplugin.WebPlugin._
-import com.earldouglas.xsbtwebplugin._
+import com.typesafe.sbt.packager.archetypes.ServerLoader
 
 name := "robocup"
-version := "0.115"
+version := "1.1.6"
 organization := "net.pointsgame"
 description := "Automatic tournaments for the game Points"
+maintainer := "Vasya Novikov <n1dr+robocup@yaaaandex.ru> (remove duplicating aaa)"
 
-scalaVersion := "2.10.4"
+scalaVersion := "2.11.4"
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-Xfatal-warnings")
 
-
-com.earldouglas.xsbtwebplugin.WebPlugin.webSettings
-PluginKeys.port in container.Configuration := 8989
+spray.revolver.RevolverPlugin.Revolver.settings.settings
 
 fork := true
-Keys.`package` <<= (Keys.`package` in Compile) dependsOn (test in Test)
 
 EclipseKeys.withSource := true
+
+//assemblyJarName := "robocup.jar"
+
+packageDescription <+= description
+packageSummary <+= description
+serverLoading in Debian := ServerLoader.SystemV
+packageBin in Compile <<= (packageBin in Compile) dependsOn (test in Test)
+enablePlugins(JavaServerAppPackaging)
+
+resourceGenerators in Compile <+= (resourceManaged, baseDirectory) map { (managedBase, base) =>
+	val webappBase = base / "src" / "main" / "webapp"
+	for {
+		(from, to) <- webappBase ** "*" pair rebase(webappBase, managedBase / "main" / "webapp")
+	} yield {
+		Sync.copy(from, to)
+		to
+	}
+}
 
 resolvers ++= Seq(
 	"Scala Tools Releases" at "http://scala-tools.org/repo-releases/",
@@ -30,17 +44,17 @@ resolvers ++= Seq(
 )
 
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.0.13"
-libraryDependencies += "com.typesafe.akka" % "akka-actor_2.10" % "2.2.0"
-libraryDependencies += "com.typesafe.akka" % "akka-testkit_2.10" % "2.2.0" % Test
-libraryDependencies += "net.databinder.dispatch" %% "dispatch-core" % "0.11.0"
-libraryDependencies += "org.eclipse.jetty" % "jetty-webapp" % "9.1.0.v20131115" % "container"
-libraryDependencies += "org.eclipse.jetty" % "jetty-plus"   % "9.1.0.v20131115" % "container"
-libraryDependencies += "org.eclipse.jetty.orbit" % "javax.servlet" % "3.0.0.v201112011016" % "container,test" artifacts Artifact("javax.servlet", "jar", "jar")
-libraryDependencies += "org.scalatest" %% "scalatest" % "2.0" % Test
+libraryDependencies += "net.databinder.dispatch" %% "dispatch-core" % "0.11.2"
+libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.3" % Test
 
-libraryDependencies += "net.liftweb" %% "lift-util"   % "2.5.1"
-libraryDependencies += "net.liftweb" %% "lift-webkit" % "2.5.1"
-libraryDependencies += "net.liftweb" %% "lift-actor"  % "2.5.1"
-libraryDependencies += "net.liftweb" %% "lift-common" % "2.5.1"
+libraryDependencies +=   "com.typesafe.akka" %% "akka-actor" % "2.3.8"
+libraryDependencies +=   "com.typesafe.akka" %% "akka-testkit" % "2.3.8" % Test
 
-libraryDependencies += "net.liftmodules" %% "lift-jquery-module_2.5" % "2.6"
+libraryDependencies += "org.eclipse.jetty" % "jetty-webapp" % "9.1.5.v20140505"
+
+libraryDependencies += "net.liftweb" %% "lift-util"   % "2.6-RC2"
+libraryDependencies += "net.liftweb" %% "lift-webkit" % "2.6-RC2"
+libraryDependencies += "net.liftweb" %% "lift-actor"  % "2.6-RC2"
+libraryDependencies += "net.liftweb" %% "lift-common" % "2.6-RC2"
+
+libraryDependencies += "net.liftmodules" %% "lift-jquery-module_2.6" % "2.8"

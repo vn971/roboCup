@@ -1,17 +1,16 @@
 # IDE
-/.cache
 /.idea*
-/.classpath
-/.settings
-/.project
 /projectFilesBackup
+/.cache
+/.classpath
+/.project
+/.settings
 /.ensime*
 
 # SBT
-/lib_managed
-/project/project
-/project/target
 /target
+/project/target
+/project/project
 
 # sensitive info
 /vasya.console.log

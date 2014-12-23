@@ -1,7 +1,7 @@
 package ru.ya.vn91.robotour
 
+import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.{FunSuite, Matchers}
-import org.scalautils.TypeCheckedTripleEquals
 import ru.ya.vn91.robotour.GameNode._
 
 class GameNodeTest extends FunSuite with Matchers with TypeCheckedTripleEquals {
