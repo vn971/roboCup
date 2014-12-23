@@ -20,6 +20,7 @@ EclipseKeys.withSource := true
 packageDescription <+= description
 packageSummary <+= description
 serverLoading in Debian := ServerLoader.SystemV
+bashScriptExtraDefines += "addJava '-Drun.mode=production'" // for liftweb
 packageBin in Compile <<= (packageBin in Compile) dependsOn (test in Test)
 enablePlugins(JavaServerAppPackaging)
 

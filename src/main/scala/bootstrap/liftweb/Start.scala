@@ -9,15 +9,6 @@ import org.eclipse.jetty.webapp.WebAppContext
 
 object Start extends App with Loggable {
 
-	if (sys.props.get("user.dir") == Some("/usr/share/robocup") &&
-			sys.props.get("user.name") == Some("robocup")
-	) {
-		// This is a dirty, dirty hack.
-		// Normally, the run.mode should be configured with sbt-native-packager.
-		// Unfortunately, I wasn't able to do so with reasonable time limits.
-		System.setProperty("run.mode", "production")
-	}
-
 	LoggingAutoConfigurer().apply()
 
 	logger.info("run.mode: " + Props.modeName)
