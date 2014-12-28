@@ -1,7 +1,7 @@
 package code.comet
 
 import code.comet.GameResultEnumeration._
-import net.liftweb.http.{CometActor, CometListener}
+import net.liftweb.http.{ CometActor, CometListener }
 
 class SwissTableActor extends CometActor with CometListener {
 
@@ -19,7 +19,7 @@ class SwissTableActor extends CometActor with CometListener {
 
 		def shortenName(user: String) =
 			if (user.length > 7)
-				<abbr title={ user }>{ user.take(5)+".." }</abbr>
+				<abbr title={ user }>{ user.take(5) + ".." }</abbr>
 			else
 				xml.Text(user)
 
@@ -41,8 +41,6 @@ class SwissTableActor extends CometActor with CometListener {
 			</tr>
 		}
 
-//		if (table.rows.isEmpty) ClearNodes
-//		else
-			"tr" #> (table.rows zip (1 to table.rows.size)).map(rowToHtml)
+		"tr" #> (table.rows zip (1 to table.rows.size)).map(rowToHtml)
 	}
 }

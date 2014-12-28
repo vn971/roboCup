@@ -8,7 +8,7 @@ import net.liftweb.http._
 import net.liftweb.http.js.JsCmds._
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour._
-import ru.ya.vn91.robotour.zagram.{AssignGame, PlayerInfo, ToZagram}
+import ru.ya.vn91.robotour.zagram.{ AssignGame, PlayerInfo, ToZagram }
 import scala.concurrent.duration._
 
 object Admin extends Loggable {
@@ -19,9 +19,9 @@ object Admin extends Loggable {
 			val startTime = timeStringToLong(timeAsString)
 			val regTime = startTime - registrationTime.toMillis
 			if (startTime < System.currentTimeMillis ||
-					startTime > System.currentTimeMillis + 28.days.toMillis) {
+				startTime > System.currentTimeMillis + 28.days.toMillis) {
 				Alert("Кажется, вы ошиблись с датой, она выглядит неправильно. \n" +
-						"На всякий случай я вас остановлю.")
+					"На всякий случай я вас остановлю.")
 			} else {
 				Core.core ! StartRegistration(regTime)
 				SetValById("timeSetter", "time set.")
@@ -70,7 +70,7 @@ object Admin extends Loggable {
 		} yield {
 			logger.info(s"assigning game: $twoPlayers")
 			Core.system.actorOf(Props[ToZagram], name = "core.toZagram") !
-					AssignGame(first.trim, second.trim, infiniteTime = false)
+				AssignGame(first.trim, second.trim, infiniteTime = false)
 			SetValById("assignGame", "OK, assigned")
 		}).getOrElse {
 			Alert("ERROR")

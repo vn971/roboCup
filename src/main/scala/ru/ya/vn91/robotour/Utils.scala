@@ -21,11 +21,6 @@ object Utils {
 			content
 		}
 
-//	/** also consider to use .replaceAll("@", "@A").replaceAll("/", "@S")
-//		*/
-//	def getZagramEncoded(s: String) =
-//		URLEncoder.encode(s, "UTF-8")
-
 	def getZagramDecoded(s: String) = s.
 		replaceAll("@S", "/").
 		replaceAll("@A", "@").

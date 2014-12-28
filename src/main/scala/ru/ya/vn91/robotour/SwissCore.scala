@@ -2,15 +2,14 @@ package ru.ya.vn91.robotour
 
 import code.comet.GameResultEnumeration._
 import code.comet.TournamentStatus._
-import code.comet.{Game, Player, SwissTableData, _}
+import code.comet.{ Game, Player, SwissTableData, _ }
 import net.liftweb.util.Props
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.zagram._
-import scala.collection.immutable.{HashMap, HashSet}
+import scala.collection.immutable.{ HashMap, HashSet }
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Random
-
 
 class SwissCore extends RegistrationCore {
 
@@ -26,7 +25,6 @@ class SwissCore extends RegistrationCore {
 	def lossPrice = 1 // currentRound match { case 1 => 0.5 case 2 => 0.6 case 3 => 0.7 case 4 => 0.8 case 5 => 0.9 case _ => 1.0 }
 
 	def log2(x: Int) = (1 to 30).find(degree => (1 << degree) >= x).get
-
 
 	override def registrationInProgress =
 		super.registrationInProgress.orElse {
@@ -153,7 +151,7 @@ class SwissCore extends RegistrationCore {
 				val first = sortedPlayers(i)._1
 				val second = sortedPlayers(i + 1)._1
 
-				openGames +=(first, second)
+				openGames += (first, second)
 				if (first == emptyPlayer) {
 					logger.info(s"$second assigned as winner against $emptyPlayer")
 					self ! GameWon(second, emptyPlayer)
@@ -181,7 +179,6 @@ private object StartNextRound
 
 case class RoundTimeout(round: Int)
 
-
 class GameSet(openGames: HashSet[Opponents] = HashSet.empty) {
 
 	def +(b: String, a: String) = new GameSet(openGames + new Opponents(a, b))
@@ -201,7 +198,6 @@ class GameSet(openGames: HashSet[Opponents] = HashSet.empty) {
 	}
 	def toList = openGames.toList
 }
-
 
 class Opponents(val a: String, val b: String) {
 	override def equals(otherAny: Any) = {

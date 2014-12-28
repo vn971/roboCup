@@ -5,12 +5,12 @@ import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.Constants
 import ru.ya.vn91.robotour.Utils._
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{Failure, Success}
+import scala.util.{ Failure, Success }
 
 case class AssignGame(
-		first: String, second: String,
-		round: Int = 0,
-		infiniteTime: Boolean = false)
+	first: String, second: String,
+	round: Int = 0,
+	infiniteTime: Boolean = false)
 
 case class MessageToZagram(message: String)
 
@@ -22,21 +22,21 @@ class ToZagram extends Actor with Loggable {
 				logger.info(s"sending message $toSend")
 
 				val logIn = dispatch.url("http://zagram.org/auth.py").
-						addQueryParameter("co", "loguj").
-						addQueryParameter("opisGracza", "RoboCup").
-						addQueryParameter("idGracza", idGracza).
-						addQueryParameter("lang", "en").url
+					addQueryParameter("co", "loguj").
+					addQueryParameter("opisGracza", "RoboCup").
+					addQueryParameter("idGracza", idGracza).
+					addQueryParameter("lang", "en").url
 
 				val sendMessage = dispatch.url("http://zagram.org/a.kropki").
-						addQueryParameter("idGracza", idGracza).
-						addQueryParameter("co", "dodajWpis").
-						addQueryParameter("table", "0").
-						addQueryParameter("newMsgs", toSend).
-						addQueryParameter("msgNo", "1").url
+					addQueryParameter("idGracza", idGracza).
+					addQueryParameter("co", "dodajWpis").
+					addQueryParameter("table", "0").
+					addQueryParameter("newMsgs", toSend).
+					addQueryParameter("msgNo", "1").url
 
 				val logOut = dispatch.url("http://zagram.org/a.kropki").
-						addQueryParameter("playerId", idGracza).
-						addQueryParameter("co", "usunGracza").url
+					addQueryParameter("playerId", idGracza).
+					addQueryParameter("co", "usunGracza").url
 
 				getLinkContent(logIn)
 				getLinkContent(sendMessage)
@@ -50,14 +50,14 @@ class ToZagram extends Actor with Loggable {
 				val sayHiTime = if (isInfiniteTime) 0L else Constants.sayHiTime.toSeconds
 
 				val request = dispatch.url("http://zagram.org/a.kropki").
-						addQueryParameter("co", "setUpTable").
-						addQueryParameter("key", password).
-						addQueryParameter("gameType", Constants.zagramGameSettings(isInfiniteTime)).
-						addQueryParameter("pl1", first).
-						addQueryParameter("pl2", second).
-						addQueryParameter("sayHiTimes", sayHiTime + "." + sayHiTime).
-						addQueryParameter("tourn", Constants.tournamentCodename).
-						addQueryParameter("tRound", round.toString)
+					addQueryParameter("co", "setUpTable").
+					addQueryParameter("key", password).
+					addQueryParameter("gameType", Constants.zagramGameSettings(isInfiniteTime)).
+					addQueryParameter("pl1", first).
+					addQueryParameter("pl2", second).
+					addQueryParameter("sayHiTimes", sayHiTime + "." + sayHiTime).
+					addQueryParameter("tourn", Constants.tournamentCodename).
+					addQueryParameter("tRound", round.toString)
 
 				dispatch.Http(request.OK(dispatch.as.String)).onComplete {
 					case Success(s: String) => logger.info(

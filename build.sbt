@@ -1,3 +1,4 @@
+import scalariform.formatter.preferences._
 
 name := "robocup"
 version := "1.1.6"
@@ -24,6 +25,13 @@ scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-Xfatal-warning
 	"-Xlint:package-object-classes",
 	"-Xlint:unsound-match"
 )
+
+scalariformSettings
+ScalariformKeys.preferences := ScalariformKeys.preferences.value
+	.setPreference(DoubleIndentClassDeclaration, true)
+	.setPreference(AlignSingleLineCaseStatements, true)
+	.setPreference(IndentWithTabs, true)
+	.setPreference(MultilineScaladocCommentsStartOnFirstLine, true)
 
 spray.revolver.RevolverPlugin.Revolver.settings.settings
 fork in Test := true

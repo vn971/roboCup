@@ -1,10 +1,9 @@
 package bootstrap.liftweb
 
 import net.liftweb.common.Loggable
-import net.liftweb.util.{LoggingAutoConfigurer, Props}
+import net.liftweb.util.{ LoggingAutoConfigurer, Props }
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.webapp.WebAppContext
-
 
 object Start extends App with Loggable {
 
@@ -25,8 +24,8 @@ object Start extends App with Loggable {
 		logger.info(s"port number is $port")
 
 		val webappDir = Option(this.getClass.getClassLoader.getResource("webapp"))
-				.map(_.toExternalForm)
-				.getOrElse("src/main/webapp")
+			.map(_.toExternalForm)
+			.getOrElse("src/main/webapp")
 
 		logger.info(s"webappDir: $webappDir")
 

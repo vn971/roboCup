@@ -11,7 +11,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.util.Random
 
-
 class KnockoutCore extends Actor with Loggable {
 
 	object StartTheTournament

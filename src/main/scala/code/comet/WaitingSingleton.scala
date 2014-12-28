@@ -28,6 +28,6 @@ object WaitingSingleton extends LiftActor with ListenerManager {
 			waiting = s.asInstanceOf[List[GameNode]]
 			updateListeners()
 		case s =>
-			System.err.println("received unknown message: "+s)
+			System.err.println("received unknown message: " + s)
 	}
 }

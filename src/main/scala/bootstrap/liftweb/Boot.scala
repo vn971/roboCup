@@ -6,13 +6,12 @@ import net.liftmodules.JQueryModule
 import net.liftweb.common._
 import net.liftweb.http._
 import net.liftweb.http.js.jquery.JQueryArtifacts
-import net.liftweb.http.provider.{HTTPCookie, HTTPParam}
+import net.liftweb.http.provider.{ HTTPCookie, HTTPParam }
 import net.liftweb.sitemap.Loc._
 import net.liftweb.sitemap._
 import net.liftweb.util.Props
 import ru.ya.vn91.robotour.Constants._
-import ru.ya.vn91.robotour.{Constants, Core}
-
+import ru.ya.vn91.robotour.{ Constants, Core }
 
 /** A class that's instantiated early and run.  It allows the application
  *  to modify lift's environment
@@ -30,7 +29,7 @@ class Boot extends Loggable {
 		val adminPage =
 			Constants.adminPage.map {
 				Menu.i("Админка").path(_) >> Hidden >>
-						TemplateBox(() => Templates("admin" :: Nil))
+					TemplateBox(() => Templates("admin" :: Nil))
 			}.openOr {
 				if (Props.productionMode) sys.error("no admin page")
 				else Menu.i("Админка").path("admin")
@@ -61,8 +60,8 @@ class Boot extends Loggable {
 			def defaultCalculator = LiftRules.defaultLocaleCalculator(boxReq)
 
 			val locale = S.param("lang").map(setLanguageCookie).
-					or(fromCookie).
-					openOr(defaultCalculator)
+				or(fromCookie).
+				openOr(defaultCalculator)
 
 			if (locale.getLanguage.toLowerCase.matches(".*(ua|be|kz|ge).*")) {
 				new Locale("ru")
@@ -73,8 +72,8 @@ class Boot extends Loggable {
 
 		LiftRules.supplementalHeaders.default.set(
 			"X-Frame-Options" -> "DENY" ::
-					"Content-Security-Policy" -> "default-src 'self' 'unsafe-inline' 'unsafe-eval'" ::
-					Nil
+				"Content-Security-Policy" -> "default-src 'self' 'unsafe-inline' 'unsafe-eval'" ::
+				Nil
 		)
 
 		LiftRules.unloadHooks.append { () =>

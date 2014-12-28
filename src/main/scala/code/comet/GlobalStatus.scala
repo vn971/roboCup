@@ -1,7 +1,7 @@
 package code.comet
 
 import code.comet.TournamentStatus._
-import net.liftweb.http.{CometActor, CometListener}
+import net.liftweb.http.{ CometActor, CometListener }
 import ru.ya.vn91.robotour.Constants._
 import scala.xml.Unparsed
 
@@ -18,7 +18,7 @@ class GlobalStatus extends CometActor with CometListener {
 	def render = status match {
 		case Undefined => "*" #> "waiting (tournament not assigned yet)"
 		case RegistrationAssigned(time) => "*" #>
-				s"tournament starts at ${timeLongToString(time + registrationTime.toMillis)}, registration starts ${registrationTime.toHours} hours earlier"
+			s"tournament starts at ${timeLongToString(time + registrationTime.toMillis)}, registration starts ${registrationTime.toHours} hours earlier"
 		case RegistrationInProgress(regClose) => "*" #> s"registration in progress (until ${timeLongToHours(regClose)})"
 		case GamePlaying(roundNumber) => "*" #> "playing games" // (round N)
 		case WaitingForNextTour(time) => "*" #> s"waiting for next tour at ${timeLongToHours(time)}"

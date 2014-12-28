@@ -19,8 +19,8 @@ class Chat extends CometActor with CometListener {
 		val color = if (m.isAdmin) "red" else "green"
 
 		".time" #> timeLongToString(m.time) &
-				".user [color]" #> color &
-				".user *" #> user &
-				".message" #> m.message
+			".user [color]" #> color &
+			".user *" #> user &
+			".message" #> m.message
 	}
 }

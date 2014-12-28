@@ -1,6 +1,6 @@
 package code.comet
 
-import net.liftweb.http.{CometActor, CometListener}
+import net.liftweb.http.{ CometActor, CometListener }
 import ru.ya.vn91.robotour.GameNode
 
 /** The screen real estate on the browser will be represented
@@ -18,7 +18,7 @@ class Waiting extends CometActor with CometListener {
 	}
 
 	def render = {
-		val nodeSeqList : List[xml.NodeSeq] = waiting.map(node => <pre>{ GameNode.toTree(node) }</pre>)
+		val nodeSeqList: List[xml.NodeSeq] = waiting.map(node => <pre>{ GameNode.toTree(node) }</pre>)
 		"li *+" #> nodeSeqList
 	}
 }

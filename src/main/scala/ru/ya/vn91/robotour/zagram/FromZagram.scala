@@ -8,7 +8,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.util.Random
 
-
 case class GameInfo(first: String, second: String)
 
 case class PlayerInfo(nick: String, rank: Int, wins: Int, losses: Int, draws: Int)
@@ -31,10 +30,10 @@ class FromZagram extends Actor with Loggable {
 		case Tick => try { // not ideologically right, but needed for zagram
 			context.system.scheduler.scheduleOnce(7.seconds, self, Tick)
 			val urlAsString = dispatch.url("http://zagram.org/a.kropki").
-					addQueryParameter("idGracza", idGracza).
-					addQueryParameter("co", "getMsg").
-					addQueryParameter("msgNo", messageCount.toString).
-					addQueryParameter("wiad", "x").url
+				addQueryParameter("idGracza", idGracza).
+				addQueryParameter("co", "getMsg").
+				addQueryParameter("msgNo", messageCount.toString).
+				addQueryParameter("wiad", "x").url
 
 			// async impossible because of zagram protocol
 			val tryZagramResponse = getLinkContent(urlAsString)
@@ -79,8 +78,8 @@ class FromZagram extends Actor with Loggable {
 		val nick = innerSplit(1)
 		val msg = getZagramDecoded(innerSplit(3)).toLowerCase
 		if (msg.startsWith("!register") ||
-				msg.startsWith("!register") ||
-				msg.startsWith("!register")) {
+			msg.startsWith("!register") ||
+			msg.startsWith("!register")) {
 			playerSet.get(nick) match {
 				case _ if nick.startsWith("*") =>
 					logger.info(s"registration attempt failed, guests not allowed: $nick")

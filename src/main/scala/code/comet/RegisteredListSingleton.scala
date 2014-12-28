@@ -8,7 +8,7 @@ import net.liftweb.http._
  *  message will be processed at once.
  */
 object RegisteredListSingleton extends LiftActor with ListenerManager {
-	
+
 	private var registered = Vector[String]() // private state
 
 	/** When we update the listeners, what message do we send?

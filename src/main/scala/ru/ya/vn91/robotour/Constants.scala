@@ -3,7 +3,7 @@ package ru.ya.vn91.robotour
 import code.comet.GlobalStatusSingleton
 import code.comet.TournamentStatus.ErrorStatus
 import java.text.SimpleDateFormat
-import java.util.{Date, TimeZone}
+import java.util.{ Date, TimeZone }
 import net.liftweb.common.Loggable
 import net.liftweb.util.Props
 import scala.concurrent.duration._
@@ -26,10 +26,10 @@ object Constants extends Loggable {
 	val fieldSizeY = Props.getInt("fieldSizeY", 32)
 
 	val gameTimeout = startingTime * 2 + perTurnTime * fieldSizeX * fieldSizeY +
-			(if (Props.devMode) 10.seconds else 10.minutes)
+		(if (Props.devMode) 10.seconds else 10.minutes)
 
 	/** "tour time" means maximum for all games in a tour
-		*/
+	 */
 	val (expectedGameTime, expectedTourTime) = {
 		def dotCount(power: Double) = math.pow(fieldSizeX * fieldSizeY, power)
 		val tourDotCount = if (withTerritory) dotCount(1.0) else dotCount(0.75)

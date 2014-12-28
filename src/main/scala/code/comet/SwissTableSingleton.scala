@@ -15,6 +15,6 @@ object SwissTableSingleton extends LiftActor with ListenerManager {
 			table = t
 			updateListeners()
 		case s =>
-			System.err.println("received unknown message: "+s)
+			System.err.println("received unknown message: " + s)
 	}
 }

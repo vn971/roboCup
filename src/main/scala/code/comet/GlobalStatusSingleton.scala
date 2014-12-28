@@ -19,10 +19,10 @@ object GlobalStatusSingleton extends LiftActor with ListenerManager {
 			status = s
 			updateListeners()
 			ChatServer ! MessageToChatServer("Assigned tournament start!")
-			ChatServer ! MessageToChatServer("Registration starts at: "+timeLongToString(s.time))
+			ChatServer ! MessageToChatServer("Registration starts at: " + timeLongToString(s.time))
 			ChatServer ! MessageToChatServer(
 				"First round (start of games): " +
-						timeLongToString(s.time + registrationTime.toMillis))
+					timeLongToString(s.time + registrationTime.toMillis))
 		case s: RegistrationInProgress =>
 			status = s
 			updateListeners()
@@ -34,17 +34,17 @@ object GlobalStatusSingleton extends LiftActor with ListenerManager {
 		case s: WaitingForNextTour =>
 			status = s
 			updateListeners()
-			ChatServer ! MessageToChatServer("Next round will start at "+timeLongToHours(s.time))
+			ChatServer ! MessageToChatServer("Next round will start at " + timeLongToHours(s.time))
 		case s: FinishedWithWinner =>
-		status = s
-		updateListeners()
-		ChatServer ! MessageToChatServer("Tournament finished!")
-		ChatServer ! MessageToChatServer("Winner: "+s.winner)
+			status = s
+			updateListeners()
+			ChatServer ! MessageToChatServer("Tournament finished!")
+			ChatServer ! MessageToChatServer("Winner: " + s.winner)
 		case s: FinishedWithWinners =>
 			status = s
 			updateListeners()
 			ChatServer ! MessageToChatServer("Tournament finished!")
-			ChatServer ! MessageToChatServer("Winners: "+s.winners.mkString(", "))
+			ChatServer ! MessageToChatServer("Winners: " + s.winners.mkString(", "))
 		case FinishedWithDraw =>
 			status = FinishedWithDraw
 			updateListeners()
@@ -56,7 +56,7 @@ object GlobalStatusSingleton extends LiftActor with ListenerManager {
 		case s: ErrorStatus =>
 			status = s
 			updateListeners()
-			ChatServer ! MessageToChatServer("В серверном обработчике турнира произошла ошибка: "+s.reason)
+			ChatServer ! MessageToChatServer("В серверном обработчике турнира произошла ошибка: " + s.reason)
 		case any: Status =>
 			status = any
 			updateListeners()

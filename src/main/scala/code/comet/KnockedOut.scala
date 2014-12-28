@@ -1,6 +1,6 @@
 package code.comet
 
-import net.liftweb.http.{CometActor, CometListener}
+import net.liftweb.http.{ CometActor, CometListener }
 import ru.ya.vn91.robotour.GameNode
 import scala.xml.NodeSeq
 
@@ -14,7 +14,7 @@ class KnockedOut extends CometActor with CometListener {
 	}
 
 	def render = {
-		val nodeSeqList : List[NodeSeq] = knockedOut.map(node => <pre>{ node.toString }</pre>)
+		val nodeSeqList: List[NodeSeq] = knockedOut.map(node => <pre>{ node.toString }</pre>)
 		"li *" #> nodeSeqList
 	}
 
