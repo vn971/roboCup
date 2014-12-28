@@ -1,6 +1,6 @@
 package bootstrap.liftweb
 
-import code.rest.ChatAtom
+import code.rest._
 import java.util.Locale
 import net.liftmodules.JQueryModule
 import net.liftweb.common._
@@ -25,7 +25,7 @@ class Boot extends Loggable {
 		// where to search snippet
 		LiftRules.addToPackages("code")
 
-		LiftRules.statelessDispatch.append(ChatAtom)
+		LiftRules.statelessDispatch.append(RestAtomFeed)
 
 		val adminPage =
 			Constants.adminPage.map {
