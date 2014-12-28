@@ -6,7 +6,24 @@ description := "Automatic tournaments for the game Points"
 maintainer := "Vasya Novikov <n1dr+robocup@yaaaandex.ru> (remove duplicating aaa)"
 
 scalaVersion := "2.11.4"
-scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-Xfatal-warnings")
+scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-Xfatal-warnings",
+	// "-Xlint:help",
+	"-Xlint:adapted-args",
+	"-Xlint:nullary-unit",
+	"-Xlint:inaccessible",
+	"-Xlint:nullary-override",
+	"-Xlint:infer-any",
+	"-Xlint:missing-interpolator",
+	"-Xlint:doc-detached",
+	"-Xlint:private-shadow",
+	"-Xlint:type-parameter-shadow",
+	"-Xlint:poly-implicit-overload",
+	"-Xlint:option-implicit",
+	"-Xlint:delayedinit-select",
+	"-Xlint:by-name-right-associative",
+	"-Xlint:package-object-classes",
+	"-Xlint:unsound-match"
+)
 
 spray.revolver.RevolverPlugin.Revolver.settings.settings
 fork in Test := true

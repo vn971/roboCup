@@ -8,9 +8,7 @@
 /.ensime*
 
 # SBT
-/target
-/project/target
-/project/project
+target/
 
 # sensitive info
 /src/main/resources/props/production.*

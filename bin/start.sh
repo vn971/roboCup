@@ -2,6 +2,7 @@
 
 cd "`dirname "$0"`/../"
 
+./bin/sbt assembly
 ./bin/stop.sh
 
 mkdir -p log
