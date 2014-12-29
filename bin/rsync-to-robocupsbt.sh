@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -eu
 
 host='deb7vostro.pointsgame.net'
 user='robocup-sbt'
