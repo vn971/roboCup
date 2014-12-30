@@ -81,10 +81,6 @@ resolvers ++= Seq(
 	"Jetty Eclipse" at "http://repo1.maven.org/maven2/"
 )
 
-libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.0.13"
-libraryDependencies += "net.databinder.dispatch" %% "dispatch-core" % "0.11.2"
-libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.3" % Test
-
 libraryDependencies += "com.typesafe.akka" %% "akka-actor"   % "2.3.8"
 libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.3.8" % Test
 
@@ -96,3 +92,7 @@ libraryDependencies += "net.liftweb" %% "lift-actor"  % "2.6-RC2"
 libraryDependencies += "net.liftweb" %% "lift-common" % "2.6-RC2"
 
 libraryDependencies += "net.liftmodules" %% "lift-jquery-module_2.6" % "2.8"
+
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.0.13"
+libraryDependencies += "net.databinder.dispatch" %% "dispatch-core" % "0.11.2"
+libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.3" % Test
