@@ -5,6 +5,7 @@ import code.comet.GlobalStatusSingleton
 import code.comet.TournamentStatus._
 import net.liftweb.common.Loggable
 import net.liftweb.http._
+import net.liftweb.http.js.JsCmd
 import net.liftweb.http.js.JsCmds._
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour._
@@ -72,7 +73,7 @@ object Admin extends Loggable {
 			Core.system.actorOf(Props[ToZagram], name = "core.toZagram") !
 				AssignGame(first.trim, second.trim, infiniteTime = false)
 			SetValById("assignGame", "OK, assigned")
-		}).getOrElse {
+		}).getOrElse[JsCmd] {
 			Alert("ERROR")
 		}
 	}

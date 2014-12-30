@@ -46,7 +46,7 @@ class KnockoutCore extends Actor with Loggable {
 			logger.info("shuffling and assigning games")
 			val shuffled = toVectorAndShuffle(waiting)
 
-			val lesserPower2 = List(512, 256, 128, 64, 32, 16, 8, 4, 2, 1).find(_ < shuffled.size).get
+			val lesserPower2 = List(512, 256, 128, 64, 32, 16, 8, 4, 2, 1).find(_ < shuffled.size).getOrElse(sys.error(""))
 			val greaterPower2 = lesserPower2 * 2
 
 			for (i <- lesserPower2 until shuffled.size) {

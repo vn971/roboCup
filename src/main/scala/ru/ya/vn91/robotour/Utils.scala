@@ -1,6 +1,5 @@
 package ru.ya.vn91.robotour
 
-import java.io.IOException
 import scala.util.Try
 
 object Utils {
@@ -29,20 +28,6 @@ object Utils {
 		replaceAll("&#39;", "'").
 		replaceAll("&#34;", "\"").
 		replaceAll("&#45;", "-")
-
-	def writeToFile(content: String, fileName: String) {
-		var file: java.io.FileWriter = null
-		try {
-			file = new java.io.FileWriter(fileName)
-			file.write(content)
-		} finally {
-			try {
-				file.close()
-			} catch {
-				case e: IOException => e.printStackTrace()
-			}
-		}
-	}
 
 	/** Is used for "WartRemover" suppression.
 	 *  That's the only way I know to suppress `NonUnitStatements` warning.

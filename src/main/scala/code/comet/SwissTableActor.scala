@@ -2,6 +2,7 @@ package code.comet
 
 import code.comet.GameResultEnumeration._
 import net.liftweb.http.{ CometActor, CometListener }
+import scala.xml._
 
 class SwissTableActor extends CometActor with CometListener {
 
@@ -17,13 +18,13 @@ class SwissTableActor extends CometActor with CometListener {
 
 	def render = {
 
-		def shortenName(user: String) =
+		def shortenName(user: String): Node =
 			if (user.length > 7)
 				<abbr title={ user }>{ user.take(5) + ".." }</abbr>
 			else
 				xml.Text(user)
 
-		def gameToHtml(game: Game) = game.result match {
+		def gameToHtml(game: Game): Node = game.result match {
 			case Win => <font color="green">{ shortenName(game.opponent) }</font>
 			case Loss => <font color="red">{ shortenName(game.opponent) }</font>
 			case Draw => shortenName(game.opponent)

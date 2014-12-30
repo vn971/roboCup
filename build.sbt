@@ -25,6 +25,7 @@ scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature",
 	"-Xlint:package-object-classes",
 	"-Xlint:unsound-match"
 )
+
 wartremoverErrors += Wart.Any2StringAdd
 wartremoverErrors += Wart.AsInstanceOf
 wartremoverErrors += Wart.EitherProjectionPartial
@@ -32,8 +33,16 @@ wartremoverErrors += Wart.IsInstanceOf
 wartremoverErrors += Wart.JavaConversions
 wartremoverErrors += Wart.ListOps
 wartremoverWarnings += Wart.NonUnitStatements
+wartremoverErrors += Wart.Nothing
+wartremoverErrors += Wart.Null
+wartremoverErrors += Wart.OptionPartial
+wartremoverErrors += Wart.Product
+wartremoverErrors += Wart.Return
+wartremoverErrors += Wart.Serializable
+wartremoverErrors += Wart.TryPartial
 
-scalariformSettings
+defaultScalariformSettings
+(test in Test) <<= (test in Test) dependsOn (ScalariformKeys.format in Compile)
 ScalariformKeys.preferences := ScalariformKeys.preferences.value
 	.setPreference(DoubleIndentClassDeclaration, true)
 	.setPreference(IndentWithTabs, true)
@@ -41,7 +50,6 @@ ScalariformKeys.preferences := ScalariformKeys.preferences.value
 
 spray.revolver.RevolverPlugin.Revolver.settings.settings
 fork in Test := true
-
 EclipseKeys.withSource := true
 
 assemblyJarName := "robocup.jar"

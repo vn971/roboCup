@@ -24,7 +24,7 @@ class SwissCore extends RegistrationCore {
 	def drawPrice = 2 // currentRound match { case 1 => 1.0 case 2 => 1.2 case 3 => 1.4 case 4 => 1.6 case 5 => 1.8 case _ => 2.0 }
 	def lossPrice = 1 // currentRound match { case 1 => 0.5 case 2 => 0.6 case 3 => 0.7 case 4 => 0.8 case 5 => 0.9 case _ => 1.0 }
 
-	def log2(x: Int) = (1 to 30).find(degree => (1 << degree) >= x).get
+	def log2(x: Int) = (1 to 30).find(degree => (1 << degree) >= x).getOrElse(sys.error(""))
 
 	override def registrationInProgress =
 		super.registrationInProgress.orElse {
@@ -56,16 +56,14 @@ class SwissCore extends RegistrationCore {
 			logger.info(s"registered player: ${p.nick}. Total rounds now: $totalRounds")
 			notifyGui()
 		}
-
 	}
 
 	def notifyGui() {
 		val rows = scores.map { s =>
-			val opponent = openGames.getOpponent(s._1)
-			val opponentList = if (opponent.nonEmpty)
-				playedGames(s._1).toList :+ Game(opponent.get, NotFinished)
-			else playedGames(s._1).toList
-			Player(s._1, opponentList, s._2)
+			val currentOpponent = openGames.getOpponent(s._1)
+			val currentGame = currentOpponent.map(o => Game(o, NotFinished))
+			val games = playedGames(s._1) ++ currentGame
+			Player(s._1, games, s._2)
 		}
 		val table = SwissTableData(totalRounds, rows.toList.sortBy(_.score).reverse)
 		SwissTableSingleton ! table
@@ -134,7 +132,7 @@ class SwissCore extends RegistrationCore {
 				currentRound += 1
 				GlobalStatusSingleton ! WaitingForNextTour(System.currentTimeMillis + breakTime.toMillis)
 				context.system.scheduler.scheduleOnce(breakTime, self, StartNextRound)
-			}
+			}.suppressWartRemover()
 			notifyGui()
 		}
 	}

@@ -20,7 +20,7 @@ import ru.ya.vn91.robotour.{ Constants, Core }
 class Boot extends Loggable {
 	def boot(): Unit = {
 
-		logger.info("props will be taken from: " + Props.toTry.map(_.apply()))
+		logger.info("props will be taken from: " + Props.toTry.map(_.apply()).toString)
 
 		// where to search snippet
 		LiftRules.addToPackages("code")

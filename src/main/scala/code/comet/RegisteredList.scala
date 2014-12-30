@@ -8,7 +8,7 @@ import net.liftweb.util.ClearNodes
  *  the changes are automatically reflected in the browser.
  */
 class RegisteredList extends CometActor with CometListener {
-	private var msgs: Vector[String] = Vector() // private state
+	private var msgs = Vector.empty[String]
 
 	def registerWith = RegisteredListSingleton
 
