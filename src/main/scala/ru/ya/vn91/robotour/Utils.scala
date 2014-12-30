@@ -44,4 +44,12 @@ object Utils {
 		}
 	}
 
+	/** Is used for "WartRemover" suppression.
+	 *  That's the only way I know to suppress `NonUnitStatements` warning.
+	 */
+	implicit class SuppressWartRemover(val any: Any) extends AnyRef {
+		def suppressWartRemover(): Unit = ()
+		def sideEffect(): Unit = ()
+	}
+
 }

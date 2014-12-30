@@ -5,6 +5,7 @@ import code.comet.TournamentStatus._
 import code.comet._
 import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.Constants._
+import ru.ya.vn91.robotour.Utils.SuppressWartRemover
 import ru.ya.vn91.robotour.zagram._
 import scala.collection.immutable.HashSet
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -17,7 +18,7 @@ class KnockoutCore extends Actor with Loggable {
 	object StartNextTour
 
 	val toZagram = context.actorOf(Props[ToZagram], name = "toZagram")
-	context.actorOf(Props[FromZagram], name = "fromZagram")
+	context.actorOf(Props[FromZagram], name = "fromZagram").suppressWartRemover()
 
 	var waiting = HashSet[GameNode]()
 	var playing = HashSet[(GameNode, GameNode)]() // each inner set must contain 2 players
@@ -48,7 +49,7 @@ class KnockoutCore extends Actor with Loggable {
 			val lesserPower2 = List(512, 256, 128, 64, 32, 16, 8, 4, 2, 1).find(_ < shuffled.size).get
 			val greaterPower2 = lesserPower2 * 2
 
-			for (i <- lesserPower2 until shuffled.size) yield {
+			for (i <- lesserPower2 until shuffled.size) {
 				val (i1, i2) = (i, greaterPower2 - 1 - i) // indices
 				val (p1, p2) = (shuffled(i1), shuffled(i2)) // players
 				logger.info(s"assigning game ${p1.name}-${p2.name}")
@@ -124,7 +125,7 @@ class KnockoutCore extends Actor with Loggable {
 						prepareNextTour()
 					} else {
 						context.become(waitingNextTour, discardOld = true)
-						context.system.scheduler.scheduleOnce(breakTime, self, StartNextTour)
+						context.system.scheduler.scheduleOnce(breakTime, self, StartNextTour).suppressWartRemover()
 						logger.info("starting tournament break now.")
 						GlobalStatusSingleton ! WaitingForNextTour(System.currentTimeMillis + breakTime.toMillis)
 					}
@@ -152,11 +153,11 @@ class KnockoutCore extends Actor with Loggable {
 			TimeStartSingleton ! time + registrationTime.toMillis // timeAsString
 			if (System.currentTimeMillis < time) {
 				logger.info("added suspended notify (registration start)")
-				context.system.scheduler.scheduleOnce((time - System.currentTimeMillis).milliseconds, self, StartRegistration(time))
+				context.system.scheduler.scheduleOnce((time - System.currentTimeMillis).milliseconds, self, StartRegistration(time)).suppressWartRemover()
 				GlobalStatusSingleton ! RegistrationAssigned(time)
 			} else {
 				logger.info("registration started!")
-				context.system.scheduler.scheduleOnce(registrationTime + (time - System.currentTimeMillis).milliseconds, self, StartTheTournament)
+				context.system.scheduler.scheduleOnce(registrationTime + (time - System.currentTimeMillis).milliseconds, self, StartTheTournament).suppressWartRemover()
 				waiting = HashSet.empty
 				playing = HashSet.empty
 				knockedOut = HashSet.empty

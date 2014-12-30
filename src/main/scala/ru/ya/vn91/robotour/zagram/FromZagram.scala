@@ -4,6 +4,7 @@ import akka.actor.Actor
 import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.Utils._
 import ru.ya.vn91.robotour._
+import scala.collection.immutable.HashMap
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.util.Random
@@ -16,8 +17,8 @@ class FromZagram extends Actor with Loggable {
 
 	private case object Tick
 
-	private val gameSet = collection.mutable.HashMap[String, GameInfo]()
-	private val playerSet = collection.mutable.HashMap[String, PlayerInfo]()
+	private var gameSet = HashMap[String, GameInfo]()
+	private var playerSet = HashMap[String, PlayerInfo]()
 	private var messageCount = 0L
 	private val idGracza = Random.nextInt(999999).toString
 
@@ -28,7 +29,7 @@ class FromZagram extends Actor with Loggable {
 
 	def receive = {
 		case Tick => try { // not ideologically right, but needed for zagram
-			context.system.scheduler.scheduleOnce(7.seconds, self, Tick)
+			context.system.scheduler.scheduleOnce(7.seconds, self, Tick).suppressWartRemover()
 			val urlAsString = dispatch.url("http://zagram.org/a.kropki").
 				addQueryParameter("idGracza", idGracza).
 				addQueryParameter("co", "getMsg").

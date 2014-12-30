@@ -5,8 +5,9 @@ import code.comet.TournamentStatus.{ RegistrationAssigned, RegistrationInProgres
 import code.comet._
 import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.Constants._
+import ru.ya.vn91.robotour.Utils.SuppressWartRemover
 import ru.ya.vn91.robotour.zagram._
-import scala.collection.mutable
+import scala.collection.immutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 
@@ -17,17 +18,15 @@ trait RegistrationCore extends Actor with Loggable {
 
 	val toZagram = context.actorOf(Props[ToZagram], name = "toZagram")
 
-	val registered = mutable.LinkedHashSet[String]()
+	context.actorOf(Props[FromZagram], name = "fromZagram").suppressWartRemover()
 
-	{
-		context.actorOf(Props[FromZagram], name = "fromZagram")
-	}
+	var registered = immutable.HashSet[String]()
 
 	def receive = {
 		case StartRegistration(time) =>
 			logger.info("StartRegistration")
 			context.become(registrationAssigned, discardOld = true)
-			context.system.scheduler.scheduleOnce((time - System.currentTimeMillis).millis, self, StartRegistrationReally(time))
+			context.system.scheduler.scheduleOnce((time - System.currentTimeMillis).millis, self, StartRegistrationReally(time)).suppressWartRemover()
 			GlobalStatusSingleton ! RegistrationAssigned(time)
 			TimeStartSingleton ! time + registrationTime.toMillis // timeAsString
 	}
@@ -37,7 +36,7 @@ trait RegistrationCore extends Actor with Loggable {
 			logger.info("registrationStartedReally")
 			context.become(registrationInProgress)
 
-			context.system.scheduler.scheduleOnce(registrationTime + (time - System.currentTimeMillis).millis, self, StartTheTournament)
+			context.system.scheduler.scheduleOnce(registrationTime + (time - System.currentTimeMillis).millis, self, StartTheTournament).suppressWartRemover()
 
 			for (cgw <- Constants.createGameWith) {
 				toZagram ! AssignGame("RoboCup", cgw, infiniteTime = true)

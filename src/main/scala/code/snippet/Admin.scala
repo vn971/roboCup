@@ -50,15 +50,15 @@ object Admin extends Loggable {
 	}
 
 	def winGame = SHtml.onSubmit { twoPlayers =>
-		(for {
-			winner <- twoPlayers.split('/').lift(0)
-			looser <- twoPlayers.split('/').lift(1)
-		} yield {
+		val split = twoPlayers.split('/')
+		if (split.length != 2) {
+			Alert("ERROR")
+		} else {
+			val winner = split(0)
+			val looser = split(1)
 			logger.info(s"assigning game result: $winner > $looser")
 			Core.core ! GameWon(winner, looser)
 			SetValById("winGame", "OK, game result sent")
-		}).getOrElse {
-			Alert("ERROR")
 		}
 	}
 

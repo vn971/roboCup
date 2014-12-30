@@ -5,9 +5,9 @@ import code.comet.TournamentStatus._
 import code.comet.{ Game, Player, SwissTableData, _ }
 import net.liftweb.util.Props
 import ru.ya.vn91.robotour.Constants._
+import ru.ya.vn91.robotour.Utils.SuppressWartRemover
 import ru.ya.vn91.robotour.zagram._
 import scala.collection.immutable.{ HashMap, HashSet }
-import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Random
 
@@ -15,7 +15,7 @@ class SwissCore extends RegistrationCore {
 
 	val emptyPlayer = "Empty"
 	var openGames = new GameSet()
-	var playedGames = HashMap[String, ListBuffer[Game]]()
+	var playedGames = HashMap[String, List[Game]]()
 	var scores = HashMap[String, Int]()
 	var totalRounds = 0
 	var currentRound = 1
@@ -51,7 +51,7 @@ class SwissCore extends RegistrationCore {
 			registered += p.nick
 			RegisteredListSingleton ! p.nick
 			ChatServer ! MessageToChatServer(s"Player ${p.nick} registered.")
-			playedGames += p.nick -> ListBuffer[Game]()
+			playedGames += p.nick -> List[Game]()
 			totalRounds = log2(registered.size) + 2
 			logger.info(s"registered player: ${p.nick}. Total rounds now: $totalRounds")
 			notifyGui()
@@ -78,8 +78,8 @@ class SwissCore extends RegistrationCore {
 				ChatServer ! MessageToChatServer(s"$winner won a game against $looser")
 
 				openGames -= (winner, looser)
-				playedGames(winner) += Game(looser, Win)
-				playedGames(looser) += Game(winner, Loss)
+				playedGames += winner -> (playedGames(winner) :+ Game(looser, Win))
+				playedGames += looser -> (playedGames(looser) :+ Game(winner, Loss))
 
 				scores += winner -> (scores(winner) + winPrice)
 				scores += looser -> (scores(looser) + lossPrice)
@@ -92,8 +92,8 @@ class SwissCore extends RegistrationCore {
 				ChatServer ! MessageToChatServer(s"game $first - $second ended with draw")
 
 				openGames -= (first, second)
-				playedGames(first) += Game(second, Draw)
-				playedGames(second) += Game(first, Draw)
+				playedGames += first -> (playedGames(first) :+ Game(second, Draw))
+				playedGames += second -> (playedGames(second) :+ Game(first, Draw))
 
 				scores += first -> (scores(first) + drawPrice)
 				scores += second -> (scores(second) + drawPrice)
@@ -121,7 +121,7 @@ class SwissCore extends RegistrationCore {
 			if (currentRound + 1 > totalRounds) {
 				logger.info("tournament finished!")
 				context.become(finished)
-				val winners = scores.groupBy(_._2).toList.sortBy(_._1).last._2.toList.map(_._1)
+				val winners = scores.keys.groupBy(scores).toList.sortBy(_._1).lastOption.toList.flatMap(_._2)
 				logger.info(s"winners: $winners")
 				if (winners.size == 1) {
 					GlobalStatusSingleton ! FinishedWithWinner(winners(0))
@@ -165,7 +165,7 @@ class SwissCore extends RegistrationCore {
 			}
 
 			context.become(gamesInProgress, discardOld = true)
-			context.system.scheduler.scheduleOnce(gameTimeout, self, RoundTimeout(currentRound))
+			context.system.scheduler.scheduleOnce(gameTimeout, self, RoundTimeout(currentRound)).suppressWartRemover()
 			GlobalStatusSingleton ! GamePlaying(0)
 			notifyGui()
 		}
@@ -200,10 +200,10 @@ class GameSet(openGames: HashSet[Opponents] = HashSet.empty) {
 }
 
 class Opponents(val a: String, val b: String) {
-	override def equals(otherAny: Any) = {
-		val other = otherAny.asInstanceOf[Opponents]
-		(other.a == a && other.b == b) || (other.a == b && other.b == a)
-		// that's a bad definition of equals, I know.
+	override def equals(otherAny: Any) = otherAny match {
+		case otherOp: Opponents =>
+			(otherOp.a == a && otherOp.b == b) || (otherOp.a == b && otherOp.b == a)
+		case _ => false
 	}
 	override def hashCode = a.hashCode + b.hashCode
 }

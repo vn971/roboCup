@@ -6,11 +6,12 @@ import net.liftmodules.JQueryModule
 import net.liftweb.common._
 import net.liftweb.http._
 import net.liftweb.http.js.jquery.JQueryArtifacts
-import net.liftweb.http.provider.{ HTTPCookie, HTTPParam }
+import net.liftweb.http.provider.HTTPCookie
 import net.liftweb.sitemap.Loc._
 import net.liftweb.sitemap._
 import net.liftweb.util.Props
 import ru.ya.vn91.robotour.Constants._
+import ru.ya.vn91.robotour.Utils.SuppressWartRemover
 import ru.ya.vn91.robotour.{ Constants, Core }
 
 /** A class that's instantiated early and run.  It allows the application
@@ -24,7 +25,7 @@ class Boot extends Loggable {
 		// where to search snippet
 		LiftRules.addToPackages("code")
 
-		LiftRules.statelessDispatch.append(RestAtomFeed)
+		LiftRules.statelessDispatch.append(RestAtomFeed).suppressWartRemover()
 
 		val adminPage =
 			Constants.adminPage.map {
@@ -74,14 +75,14 @@ class Boot extends Loggable {
 			"X-Frame-Options" -> "DENY" ::
 				"Content-Security-Policy" -> "default-src 'self' 'unsafe-inline' 'unsafe-eval'" ::
 				Nil
-		)
+		).suppressWartRemover()
 
 		LiftRules.unloadHooks.append { () =>
 			logger.info("roboCup actors shutdown")
 			Core.system.shutdown()
-		}
+		}.suppressWartRemover()
 
-		Core // init the singleton
+		Core.init()
 
 		//Init the jQuery module, see http://liftweb.net/jquery for more information.
 		LiftRules.jsArtifacts = JQueryArtifacts
@@ -97,7 +98,7 @@ class Boot extends Loggable {
 			Full(() => LiftRules.jsArtifacts.hide("ajax-loader").cmd)
 
 		// Force the request to be UTF-8
-		LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
+		LiftRules.early.append(_.setCharacterEncoding("UTF-8")).suppressWartRemover()
 
 		// What is the function to test if a user is logged in?
 		//		LiftRules.loggedInTest = Full(() => User.loggedIn_?)

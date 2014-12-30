@@ -7,7 +7,7 @@ description := "Automatic tournaments for the game Points"
 maintainer := "Vasya Novikov <n1dr+robocup@yaaaandex.ru> (remove duplicating aaa)"
 
 scalaVersion := "2.11.4"
-scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-Xfatal-warnings",
+scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature",
 	// "-Xlint:help",
 	"-Xlint:adapted-args",
 	"-Xlint:nullary-unit",
@@ -25,11 +25,17 @@ scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-Xfatal-warning
 	"-Xlint:package-object-classes",
 	"-Xlint:unsound-match"
 )
+wartremoverErrors += Wart.Any2StringAdd
+wartremoverErrors += Wart.AsInstanceOf
+wartremoverErrors += Wart.EitherProjectionPartial
+wartremoverErrors += Wart.IsInstanceOf
+wartremoverErrors += Wart.JavaConversions
+wartremoverErrors += Wart.ListOps
+wartremoverWarnings += Wart.NonUnitStatements
 
 scalariformSettings
 ScalariformKeys.preferences := ScalariformKeys.preferences.value
 	.setPreference(DoubleIndentClassDeclaration, true)
-	.setPreference(AlignSingleLineCaseStatements, true)
 	.setPreference(IndentWithTabs, true)
 	.setPreference(MultilineScaladocCommentsStartOnFirstLine, true)
 

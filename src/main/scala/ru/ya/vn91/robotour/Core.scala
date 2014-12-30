@@ -10,6 +10,8 @@ case class GameDraw(first: String, second: String)
 case class StartRegistration(timeStart: Long)
 
 object Core extends Loggable {
+	def init() = ()
+
 	logger.info(s"starting tournament ${Constants.tournamentCodename}")
 
 	val system = ActorSystem("robocup")

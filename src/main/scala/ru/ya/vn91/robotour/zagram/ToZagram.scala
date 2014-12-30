@@ -38,9 +38,9 @@ class ToZagram extends Actor with Loggable {
 					addQueryParameter("playerId", idGracza).
 					addQueryParameter("co", "usunGracza").url
 
-				getLinkContent(logIn)
-				getLinkContent(sendMessage)
-				getLinkContent(logOut)
+				getLinkContent(logIn).suppressWartRemover()
+				getLinkContent(sendMessage).suppressWartRemover()
+				getLinkContent(logOut).suppressWartRemover()
 			}
 
 		case AssignGame(first, second, round, isInfiniteTime) =>
