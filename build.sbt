@@ -47,6 +47,7 @@ ScalariformKeys.preferences := ScalariformKeys.preferences.value
 	.setPreference(DoubleIndentClassDeclaration, true)
 	.setPreference(IndentWithTabs, true)
 	.setPreference(MultilineScaladocCommentsStartOnFirstLine, true)
+	.setPreference(PreserveDanglingCloseParenthesis, true)
 
 spray.revolver.RevolverPlugin.Revolver.settings.settings
 fork in Test := true
