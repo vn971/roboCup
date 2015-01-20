@@ -6,7 +6,7 @@ sshAddress="${user}@${host}:/home/${user}/dir/"
 
 cd `dirname $0`/../
 
-rsync -aruvz --progress --delete \
+rsync -ahPruvz --progress --delete \
 	--exclude='/.git' \
 	--include='/src/main/resources/props/production.*' \
 	--filter='dir-merge,- .gitignore' \
