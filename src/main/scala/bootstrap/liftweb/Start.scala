@@ -25,6 +25,7 @@ object Start extends App with Loggable {
 
 		val webappDir = Option(this.getClass.getClassLoader.getResource("webapp"))
 			.map(_.toExternalForm)
+			.filter(_.contains("jar:file:")) // this is a hack to distinguish in-jar mode from "expanded"
 			.getOrElse("src/main/webapp")
 
 		logger.info(s"webappDir: $webappDir")

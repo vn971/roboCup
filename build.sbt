@@ -87,10 +87,10 @@ libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.3.8" % Test
 
 libraryDependencies += "org.eclipse.jetty" % "jetty-webapp" % "9.1.5.v20140505"
 
-libraryDependencies += "net.liftweb" %% "lift-util"   % "2.6-RC2"
-libraryDependencies += "net.liftweb" %% "lift-webkit" % "2.6-RC2"
-libraryDependencies += "net.liftweb" %% "lift-actor"  % "2.6-RC2"
-libraryDependencies += "net.liftweb" %% "lift-common" % "2.6-RC2"
+libraryDependencies += "net.liftweb" %% "lift-util"   % "2.6"
+libraryDependencies += "net.liftweb" %% "lift-webkit" % "2.6"
+libraryDependencies += "net.liftweb" %% "lift-actor"  % "2.6"
+libraryDependencies += "net.liftweb" %% "lift-common" % "2.6"
 
 libraryDependencies += "net.liftmodules" %% "lift-jquery-module_2.6" % "2.8"
 
