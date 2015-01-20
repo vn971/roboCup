@@ -6,20 +6,20 @@ git+github as a version control system.
 How to run roboCup:
 * install git
 * download RoboCup from the internet: "git clone git@github.com:vn971/roboCup.git"
-* launch it! In command line type "./bin/sbt" > Enter > "container:start" > Enter
+* launch it! In command line type `./bin/sbt ~reStart`
 * you should have RoboCup running now. Check it out on "http://localhost:8989":http://localhost:8989
 
 After running roboCup you may be interested in IDE support.
-To do this you can create intellij/eclipse projects automatically:
-* ./bin/sbt eclipse with-sources="true"  (for eclipse)
-* ./bin/sbt gen-idea  (for intellij-idea)
 
-To open in eclipse:
+To open in eclipse IDE:
 * Download and install eclipse-scala IDE "http://scala-ide.org/":http://scala-ide.org/
+* In command-line run `./bin/sbt eclipse with-sources="true"`
 * In menu, "File" > "Import" > "Existing Projects into workspace" > find your project > Ok
 
 To open in intellij-idea:
-* In menu, "File" > "Open" > find your project > Ok
+* download the community edition (apache2-licensed): https://www.jetbrains.com/idea/download/
+* find and install the Scala plugin
+* In menu, "File" > "Open" > "build.sbt" file > download all sources and docs
 
 Feel free to contact me.:)
 
@@ -57,5 +57,5 @@ the fight with inert players:). As a bonus, after several months the idea was
 widely accepted and now is a de-facto standard
 
 
-Copyright: Vasya Novikov
+Copyright: Vasya Novikov 2012-2015
 License: AGPL v3 license

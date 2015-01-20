@@ -14,8 +14,8 @@ import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.Utils.SuppressWartRemover
 import ru.ya.vn91.robotour.{ Constants, Core }
 
-/** A class that's instantiated early and run.  It allows the application
- *  to modify lift's environment
+/** For the JVM entry point see `Start.scala`.
+ *  This class is for Lift only
  */
 class Boot extends Loggable {
 	def boot(): Unit = {

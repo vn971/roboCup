@@ -20,7 +20,7 @@ object Start extends App with Loggable {
 	def startLift(): Unit = {
 		logger.info("starting Lift server")
 
-		val port: Int = Props.getInt("jetty.port").openOrThrowException("port not specified")
+		val port: Int = Props.getInt("jetty.port").openOrThrowException("cannot find jetty.port configuration value")
 		logger.info(s"port number is $port")
 
 		val webappDir = Option(this.getClass.getClassLoader.getResource("webapp"))

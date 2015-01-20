@@ -31,4 +31,5 @@ createGameWith=vn971
 #adminPage=
 #zagramIdGracza=
 #zagramAssignGamePassword=
+
 jetty.port=8989
