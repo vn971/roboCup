@@ -1,4 +1,4 @@
-# RoboCup
+### RoboCup
 
 RoboCup is an automatic tournament holder for the game Points.
 
@@ -6,7 +6,7 @@ It's written in Scala language, using Liftweb as a web framework,
 akka.io as an actor framework, SBT as a build tool,  
 git+github as a version control system.
 
-### How to run roboCup:
+### How to run:
 
 * install git
 * download RoboCup from the internet:  `git clone git@github.com:vn971/roboCup.git`
