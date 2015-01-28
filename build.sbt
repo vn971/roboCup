@@ -85,7 +85,7 @@ resolvers ++= Seq(
 libraryDependencies += "com.typesafe.akka" %% "akka-actor"   % "2.3.8"
 libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.3.8" % Test
 
-libraryDependencies += "org.eclipse.jetty" % "jetty-webapp" % "9.1.5.v20140505"
+libraryDependencies += "org.eclipse.jetty" % "jetty-webapp" % "9.2.7.v20150116"
 
 libraryDependencies += "net.liftweb" %% "lift-util"   % "2.6"
 libraryDependencies += "net.liftweb" %% "lift-webkit" % "2.6"

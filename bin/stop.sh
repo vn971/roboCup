@@ -3,6 +3,7 @@
 cd "`dirname "$0"`/../"
 
 if [ -e server.pid ]; then
-  kill -9 `cat server.pid` || true
+  kill `cat server.pid`
+  wait `cat server.pid`
   rm server.pid
 fi

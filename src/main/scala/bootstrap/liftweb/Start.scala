@@ -23,7 +23,7 @@ object Start extends App with Loggable {
 		val port: Int = Props.getInt("jetty.port").openOrThrowException("cannot find jetty.port configuration value")
 		logger.info(s"port number is $port")
 
-		val webappDir = Option(this.getClass.getClassLoader.getResource("webapp"))
+		val webappDir: String = Option(this.getClass.getClassLoader.getResource("webapp"))
 			.map(_.toExternalForm)
 			.filter(_.contains("jar:file:")) // this is a hack to distinguish in-jar mode from "expanded"
 			.getOrElse("src/main/webapp")
@@ -32,9 +32,6 @@ object Start extends App with Loggable {
 
 		val server = new Server(port)
 		val context = new WebAppContext(webappDir, Props.get("jetty.contextPath").openOr("/"))
-
-		context.setWar(webappDir)
-
 		server.setHandler(context)
 		server.start()
 		logger.info(s"Lift server started on port $port")
