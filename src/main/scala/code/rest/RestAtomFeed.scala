@@ -21,8 +21,8 @@ object RestAtomFeed extends RestHelper with Loggable {
 			PlainTextResponse("test confirmed")
 
 		case Get("headers" :: Nil, req) =>
-			logger.debug("request headers: " + req.headers.toString)
-			PlainTextResponse("OK")
+			logger.info("request headers: " + req.headers.toString)
+			PlainTextResponse(req.headers.toString())
 
 		case Get("api" :: "chatFeed" :: Nil, _) =>
 
