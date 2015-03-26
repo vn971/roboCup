@@ -7,7 +7,7 @@ description := "Automatic tournaments for the game Points"
 maintainer := "Vasya Novikov <n1dr+robocup@yaaaandex.ru> (remove duplicating aaa)"
 
 scalaVersion := "2.11.4"
-scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature",
+scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-Xfuture",
 	// "-Xlint:help",
 	"-Xlint:adapted-args",
 	"-Xlint:nullary-unit",
@@ -72,25 +72,23 @@ resourceGenerators in Compile <+= (resourceManaged, baseDirectory) map { (manage
 	}
 }
 
-resolvers ++= Seq(
-	"Scala Tools Releases" at "http://scala-tools.org/repo-releases/",
-	"Java.net Maven2 Repository" at "http://download.java.net/maven/2/",
-	"Sonatype Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots",
-	"Sonatype Releases"  at "http://oss.sonatype.org/content/repositories/releases",
-	"Typesafe Snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",
-	"Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/",
-	"Jetty Eclipse" at "http://repo1.maven.org/maven2/"
-)
+resolvers += "Scala Tools Releases" at "http://scala-tools.org/repo-releases/"
+resolvers += "Java.net Maven2 Repository" at "http://download.java.net/maven/2/"
+resolvers += "Sonatype Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots"
+resolvers += "Sonatype Releases"  at "http://oss.sonatype.org/content/repositories/releases"
+resolvers += "Typesafe Snapshots" at "http://repo.typesafe.com/typesafe/snapshots/"
+resolvers += "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/"
+resolvers += "Jetty Eclipse" at "http://repo1.maven.org/maven2/"
 
 libraryDependencies += "com.typesafe.akka" %% "akka-actor"   % "2.3.8"
 libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.3.8" % Test
 
 libraryDependencies += "org.eclipse.jetty" % "jetty-webapp" % "9.2.7.v20150116"
 
-libraryDependencies += "net.liftweb" %% "lift-util"   % "2.6"
-libraryDependencies += "net.liftweb" %% "lift-webkit" % "2.6"
-libraryDependencies += "net.liftweb" %% "lift-actor"  % "2.6"
-libraryDependencies += "net.liftweb" %% "lift-common" % "2.6"
+libraryDependencies += "net.liftweb" %% "lift-util"   % "2.6.2"
+libraryDependencies += "net.liftweb" %% "lift-webkit" % "2.6.2"
+libraryDependencies += "net.liftweb" %% "lift-actor"  % "2.6.2"
+libraryDependencies += "net.liftweb" %% "lift-common" % "2.6.2"
 
 libraryDependencies += "net.liftmodules" %% "lift-jquery-module_2.6" % "2.8"
 

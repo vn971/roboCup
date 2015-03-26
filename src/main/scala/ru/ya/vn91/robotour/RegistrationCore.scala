@@ -44,7 +44,7 @@ trait RegistrationCore extends Actor with Loggable {
 			GlobalStatusSingleton ! RegistrationInProgress(time + registrationTime.toMillis)
 	}
 
-	protected def register(playerInfo: PlayerInfo) {
+	protected def register(playerInfo: PlayerInfo): Unit = {
 		if (!registered.contains(playerInfo.nick)) {
 			logger.info(s"registered ${playerInfo.nick}")
 			registered += playerInfo.nick

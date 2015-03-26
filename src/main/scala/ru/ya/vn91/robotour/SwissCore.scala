@@ -37,7 +37,7 @@ class SwissCore extends RegistrationCore {
 				startNewRound()
 		}
 
-	override def register(p: PlayerInfo) {
+	override def register(p: PlayerInfo): Unit = {
 		if (registered.contains(p.nick)) {
 			// already registered
 		} else if (rankLimit.exists(_ > p.rank) && p.nick != emptyPlayer) {
@@ -58,7 +58,7 @@ class SwissCore extends RegistrationCore {
 		}
 	}
 
-	def notifyGui() {
+	def notifyGui(): Unit = {
 		val rows = scores.map { s =>
 			val currentOpponent = openGames.getOpponent(s._1)
 			val currentGame = currentOpponent.map(o => Game(o, NotFinished))
@@ -114,7 +114,7 @@ class SwissCore extends RegistrationCore {
 			}
 	}
 
-	protected def tryWaitForNextRound() {
+	protected def tryWaitForNextRound(): Unit = {
 		if (openGames.size == 0) {
 			if (currentRound + 1 > totalRounds) {
 				logger.info("tournament finished!")
@@ -141,7 +141,7 @@ class SwissCore extends RegistrationCore {
 		case StartNextRound => startNewRound()
 	}
 
-	def startNewRound() {
+	def startNewRound(): Unit = {
 		if (openGames.size == 0) {
 			val sortedPlayers = scores.toList.sortBy(s => (s._2, Random.nextInt())).reverse
 

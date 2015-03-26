@@ -22,7 +22,7 @@ class FromZagram extends Actor with Loggable {
 	private var messageCount = 0L
 	private val idGracza = Random.nextInt(999999).toString
 
-	override def preStart() {
+	override def preStart(): Unit = {
 		logger.debug("initialized")
 		self ! Tick
 	}
@@ -74,7 +74,7 @@ class FromZagram extends Actor with Loggable {
 		case e: Exception => logger.warn(s"error processing line: $line", e)
 	}
 
-	private def handleChat(dotSplit: Array[String], line: String) {
+	private def handleChat(dotSplit: Array[String], line: String): Unit = {
 		val innerSplit = line.split("\\.", 4)
 		val nick = innerSplit(1)
 		val msg = getZagramDecoded(innerSplit(3)).toLowerCase
@@ -95,7 +95,7 @@ class FromZagram extends Actor with Loggable {
 		}
 	}
 
-	private def handleGameState(dotSplit: Array[String]) {
+	private def handleGameState(dotSplit: Array[String]): Unit = {
 		val sgfResult = dotSplit(2)
 		val first = gameSet(dotSplit(0)).first
 		val second = gameSet(dotSplit(0)).second
@@ -108,14 +108,14 @@ class FromZagram extends Actor with Loggable {
 		} // else still playing
 	}
 
-	private def handleGameDescription(dotSplit: Array[String]) {
+	private def handleGameDescription(dotSplit: Array[String]): Unit = {
 		val tableN = dotSplit(0).toInt
 		val first = getZagramDecoded(dotSplit(dotSplit.length - 2))
 		val second = getZagramDecoded(dotSplit(dotSplit.length - 1))
 		gameSet += tableN.toString -> GameInfo(first, second)
 	}
 
-	private def handleUserInfo(dotSplit: Array[String]) {
+	private def handleUserInfo(dotSplit: Array[String]): Unit = {
 		val player = dotSplit(0)
 		val (rating, wins, losses, draws) =
 			if (player startsWith "*")
