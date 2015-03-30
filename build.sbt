@@ -6,7 +6,7 @@ organization := "net.pointsgame"
 description := "Automatic tournaments for the game Points"
 maintainer := "Vasya Novikov <n1dr+robocup@yaaaandex.ru> (remove duplicating aaa)"
 
-scalaVersion := "2.11.4"
+scalaVersion := "2.11.6"
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-Xfuture",
 	// "-Xlint:help",
 	"-Xlint:adapted-args",
@@ -72,13 +72,13 @@ resourceGenerators in Compile <+= (resourceManaged, baseDirectory) map { (manage
 	}
 }
 
-resolvers += "Scala Tools Releases" at "http://scala-tools.org/repo-releases/"
-resolvers += "Java.net Maven2 Repository" at "http://download.java.net/maven/2/"
-resolvers += "Sonatype Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots"
+//resolvers += "Scala Tools Releases" at "http://scala-tools.org/repo-releases/"
+//resolvers += "Java.net Maven2 Repository" at "http://download.java.net/maven/2/"
+//resolvers += "Sonatype Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots"
 resolvers += "Sonatype Releases"  at "http://oss.sonatype.org/content/repositories/releases"
-resolvers += "Typesafe Snapshots" at "http://repo.typesafe.com/typesafe/snapshots/"
-resolvers += "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/"
-resolvers += "Jetty Eclipse" at "http://repo1.maven.org/maven2/"
+//resolvers += "Typesafe Snapshots" at "http://repo.typesafe.com/typesafe/snapshots/"
+//resolvers += "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/"
+//resolvers += "Jetty Eclipse" at "http://repo1.maven.org/maven2/"
 
 libraryDependencies += "com.typesafe.akka" %% "akka-actor"   % "2.3.8"
 libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.3.8" % Test
