@@ -1,11 +1,11 @@
 #### optional
-#rankLimit=1200
+#rankLimit=1201
 
 #### allowed: 39*32, 30*30, 25*25, 20*20, 40*40, 21*21, 20*40 (more than 20, less than 40)
 fieldSizeX=25
 fieldSizeY=25
 
-#### allowed: 0,1,2,4
+#### valid values are: 0,1,2,4
 crossesCount=2
 
 isSwiss=true
