@@ -60,10 +60,10 @@ class ToZagram extends Actor with Loggable {
 					addQueryParameter("tRound", round.toString)
 
 				dispatch.Http(request.OK(dispatch.as.String)).onComplete {
-					case Success(s: String) => logger.info(
-						s"http assign game: ${request.url} => $s")
-					case Failure(s: Throwable) => logger.error(
-						s"http assign game failure, url:${request.url} exception:$s")
+					case Success(s: String) =>
+						logger.info(s"http assign game: ${request.url} => $s")
+					case Failure(s: Throwable) =>
+						logger.error(s"http assign game failure, url:${request.url} exception:$s")
 				}
 			}
 	}
