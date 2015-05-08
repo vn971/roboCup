@@ -56,7 +56,7 @@ class ToZagram extends Actor with Loggable {
 					addQueryParameter("pl1", first).
 					addQueryParameter("pl2", second).
 					addQueryParameter("sayHiTimes", sayHiTime + "." + sayHiTime).
-					addQueryParameter("tourn", Constants.tournamentCodename).
+					addQueryParameter("tourn", Constants.zagramTournamentCodename).
 					addQueryParameter("tRound", round.toString)
 
 				dispatch.Http(request.OK(dispatch.as.String)).onComplete {

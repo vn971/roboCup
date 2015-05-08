@@ -31,5 +31,6 @@ createGameWith=vn971
 #adminPage=
 #zagramIdGracza=
 #zagramAssignGamePassword=
+zagramTournamentCodename=test
 
 jetty.port=8989

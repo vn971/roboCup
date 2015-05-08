@@ -85,6 +85,8 @@ object Constants extends Loggable {
 		z
 	}
 
+	val zagramTournamentCodename = Props.get("zagramTournamentCodename").openOrThrowException("")
+
 	def timeLongToString(long: Long) = dateFormatter.format(new Date(long))
 
 	def timeStringToLong(s: String) = dateFormatter.parse(s).getTime
