@@ -9,7 +9,7 @@
 cd "`dirname "$0"`/../"
 
 ./bin/sbt assembly
-./bin/stop.sh
+./bin/stop.sh || true
 
 mkdir -p log
 
@@ -20,4 +20,4 @@ java -Drun.mode=production \
 # write pid
 echo $! > server.pid
 
-tail -f log/log
+# tail -f log/log
