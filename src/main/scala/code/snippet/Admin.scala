@@ -36,8 +36,8 @@ object Admin extends Loggable {
 		val trimmed = nick.trim
 		if (trimmed.nonEmpty) {
 			logger.info(s"registered $trimmed")
-			Core.core ! new TryRegister(PlayerInfo(trimmed, 1200, 0, 0, 0))
-			SetValById("playerRegistrator", "")
+			Core.core ! TryRegister(PlayerInfo(trimmed, 1200, 0, 0, 0))
+			SetValById("playerRegistrar", "")
 		} else {
 			logger.debug(s"tried to register, but failed: '$trimmed'")
 			Alert("Пустое или некорректное имя, не буду добавлять в список игроков.")
