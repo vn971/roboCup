@@ -2,10 +2,10 @@ package ru.ya.vn91.robotour
 
 import code.comet.GlobalStatusSingleton
 import code.comet.TournamentStatus.ErrorStatus
-import java.text.SimpleDateFormat
-import java.util.{ Date, TimeZone }
 import net.liftweb.common.Loggable
 import net.liftweb.util.Props
+import org.joda.time.{DateTimeZone, DateTime}
+import org.joda.time.format.DateTimeFormat
 import scala.concurrent.duration._
 
 object Constants extends Loggable {
@@ -87,16 +87,14 @@ object Constants extends Loggable {
 
 	val zagramTournamentCodename = Props.get("zagramTournamentCodename").openOrThrowException("")
 
-	def timeLongToString(long: Long) = dateFormatter.format(new Date(long))
+	def timeLongToString(long: Long) = datetimeFormatter.print(new DateTime(long))
 
-	def timeStringToLong(s: String) = dateFormatter.parse(s).getTime
+	def stringToDateTime(s: String) = datetimeFormatter.parseDateTime(s)
 
-	def timeLongToHours(long: Long) = hoursFormatter.format(new Date(long))
+	def timeLongToHours(long: Long) = hoursFormatter.print(new DateTime(long))
 
-	private val dateFormatter = new SimpleDateFormat("yyyy.MM.dd HH:mm")
-	dateFormatter.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"))
+	private val datetimeFormatter = DateTimeFormat.forPattern("yyyy.MM.dd HH:mm").withZone(DateTimeZone.forID("Europe/Moscow"))
 
-	private val hoursFormatter = new SimpleDateFormat("HH:mm")
-	hoursFormatter.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"))
+	private val hoursFormatter = DateTimeFormat.forPattern("HH:mm").withZone(DateTimeZone.forID("Europe/Moscow"))
 
 }
