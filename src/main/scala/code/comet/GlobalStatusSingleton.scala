@@ -22,7 +22,7 @@ object GlobalStatusSingleton extends LiftActor with ListenerManager {
 			ChatServer ! MessageToChatServer(s"Registration starts at: ${timeLongToString(s.time)} Moscow Time")
 			ChatServer ! MessageToChatServer(
 				"First round (start of games): " +
-					timeLongToString(s.time + registrationTime.toMillis))
+					timeLongToString(s.time + registrationPeriod.toMillis))
 		case s: RegistrationInProgress =>
 			status = s
 			updateListeners()

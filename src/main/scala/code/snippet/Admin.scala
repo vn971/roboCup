@@ -18,7 +18,7 @@ object Admin extends Loggable {
 		try {
 			logger.info(s"setting tournament time: $timeAsString")
 			val startTime = timeStringToLong(timeAsString)
-			val regTime = startTime - registrationTime.toMillis
+			val regTime = startTime - registrationPeriod.toMillis
 			if (startTime < System.currentTimeMillis ||
 				startTime > System.currentTimeMillis + 28.days.toMillis) {
 				Alert("Кажется, вы ошиблись с датой, она выглядит неправильно. \n" +

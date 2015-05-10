@@ -10,7 +10,7 @@ import scala.concurrent.duration._
 
 object Constants extends Loggable {
 
-	val registrationTime = Props.getLong("registrationHours").openOrThrowException("").hours
+	val registrationPeriod = Props.getLong("registrationHours").openOrThrowException("").hours
 
 	val startingTime = Props.getInt("startingMinutes").openOrThrowException("").minutes
 

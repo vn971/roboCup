@@ -18,7 +18,7 @@ class GlobalStatus extends CometActor with CometListener {
 	def render = status match {
 		case Undefined => "*" #> "waiting (tournament not assigned yet)"
 		case RegistrationAssigned(time) => "*" #>
-			s"tournament starts at ${timeLongToString(time + registrationTime.toMillis)} Moscow Time, registration starts ${registrationTime.toHours} hours earlier"
+			s"tournament starts at ${timeLongToString(time + registrationPeriod.toMillis)} Moscow Time, registration starts ${registrationPeriod.toHours} hours earlier"
 		case RegistrationInProgress(regClose) => "*" #> s"registration in progress (until ${timeLongToHours(regClose)})"
 		case GamePlaying(roundNumber) => "*" #> "playing games" // (round N)
 		case WaitingForNextTour(time) => "*" #> s"waiting for next tour at ${timeLongToHours(time)}"

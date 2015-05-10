@@ -149,18 +149,18 @@ class KnockoutCore extends Actor with Loggable {
 	def receive = {
 		case StartRegistration(time) =>
 			logger.info(s"registration assigned, time: $time")
-			TimeStartSingleton ! time + registrationTime.toMillis // timeAsString
+			TimeStartSingleton ! time + registrationPeriod.toMillis // timeAsString
 			if (System.currentTimeMillis < time) {
 				logger.info("added suspended notify (registration start)")
 				context.system.scheduler.scheduleOnce((time - System.currentTimeMillis).milliseconds, self, StartRegistration(time)).suppressWartRemover()
 				GlobalStatusSingleton ! RegistrationAssigned(time)
 			} else {
 				logger.info("registration started!")
-				context.system.scheduler.scheduleOnce(registrationTime + (time - System.currentTimeMillis).milliseconds, self, StartTheTournament).suppressWartRemover()
+				context.system.scheduler.scheduleOnce(registrationPeriod + (time - System.currentTimeMillis).milliseconds, self, StartTheTournament).suppressWartRemover()
 				waiting = HashSet.empty
 				playing = HashSet.empty
 				knockedOut = HashSet.empty
-				GlobalStatusSingleton ! RegistrationInProgress(time + registrationTime.toMillis)
+				GlobalStatusSingleton ! RegistrationInProgress(time + registrationPeriod.toMillis)
 				context.become(registration, discardOld = true)
 			}
 	}
