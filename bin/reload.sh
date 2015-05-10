@@ -10,7 +10,6 @@ cd "`dirname "$0"`/../"
 
 mkdir -p log
 
-./bin/sbt assembly
 ./bin/stop.sh || true
 
 java -Drun.mode=production \
