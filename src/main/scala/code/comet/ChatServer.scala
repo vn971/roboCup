@@ -15,9 +15,6 @@ object ChatServer extends LiftActor with ListenerManager with Loggable {
 
 	def createUpdate = msgs
 
-	val dateFormatter = new SimpleDateFormat("HH:mm:ss")
-	dateFormatter.setTimeZone(TimeZone.getTimeZone("Europe/Moscow"))
-
 	override def lowPriority = {
 		case m: MessageToChatServer =>
 			_msgs = _msgs :+ m.copy(time = System.currentTimeMillis) takeRight 80
