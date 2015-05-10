@@ -16,7 +16,10 @@ private[robotour] case class StartRegistrationReally(time: Long)
 
 trait RegistrationCore extends Actor with Loggable {
 
-	context.actorOf(Props[FromZagram], name = "fromZagram").suppressWartRemover()
+	override def preStart(): Unit = {
+		context.actorOf(Props(new FromZagram(self)), name = "fromZagram").suppressWartRemover()
+		logger.info("initialized")
+	}
 
 	var registered = immutable.HashSet[String]()
 

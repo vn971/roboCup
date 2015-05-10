@@ -17,13 +17,13 @@ class KnockoutCore extends Actor with Loggable {
 	object StartTheTournament
 	object StartNextTour
 
-	context.actorOf(Props[FromZagram], name = "fromZagram").suppressWartRemover()
 
 	var waiting = HashSet[GameNode]()
 	var playing = HashSet[(GameNode, GameNode)]() // each inner set must contain 2 players
 	var knockedOut = HashSet[GameNode]()
 
 	override def preStart(): Unit = {
+		context.actorOf(Props(new FromZagram(self)), name = "fromZagram").suppressWartRemover()
 		logger.info("initialized")
 	}
 

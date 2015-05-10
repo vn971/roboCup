@@ -1,6 +1,6 @@
 package ru.ya.vn91.robotour.zagram
 
-import akka.actor.Actor
+import akka.actor.{ActorRef, Actor}
 import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.Utils._
 import ru.ya.vn91.robotour._
@@ -13,7 +13,7 @@ case class GameInfo(first: String, second: String)
 
 case class PlayerInfo(nick: String, rank: Int, wins: Int, losses: Int, draws: Int)
 
-class FromZagram extends Actor with Loggable {
+class FromZagram(whomToReport: ActorRef) extends Actor with Loggable {
 
 	private case object Tick
 
@@ -100,11 +100,11 @@ class FromZagram extends Actor with Loggable {
 		val first = gameSet(dotSplit(0)).first
 		val second = gameSet(dotSplit(0)).second
 		if (sgfResult startsWith "B+") {
-			context.parent ! GameWon(first, second)
+			whomToReport ! GameWon(first, second)
 		} else if ((sgfResult startsWith "W+") || (sgfResult == "Void")) {
-			context.parent ! GameWon(second, first)
+			whomToReport ! GameWon(second, first)
 		} else if (sgfResult == "0") {
-			context.parent ! GameDraw(first, second)
+			whomToReport ! GameDraw(first, second)
 		} // else still playing
 	}
 
