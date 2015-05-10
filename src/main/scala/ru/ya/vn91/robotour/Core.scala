@@ -2,7 +2,7 @@ package ru.ya.vn91.robotour
 
 import akka.actor.ActorSystem
 import net.liftweb.common.Loggable
-import ru.ya.vn91.robotour.zagram.PlayerInfo
+import ru.ya.vn91.robotour.zagram.{PlayerInfo, ToZagram}
 
 case class TryRegister(info: PlayerInfo)
 case class GameWon(winner: String, looser: String)
@@ -20,4 +20,5 @@ object Core extends Loggable {
 	else
 		system.actorOf(akka.actor.Props[KnockoutCore], name = "core")
 
+	val toZagramActor = system.actorOf(akka.actor.Props[ToZagram], name = "toZagram")
 }

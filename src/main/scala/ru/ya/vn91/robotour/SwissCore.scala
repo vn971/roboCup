@@ -41,7 +41,7 @@ class SwissCore extends RegistrationCore {
 		if (registered.contains(p.nick)) {
 			// already registered
 		} else if (rankLimit.exists(_ > p.rank) && p.nick != emptyPlayer) {
-			toZagram ! MessageToZagram(s"${p.nick}, sorry, rank limit is ${rankLimit.openOr(0)}. Not registered.")
+			Core.toZagramActor ! MessageToZagram(s"${p.nick}, sorry, rank limit is ${rankLimit.openOr(0)}. Not registered.")
 		} else {
 			if (importRankInSwiss && p.nick != emptyPlayer) {
 				scores += p.nick -> p.rank / 100
@@ -158,7 +158,7 @@ class SwissCore extends RegistrationCore {
 					self ! GameWon(first, emptyPlayer)
 				} else {
 					logger.info(s"assigning game $first-$second")
-					toZagram ! AssignGame(first, second)
+					Core.toZagramActor ! AssignGame(first, second)
 				}
 			}
 

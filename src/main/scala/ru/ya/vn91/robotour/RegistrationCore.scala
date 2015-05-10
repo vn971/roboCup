@@ -16,8 +16,6 @@ private[robotour] case class StartRegistrationReally(time: Long)
 
 trait RegistrationCore extends Actor with Loggable {
 
-	val toZagram = context.actorOf(Props[ToZagram], name = "toZagram")
-
 	context.actorOf(Props[FromZagram], name = "fromZagram").suppressWartRemover()
 
 	var registered = immutable.HashSet[String]()
@@ -39,7 +37,7 @@ trait RegistrationCore extends Actor with Loggable {
 			context.system.scheduler.scheduleOnce(registrationTime + (time - System.currentTimeMillis).millis, self, StartTheTournament).suppressWartRemover()
 
 			for (cgw <- Constants.createGameWith) {
-				toZagram ! AssignGame("RoboCup", cgw, infiniteTime = true)
+				Core.toZagramActor ! AssignGame("RoboCup", cgw, infiniteTime = true)
 			}
 			GlobalStatusSingleton ! RegistrationInProgress(time + registrationTime.toMillis)
 	}

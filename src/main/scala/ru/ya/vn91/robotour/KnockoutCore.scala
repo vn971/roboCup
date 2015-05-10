@@ -17,7 +17,6 @@ class KnockoutCore extends Actor with Loggable {
 	object StartTheTournament
 	object StartNextTour
 
-	val toZagram = context.actorOf(Props[ToZagram], name = "toZagram")
 	context.actorOf(Props[FromZagram], name = "fromZagram").suppressWartRemover()
 
 	var waiting = HashSet[GameNode]()
@@ -54,7 +53,7 @@ class KnockoutCore extends Actor with Loggable {
 				val (p1, p2) = (shuffled(i1), shuffled(i2)) // players
 				logger.info(s"assigning game ${p1.name}-${p2.name}")
 				playing += ((p1, p2))
-				toZagram ! AssignGame(p1.name, p2.name)
+				Core.toZagramActor ! AssignGame(p1.name, p2.name)
 
 				if (Random.nextBoolean()) {
 					logger.info(s"preparing winner in case of timeout: ${p1.name}")

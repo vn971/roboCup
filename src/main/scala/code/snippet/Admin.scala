@@ -9,7 +9,7 @@ import net.liftweb.http.js.JsCmd
 import net.liftweb.http.js.JsCmds._
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour._
-import ru.ya.vn91.robotour.zagram.{ AssignGame, PlayerInfo, ToZagram }
+import ru.ya.vn91.robotour.zagram.{ AssignGame, PlayerInfo }
 import scala.concurrent.duration._
 
 object Admin extends Loggable {
@@ -70,8 +70,7 @@ object Admin extends Loggable {
 			if twoPlayers.split('/').length == 2
 		} yield {
 			logger.info(s"assigning game: $twoPlayers")
-			Core.system.actorOf(Props[ToZagram], name = "core.toZagram") !
-				AssignGame(first.trim, second.trim, infiniteTime = false)
+			Core.toZagramActor ! AssignGame(first.trim, second.trim, infiniteTime = false)
 			SetValById("assignGame", "OK, assigned")
 		}).getOrElse[JsCmd] {
 			Alert("ERROR")
