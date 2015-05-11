@@ -29,7 +29,6 @@ trait RegistrationCore extends Actor with Loggable {
 			context.become(registrationAssigned, discardOld = true)
 			context.system.scheduler.scheduleOnce((time - System.currentTimeMillis).millis, self, StartRegistrationReally(time)).suppressWartRemover()
 			GlobalStatusSingleton ! RegistrationAssigned(time)
-			TimeStartSingleton ! time + registrationPeriod.toMillis // timeAsString
 	}
 
 	def registrationAssigned: Receive = {

@@ -149,7 +149,6 @@ class KnockoutCore extends Actor with Loggable {
 	def receive = {
 		case StartRegistration(time) =>
 			logger.info(s"registration assigned, time: $time")
-			TimeStartSingleton ! time + registrationPeriod.toMillis // timeAsString
 			if (System.currentTimeMillis < time) {
 				logger.info("added suspended notify (registration start)")
 				context.system.scheduler.scheduleOnce((time - System.currentTimeMillis).milliseconds, self, StartRegistration(time)).suppressWartRemover()
