@@ -10,7 +10,29 @@ import scala.concurrent.duration._
 
 object Constants extends Loggable {
 
+	val datetimeFormatter = DateTimeFormat.forPattern("yyyy.MM.dd HH:mm").withZone(DateTimeZone.forID("Europe/Moscow"))
+
+	def timeLongToString(long: Long) = datetimeFormatter.print(new DateTime(long))
+
+	def stringToDateTime(s: String) = datetimeFormatter.parseDateTime(s)
+
+	def timeLongToHours(long: Long) = hoursFormatter.print(new DateTime(long))
+
+	private val hoursFormatter = DateTimeFormat.forPattern("HH:mm").withZone(DateTimeZone.forID("Europe/Moscow"))
+
 	val registrationPeriod = Props.getLong("registrationHours").openOrThrowException("").hours
+	val tournamentStartDate = {
+		val timeAsString = Props.get("tournamentStartDate").openOrThrowException("")
+		logger.info(s"timeAsString: $timeAsString")
+		val startTime = stringToDateTime(timeAsString)
+		assert(startTime isAfter DateTime.now())
+		// assert(startTime isBefore DateTime.now().plus(Period.days(28)))
+		startTime
+	}
+	val registrationStartDate = tournamentStartDate.minus(registrationPeriod.toMillis)
+
+	// hack-ish work-around
+	Core.core ! StartRegistration(registrationStartDate.getMillis)
 
 	val startingTime = Props.getInt("startingMinutes").openOrThrowException("").minutes
 
@@ -86,15 +108,5 @@ object Constants extends Loggable {
 	}
 
 	val zagramTournamentCodename = Props.get("zagramTournamentCodename").openOrThrowException("")
-
-	def timeLongToString(long: Long) = datetimeFormatter.print(new DateTime(long))
-
-	def stringToDateTime(s: String) = datetimeFormatter.parseDateTime(s)
-
-	def timeLongToHours(long: Long) = hoursFormatter.print(new DateTime(long))
-
-	val datetimeFormatter = DateTimeFormat.forPattern("yyyy.MM.dd HH:mm").withZone(DateTimeZone.forID("Europe/Moscow"))
-
-	private val hoursFormatter = DateTimeFormat.forPattern("HH:mm").withZone(DateTimeZone.forID("Europe/Moscow"))
 
 }
