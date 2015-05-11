@@ -4,7 +4,7 @@ import code.comet.GlobalStatusSingleton
 import code.comet.TournamentStatus.ErrorStatus
 import net.liftweb.common.Loggable
 import net.liftweb.util.Props
-import org.joda.time.{DateTimeZone, DateTime}
+import org.joda.time._
 import org.joda.time.format.DateTimeFormat
 import scala.concurrent.duration._
 
@@ -93,7 +93,7 @@ object Constants extends Loggable {
 
 	def timeLongToHours(long: Long) = hoursFormatter.print(new DateTime(long))
 
-	private val datetimeFormatter = DateTimeFormat.forPattern("yyyy.MM.dd HH:mm").withZone(DateTimeZone.forID("Europe/Moscow"))
+	val datetimeFormatter = DateTimeFormat.forPattern("yyyy.MM.dd HH:mm").withZone(DateTimeZone.forID("Europe/Moscow"))
 
 	private val hoursFormatter = DateTimeFormat.forPattern("HH:mm").withZone(DateTimeZone.forID("Europe/Moscow"))
 

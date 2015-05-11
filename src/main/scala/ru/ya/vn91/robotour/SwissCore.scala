@@ -32,23 +32,24 @@ class SwissCore extends RegistrationCore {
 				logger.info(s"starting tournament. Number of registered players: ${registered.size}")
 				if (registered.size % 2 != 0) {
 					// swiss tournament needs an even number of players
-					register(PlayerInfo(emptyPlayer, 1200, 0, 0, 0))
+					tryRegister(PlayerInfo(emptyPlayer, 1200, 0, 0, 0))
 				}
 				startNewRound()
 		}
 
-	override def register(p: PlayerInfo): Unit = {
+	override def tryRegister(p: PlayerInfo): Unit = {
 		if (registered.contains(p.nick)) {
 			// already registered
 		} else if (rankLimit.exists(_ > p.rank) && p.nick != emptyPlayer) {
 			Core.toZagramActor ! MessageToZagram(s"${p.nick}, sorry, rank limit is ${rankLimit.openOr(0)}. Not registered.")
 		} else {
+			logger.info(s"registered ${p.nick}")
+			registered += p.nick
 			if (importRankInSwiss && p.nick != emptyPlayer) {
 				scores += p.nick -> p.rank / 100
 			} else {
 				scores += p.nick -> 0
 			}
-			registered += p.nick
 			RegisteredListSingleton ! p.nick
 			ChatServer ! MessageToChatServer(s"Player ${p.nick} registered.")
 			playedGames += p.nick -> List[Game]()

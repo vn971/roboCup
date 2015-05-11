@@ -45,17 +45,10 @@ trait RegistrationCore extends Actor with Loggable {
 			GlobalStatusSingleton ! RegistrationInProgress(time + registrationPeriod.toMillis)
 	}
 
-	protected def register(playerInfo: PlayerInfo): Unit = {
-		if (!registered.contains(playerInfo.nick)) {
-			logger.info(s"registered ${playerInfo.nick}")
-			registered += playerInfo.nick
-			RegisteredListSingleton ! playerInfo.nick
-			ChatServer ! MessageToChatServer(s"Player ${playerInfo.nick} registered.")
-		}
-	}
+	protected def tryRegister(p: PlayerInfo): Unit
 
 	def registrationInProgress: Receive = {
-		case TryRegister(info) => if (!registered.contains(info.nick)) register(info)
+		case TryRegister(info) => tryRegister(info)
 		// this Receive function is extended by extending classes
 		// (case StartTournament)
 	}
