@@ -10,15 +10,16 @@ import scala.concurrent.duration._
 
 object Constants extends Loggable {
 
-	val datetimeFormatter = DateTimeFormat.forPattern("yyyy.MM.dd HH:mm").withZone(DateTimeZone.forID("Europe/Moscow"))
+	val datetimeMoscowFormatter = DateTimeFormat.forPattern("yyyy.MM.dd HH:mm").withZone(DateTimeZone.forID("+03:00"))
+	val datetimeWarsawFormatter = DateTimeFormat.forPattern("yyyy.MM.dd HH:mm").withZone(DateTimeZone.forID("Europe/Warsaw"))
 
-	def timeLongToString(long: Long) = datetimeFormatter.print(new DateTime(long))
+	def timeLongToString(long: Long) = datetimeMoscowFormatter.print(new DateTime(long))
 
-	def stringToDateTime(s: String) = datetimeFormatter.parseDateTime(s)
+	def stringToDateTime(s: String) = datetimeMoscowFormatter.parseDateTime(s)
 
-	def timeLongToHours(long: Long) = hoursFormatter.print(new DateTime(long))
+	def timeLongToHours(long: Long) = hoursMoscowFormatter.print(new DateTime(long))
 
-	private val hoursFormatter = DateTimeFormat.forPattern("HH:mm").withZone(DateTimeZone.forID("Europe/Moscow"))
+	val hoursMoscowFormatter = DateTimeFormat.forPattern("HH:mm").withZone(DateTimeZone.forID("+03:00"))
 
 	val registrationPeriod = Props.getLong("registrationHours").openOrThrowException("").hours
 	val tournamentStartDate = {

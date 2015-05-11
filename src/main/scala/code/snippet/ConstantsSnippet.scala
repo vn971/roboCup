@@ -25,6 +25,11 @@ object ConstantsSnippet extends Loggable {
 
 	def conf = Text(sys.props.getOrElse("run.mode", "none"))
 
+	def tournamentStartMoscow = Text(Constants.tournamentStartDate.toString(Constants.datetimeMoscowFormatter))
+	def tournamentStartWarsaw = Text(Constants.tournamentStartDate.toString(Constants.datetimeWarsawFormatter))
+	def registrationStartMoscow = Text(Constants.registrationStartDate.toString(Constants.datetimeMoscowFormatter))
+	def registrationStartWarsaw = Text(Constants.registrationStartDate.toString(Constants.datetimeWarsawFormatter))
+
 	def timeInMoscow = Text(Constants.timeLongToHours(System.currentTimeMillis))
 
 	def dateInMoscow = "* *" #> Text(Constants.timeLongToString(System.currentTimeMillis))

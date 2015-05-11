@@ -8,11 +8,12 @@
 <div id="main" class="lift:surround?with=default;at=content">
 	<h2>Rejestracja</h2>
 
-	<!-- For Warsaw time write "czasu Warszawskiego" -->
-	<div>Rejestracja zaczyna się o "<span
-			data-lift="comet?type=TimeStart"></span>"
-		i trwa aż do rozpoczęcia turnieju. Turniej rozpocznie się o "<span
-				data-lift="comet?type=GamesStart"></span>" czasu Moskiewskiego.
+	<!-- For Warsaw time write "czasu Warszawskiego", for Moscow write "czasu Moskiewskiego" -->
+	<div>Rejestracja zaczyna się o
+		"<span data-lift="ConstantsSnippet.registrationStartMoscow"></span>"
+		i trwa aż do rozpoczęcia turnieju. Turniej rozpocznie się o
+			"<span data-lift="ConstantsSnippet.tournamentStartWarsaw"></span>" czasu Warszawskiego
+				(note that Moscow Time is used in logs).
 	</div>
 
 	<div>Aby się zarejestrować, wpisz "!register" na głównym
