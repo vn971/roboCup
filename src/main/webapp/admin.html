@@ -55,7 +55,6 @@
 		<br />
 
 		<h3>Назначить победителя</h3>
-
 		<div>
 			Введите имена игроков в виде "победитель/проигравший". Например,
 			<strong>Вася Новиков/Фрося Марусевна</strong>. Игрок "Вася Новиков" будет назначен
@@ -64,6 +63,16 @@
 			<form class="lift:form.ajax">
 				<input class="lift:Admin.winGame" id="winGame"/> <input
 					type="submit" value="назначить победителя"/>
+			</form>
+		</div>
+		<br />
+
+		<h3>Отправить сообщение на заграм имперсонируя RoboCup</h3>
+		<div>
+			Сообщение будет отправлено в публичный чат заграма.
+			<form class="lift:form.ajax">
+				<input class="lift:Admin.writeToZagram" id="writeToZagram" /> <input
+					type="submit" value="Отправить" />
 			</form>
 		</div>
 		<br />

@@ -1,6 +1,5 @@
 package code.snippet
 
-import akka.actor.Props
 import code.comet.GlobalStatusSingleton
 import code.comet.TournamentStatus._
 import net.liftweb.common.Loggable
@@ -9,7 +8,7 @@ import net.liftweb.http.js.JsCmd
 import net.liftweb.http.js.JsCmds._
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour._
-import ru.ya.vn91.robotour.zagram.{ AssignGame, PlayerInfo }
+import ru.ya.vn91.robotour.zagram.{ AssignGame, MessageToZagram, PlayerInfo }
 import scala.concurrent.duration._
 
 object Admin extends Loggable {
@@ -48,6 +47,12 @@ object Admin extends Loggable {
 		logger.info(s"setting status $status")
 		GlobalStatusSingleton ! CustomStatus(status)
 		SetValById("setStatus", "")
+	}
+
+	def writeToZagram() = SHtml.onSubmit { message =>
+		logger.info(s"writing to zagram message: $message")
+		Core.toZagramActor ! MessageToZagram(message)
+		SetValById("writeToZagram", "")
 	}
 
 	def winGame = SHtml.onSubmit { twoPlayers =>
