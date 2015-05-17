@@ -17,7 +17,6 @@ class KnockoutCore extends Actor with Loggable {
 	object StartTheTournament
 	object StartNextTour
 
-
 	var waiting = HashSet[GameNode]()
 	var playing = HashSet[(GameNode, GameNode)]() // each inner set must contain 2 players
 	var knockedOut = HashSet[GameNode]()

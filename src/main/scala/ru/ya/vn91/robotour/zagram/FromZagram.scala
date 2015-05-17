@@ -1,6 +1,6 @@
 package ru.ya.vn91.robotour.zagram
 
-import akka.actor.{ActorRef, Actor}
+import akka.actor.{ ActorRef, Actor }
 import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.Utils._
 import ru.ya.vn91.robotour._
@@ -50,13 +50,12 @@ class FromZagram(whomToReport: ActorRef) extends Actor with Loggable {
 		} catch {
 			case e: Exception => logger.error("exception in main cycle", e)
 		}
-
 	}
 
 	private def handleLine(line: String) = try {
 		val dotSplit = line.drop(1).split('.')
 		if (line startsWith "m") {
-			val newMessageCount = line.split('.')(1).toLong
+			val newMessageCount = dotSplit(1).toLong
 			if (newMessageCount < messageCount) {
 				logger.warn(s"message counter decreased, seems like a server restart ($messageCount => $newMessageCount)")
 			}
