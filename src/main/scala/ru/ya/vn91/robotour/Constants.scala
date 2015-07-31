@@ -92,7 +92,7 @@ object Constants extends Loggable {
 
 	val rankLimit = Props.getInt("rankLimit")
 
-	val rulesComment = Props.get("rulesComment")
+	val rulesComment = Props.get("rulesComment").filter(_.nonEmpty)
 
 	val importRankInSwiss = false
 
