@@ -2,12 +2,12 @@ package ru.ya.vn91.robotour
 
 import code.comet.GameResultEnumeration._
 import code.comet.TournamentStatus._
-import code.comet.{ Game, Player, SwissTableData, _ }
+import code.comet._
 import net.liftweb.util.Props
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.Utils.SuppressWartRemover
 import ru.ya.vn91.robotour.zagram._
-import scala.collection.immutable.{ HashMap, HashSet }
+import scala.collection.immutable._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Random
 
@@ -144,23 +144,19 @@ class SwissCore extends RegistrationCore {
 
 	def startNewRound(): Unit = {
 		if (openGames.size == 0) {
-			val sortedPlayers = scores.toList.sortBy(s => (s._2, Random.nextInt())).reverse
-
-			for (i <- 0.until(sortedPlayers.length, 2)) {
-				val first = sortedPlayers(i)._1
-				val second = sortedPlayers(i + 1)._1
-
-				openGames += (first, second)
-				if (first == emptyPlayer) {
-					logger.info(s"$second assigned as winner against $emptyPlayer")
-					self ! GameWon(second, emptyPlayer)
-				} else if (second == emptyPlayer) {
-					logger.info(s"$first assigned as winner against $emptyPlayer")
-					self ! GameWon(first, emptyPlayer)
-				} else {
-					logger.info(s"assigning game $first-$second")
-					Core.toZagramActor ! AssignGame(first, second)
-				}
+			SwissCore.makePairsBruteforce(scores, playedGames).foreach {
+				case (first, second) ⇒
+					openGames += (first, second)
+					if (first == emptyPlayer) {
+						logger.info(s"$second assigned as winner against $emptyPlayer")
+						self ! GameWon(second, emptyPlayer)
+					} else if (second == emptyPlayer) {
+						logger.info(s"$first assigned as winner against $emptyPlayer")
+						self ! GameWon(first, emptyPlayer)
+					} else {
+						logger.info(s"assigning game $first-$second")
+						Core.toZagramActor ! AssignGame(first, second)
+					}
 			}
 
 			context.become(gamesInProgress, discardOld = true)
@@ -171,6 +167,44 @@ class SwissCore extends RegistrationCore {
 	}
 
 	def finished: Receive = { case _ => }
+
+}
+
+object SwissCore {
+
+	def makePairsStupid(scores: HashMap[String, Int], playedGames: HashMap[String, List[Game]]) = {
+		val sortedPlayers = scores.toList.sortBy(s => (s._2, Random.nextInt())).map(_._1).reverse
+		var result = List[(String, String)]()
+		for (i <- 0.until(sortedPlayers.length, 2)) {
+			val first = sortedPlayers(i)
+			val second = sortedPlayers(i + 1)
+			result +:= (first -> second)
+		}
+		result
+	}
+
+	def makePairsBruteforce(scores: HashMap[String, Int], games: HashMap[String, List[Game]]) = {
+		val sortedPlayers = scores.toList.sortBy(s => (s._2, Random.nextInt())).map(_._1).reverse
+		makePairsBruteforceHelper(
+			SortedSet(sortedPlayers: _*),
+			games.mapValues(_.map(_.opponent))
+		)
+	}
+
+	// TODO: rewrite if RoboCup will have 200+ players (to avoid stack overflow)
+	def makePairsBruteforceHelper(players: SortedSet[String], games: Map[String, List[String]])
+	: List[(String, String)] = if (players.isEmpty) {
+		Nil
+	} else {
+		val first = players.head
+		val didNotPlayWith = players - first -- games(first)
+		val opponent = didNotPlayWith.headOption.getOrElse(players.tail.head)
+		(first -> opponent) ::
+			makePairsBruteforceHelper(
+				players - first - opponent,
+				games
+			)
+	}
 
 }
 
