@@ -2,8 +2,8 @@
 
 RoboCup is an automatic tournament holder for the game Points.
 
-It's written in Scala language, using Liftweb as a web framework,  
-akka.io as an actor framework, SBT as a build tool,  
+It's written in Scala language, using Liftweb as a web framework,
+akka.io as an actor framework, SBT as a build tool,
 git+github as a version control system.
 
 ### How to run:
@@ -64,5 +64,5 @@ Vasya Novikov:
 * creation and promotion fo the Swiss tournament system amongst Points game
 
 
-Copyright: Vasya Novikov 2012-2015  
-License: AGPL v3 license
+Copyright: Vasya Novikov 2012-2015
+License: AGPL v3 or later

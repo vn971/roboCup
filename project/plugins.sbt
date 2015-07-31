@@ -1,4 +1,4 @@
-addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "2.5.0") // eclipse with-sources=true
+addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "3.0.0") // eclipse with-sources=true
 
 addSbtPlugin("io.spray" % "sbt-revolver" % "0.7.2") // ~reStart
 

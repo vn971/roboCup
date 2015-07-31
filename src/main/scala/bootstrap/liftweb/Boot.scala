@@ -14,7 +14,7 @@ import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.Utils.SuppressWartRemover
 import ru.ya.vn91.robotour.{ Constants, Core }
 
-/** For the JVM entry point see `Start.scala`.
+/** For JVM entry point see `Start.scala`.
  *  This class is for Lift only
  */
 class Boot extends Loggable {

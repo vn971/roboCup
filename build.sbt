@@ -23,7 +23,8 @@ scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-Xfuture",
 	"-Xlint:delayedinit-select",
 	"-Xlint:by-name-right-associative",
 	"-Xlint:package-object-classes",
-	"-Xlint:unsound-match"
+	"-Xlint:unsound-match",
+	"-Ywarn-value-discard"
 )
 
 wartremoverErrors += Wart.Any2StringAdd

@@ -29,7 +29,7 @@ object Utils {
 		replaceAll("&#34;", "\"").
 		replaceAll("&#45;", "-")
 
-	/** Is used for "WartRemover" suppression, namely the `NonUnitStatements` warning. */
+	/** Usable for "WartRemover" suppression, the `NonUnitStatements` warning. */
 	implicit class SuppressWartRemover(val any: Any) extends AnyRef {
 		def suppressWartRemover() = ()
 	}
