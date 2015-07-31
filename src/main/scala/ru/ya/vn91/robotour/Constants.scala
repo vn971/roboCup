@@ -23,11 +23,11 @@ object Constants extends Loggable {
 
 	val registrationPeriod = Props.getLong("registrationHours").openOrThrowException("").hours
 	val tournamentStartDate = {
-		val timeAsString = Props.get("tournamentStartDate").openOrThrowException("")
-		logger.info(s"timeAsString: $timeAsString")
-		val startTime = stringToDateTime(timeAsString)
+		val timeOption = Props.get("tournamentStartDate").map(stringToDateTime)
+		val startTime = timeOption.getOrElse(
+			if (Props.devMode) DateTime.now().plusMinutes(1) else throw new Exception())
 		assert(startTime isAfter DateTime.now())
-		// assert(startTime isBefore DateTime.now().plus(Period.days(28)))
+		assert(startTime isBefore DateTime.now().plus(Period.days(28)))
 		startTime
 	}
 	val registrationStartDate = tournamentStartDate.minus(registrationPeriod.toMillis)
