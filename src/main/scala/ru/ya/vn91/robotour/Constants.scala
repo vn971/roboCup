@@ -32,9 +32,6 @@ object Constants extends Loggable {
 	}
 	val registrationStartDate = tournamentStartDate.minus(registrationPeriod.toMillis)
 
-	// hack-ish work-around
-	Core.core ! StartRegistration(registrationStartDate.getMillis)
-
 	val startingTime = Props.getInt("startingMinutes").openOrThrowException("").minutes
 
 	val perTurnTime = Props.getInt("secondsPerTurn").openOrThrowException("").seconds

@@ -20,5 +20,8 @@ object Core extends Loggable {
 	else
 		system.actorOf(akka.actor.Props[KnockoutCore], name = "core")
 
+	// hack-ish work-around
+	core ! StartRegistration(Constants.registrationStartDate.getMillis)
+
 	val toZagramActor = system.actorOf(akka.actor.Props[ToZagram], name = "toZagram")
 }
