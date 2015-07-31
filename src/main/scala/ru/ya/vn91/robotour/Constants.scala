@@ -92,6 +92,8 @@ object Constants extends Loggable {
 
 	val rankLimit = Props.getInt("rankLimit")
 
+	val rulesComment = Props.get("rulesComment")
+
 	val importRankInSwiss = false
 
 	val adminPage = Props.get("adminPage")

@@ -15,6 +15,7 @@ startingMinutes=5
 tournamentStartDate=2015.12.31 23:59
 registrationHours=24
 isRated=true
+rulesComment=The tournament will only start with 8+ players
 
 #### used in zagram id, site menu.
 #### modification of resources is also needed.

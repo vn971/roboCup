@@ -11,6 +11,7 @@ object ConstantsSnippet extends Loggable {
 
 	def gameSettings =
 		".rankLimit" #> rankLimit.map(".value *" #> _) &
+			".rulesComment" #> rulesComment.map(".value *" #> _) &
 			".tourBrakeTime *" #> breakTime.toMinutes &
 			".secsPerTurn *" #> perTurnTime.toSeconds &
 			".fieldSize *" #> Text(s"$fieldSizeX x $fieldSizeY") &
