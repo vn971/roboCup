@@ -2,10 +2,10 @@ package ru.ya.vn91.robotour
 
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.{FunSuite, Matchers}
-import ru.ya.vn91.robotour.SwissCore._
+import ru.ya.vn91.robotour.SwissPairMatcher._
 import scala.collection.immutable.{HashMap, SortedSet}
 
-class SwissCoreMakePairTest extends FunSuite with Matchers with TypeCheckedTripleEquals {
+class SwissBruteforcePairTest extends FunSuite with Matchers with TypeCheckedTripleEquals {
 
 	test("0 players, 0 conflicts, 0 changes needed") {
 		val players = SortedSet[String]()
@@ -28,6 +28,13 @@ class SwissCoreMakePairTest extends FunSuite with Matchers with TypeCheckedTripl
 	test("4 players, 0 conflicts, 0 changes needed") {
 		val players = SortedSet("a", "b", "c", "d")
 		val games = HashMap("a" -> Nil, "b" -> Nil, "c" -> Nil, "d" -> Nil)
+		makePairsBruteforceHelper(players, games) shouldEqual List("a" -> "b", "c" -> "d")
+	}
+
+	test("4 players, 1 'bottom' conflict, no changes expected because of algorithm limitations") {
+		val players = SortedSet("a", "b", "c", "d")
+		val games = HashMap("a" -> Nil, "b" -> Nil, "c" -> List("d"), "d" -> List("c"))
+		// the "bruteforce" method is stupid, it should not be able to optimize this
 		makePairsBruteforceHelper(players, games) shouldEqual List("a" -> "b", "c" -> "d")
 	}
 

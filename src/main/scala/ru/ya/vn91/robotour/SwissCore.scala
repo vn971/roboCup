@@ -144,7 +144,11 @@ class SwissCore extends RegistrationCore {
 
 	def startNewRound(): Unit = {
 		if (openGames.size == 0) {
-			SwissCore.makePairsBruteforce(scores, playedGames).foreach {
+			val pairs = SwissPairMatcher
+				.makePairsSmart(scores, playedGames.mapValues(_.map(_.opponent)))
+				.toList.filter(pair ⇒ pair._1 < pair._2)
+
+			pairs.foreach {
 				case (first, second) ⇒
 					openGames += (first, second)
 					if (first == emptyPlayer) {
@@ -167,44 +171,6 @@ class SwissCore extends RegistrationCore {
 	}
 
 	def finished: Receive = { case _ => }
-
-}
-
-object SwissCore {
-
-	def makePairsStupid(scores: HashMap[String, Int], playedGames: HashMap[String, List[Game]]) = {
-		val sortedPlayers = scores.toList.sortBy(s => (s._2, Random.nextInt())).map(_._1).reverse
-		var result = List[(String, String)]()
-		for (i <- 0.until(sortedPlayers.length, 2)) {
-			val first = sortedPlayers(i)
-			val second = sortedPlayers(i + 1)
-			result +:= (first -> second)
-		}
-		result
-	}
-
-	def makePairsBruteforce(scores: HashMap[String, Int], games: HashMap[String, List[Game]]) = {
-		val sortedPlayers = scores.toList.sortBy(s => (s._2, Random.nextInt())).map(_._1).reverse
-		makePairsBruteforceHelper(
-			SortedSet(sortedPlayers: _*),
-			games.mapValues(_.map(_.opponent))
-		)
-	}
-
-	// TODO: rewrite if RoboCup will have 200+ players (to avoid stack overflow)
-	def makePairsBruteforceHelper(players: SortedSet[String], games: Map[String, List[String]])
-	: List[(String, String)] = if (players.isEmpty) {
-		Nil
-	} else {
-		val first = players.head
-		val didNotPlayWith = players - first -- games(first)
-		val opponent = didNotPlayWith.headOption.getOrElse(players.tail.head)
-		(first -> opponent) ::
-			makePairsBruteforceHelper(
-				players - first - opponent,
-				games
-			)
-	}
 
 }
 
