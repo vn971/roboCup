@@ -42,7 +42,7 @@ object SwissPairMatcher extends Loggable {
 		def diff(x: Int, y: Int) = (x - y) * (x - y)
 		def meetings(x: String, y: String) = games(x).count(_ == y)
 
-		Stream.continually {
+		val mutateAndCount = Stream.continually {
 			var bestScore = 0
 			var bestPlayerA = ""
 			var bestPlayerB = ""
@@ -82,8 +82,8 @@ object SwissPairMatcher extends Loggable {
 				opponents += vsB -> vsA
 			}
 			bestScore
-		}.takeWhile(_ > 0).force
-
+		}.takeWhile(_ > 0).size
+		logger.debug(s"pairs calculated after $mutateAndCount iterations")
 		opponents
 	}
 
