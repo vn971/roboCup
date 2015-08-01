@@ -1,6 +1,7 @@
 package code.comet
 
 import net.liftweb.actor.LiftActor
+import net.liftweb.common.Loggable
 import net.liftweb.http.ListenerManager
 import ru.ya.vn91.robotour.GameNode
 
@@ -8,7 +9,7 @@ import ru.ya.vn91.robotour.GameNode
  *  It's an Actor so it's thread-safe because only one
  *  message will be processed at once.
  */
-object WaitingSingleton extends LiftActor with ListenerManager {
+object WaitingSingleton extends LiftActor with ListenerManager with Loggable {
 	private var waiting = List[GameNode]()
 
 	/** When we update the listeners, what message do we send?
@@ -24,8 +25,9 @@ object WaitingSingleton extends LiftActor with ListenerManager {
 	 *  messages, and then update all the listeners.
 	 */
 	override def lowPriority = {
-		case s: List[_] =>
-			waiting = s.asInstanceOf[List[GameNode]]
+		case l: List[_] =>
+			logger.debug(s"received message $l")
+			waiting = l.asInstanceOf[List[GameNode]]
 			updateListeners()
 		case s =>
 			System.err.println("received unknown message: " + s)
