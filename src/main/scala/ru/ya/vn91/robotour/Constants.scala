@@ -32,18 +32,18 @@ object Constants extends Loggable {
 	}
 	val registrationStartDate = tournamentStartDate.minus(registrationPeriod.toMillis)
 
-	val startingTime = Props.getInt("startingMinutes").openOrThrowException("").minutes
+	val startingTime = Props.getInt("game.startingMinutes").openOrThrowException("").minutes
 
-	val perTurnTime = Props.getInt("secondsPerTurn").openOrThrowException("").seconds
+	val perTurnTime = Props.getInt("game.secondsPerTurn").openOrThrowException("").seconds
 
 	val breakTime = Props.getLong("tourBreakMinutes", 5).minutes
 
-	val withTerritory = Props.getBool("withTerritory").openOr(false)
+	val withTerritory = Props.getBool("game.withTerritory").openOr(false)
 
-	val crossesCount = Props.getInt("crossesCount").openOrThrowException("")
+	val crossesCount = Props.getInt("game.crossesCount").openOrThrowException("")
 
-	val fieldSizeX = Props.getInt("fieldSizeX", 39)
-	val fieldSizeY = Props.getInt("fieldSizeY", 32)
+	val fieldSizeX = Props.getInt("game.fieldSizeX", 39)
+	val fieldSizeY = Props.getInt("game.fieldSizeY", 32)
 
 	val gameTimeout = startingTime * 2 + perTurnTime * fieldSizeX * fieldSizeY +
 		(if (Props.devMode) 10.seconds else 10.minutes)

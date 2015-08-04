@@ -2,16 +2,17 @@
 #rankLimit=1201
 
 #### allowed: 39*32, 30*30, 25*25, 20*20, 40*40, 21*21, 20*40 (more than 20, less than 40)
-fieldSizeX=25
-fieldSizeY=25
+game.fieldSizeX=25
+game.fieldSizeY=25
 
 #### valid values are: 0,1,2,4
-crossesCount=2
+game.crossesCount=2
+
+game.withTerritory=false
+game.secondsPerTurn=5
+game.startingMinutes=5
 
 isSwiss=true
-withTerritory=false
-secondsPerTurn=5
-startingMinutes=5
 #tournamentStartDate=2015.12.31 23:59
 registrationHours=24
 isRated=true
