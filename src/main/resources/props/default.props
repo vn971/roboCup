@@ -19,6 +19,7 @@ moderatedRegistration=true
 isRated=true
 createGamesImmediately=false
 #rulesComment=
+tourBreakMinutes=0
 
 #### used in zagram id, site menu.
 #### modification of resources is also needed.
