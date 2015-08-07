@@ -77,9 +77,7 @@ class FromZagram(whomToReport: ActorRef) extends Actor with Loggable {
 		val innerSplit = line.split("\\.", 4)
 		val nick = innerSplit(1)
 		val msg = getZagramDecoded(innerSplit(3)).toLowerCase
-		if (msg.startsWith("!register") ||
-			msg.startsWith("!register") ||
-			msg.startsWith("!register")) {
+		if (msg.startsWith("!register")) {
 			playerSet.get(nick) match {
 				case _ if nick.startsWith("*") =>
 					logger.info(s"registration attempt failed, guests not allowed: $nick")
