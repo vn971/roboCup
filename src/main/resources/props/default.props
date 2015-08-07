@@ -16,6 +16,7 @@ isSwiss=true
 #tournamentStartDate=2015.12.31 23:59
 registrationHours=24
 isRated=true
+createGamesImmediately=false
 #rulesComment=
 
 #### used in zagram id, site menu.
@@ -28,7 +29,7 @@ organizerCodename=vasya.novikov
 
 #### optional, doesn't work with russian letters.
 #### example: vn971, agent47, Romati, ysipysi
-createGameWith=vn971
+#createGameWith=vn971
 
 
 #adminPage=

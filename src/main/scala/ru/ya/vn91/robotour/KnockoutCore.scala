@@ -28,7 +28,7 @@ class KnockoutCore extends Actor with Loggable {
 
 	def prepareNextTour(): Unit = {
 		logger.info("prepare next tour")
-		if (playing.size > 0) throw new IllegalStateException
+		if (playing.nonEmpty) throw new IllegalStateException
 		else if (waiting.size < 2) {
 			logger.info("tournament finished!")
 			if (waiting.size == 1) {
@@ -52,7 +52,9 @@ class KnockoutCore extends Actor with Loggable {
 				val (p1, p2) = (shuffled(i1), shuffled(i2)) // players
 				logger.info(s"assigning game ${p1.name}-${p2.name}")
 				playing += ((p1, p2))
-				Core.toZagramActor ! AssignGame(p1.name, p2.name)
+				if (Constants.createGamesImmediately) {
+					Core.toZagramActor ! AssignGame(p1.name, p2.name)
+				}
 
 				if (Random.nextBoolean()) {
 					logger.info(s"preparing winner in case of timeout: ${p1.name}")

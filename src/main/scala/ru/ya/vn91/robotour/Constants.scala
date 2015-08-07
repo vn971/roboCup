@@ -94,6 +94,8 @@ object Constants extends Loggable {
 
 	val importRankInSwiss = false
 
+	val createGamesImmediately = Props.getBool("createGamesImmediately").openOrThrowException("")
+
 	val adminPage = Props.get("adminPage")
 
 	val zagramIdGracza = {

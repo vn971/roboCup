@@ -159,7 +159,9 @@ class SwissCore extends RegistrationCore {
 						self ! GameWon(first, emptyPlayer)
 					} else {
 						logger.info(s"assigning game $first-$second")
-						Core.toZagramActor ! AssignGame(first, second)
+						if (Constants.createGamesImmediately) {
+							Core.toZagramActor ! AssignGame(first, second)
+						}
 					}
 			}
 
