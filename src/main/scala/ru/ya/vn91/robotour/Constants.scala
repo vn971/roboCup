@@ -91,6 +91,8 @@ object Constants extends Loggable {
 
 	val importRankInSwiss = false
 
+	val moderatedRegistration = Props.getBool("moderatedRegistration").openOrThrowException("")
+
 	val createGamesImmediately = Props.getBool("createGamesImmediately").openOrThrowException("")
 
 	val gameTimeout: Box[FiniteDuration] = {
