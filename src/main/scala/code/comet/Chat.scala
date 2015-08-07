@@ -2,11 +2,12 @@ package code.comet
 
 import net.liftweb.http._
 import ru.ya.vn91.robotour.Constants._
+import ru.ya.vn91.robotour.Core
 
 class Chat extends CometActor with CometListener {
 	private var msgs = Vector[MessageToChatServer]()
 
-	override def registerWith = ChatServer
+	override def registerWith = Core.chatServer
 
 	override def lowPriority = {
 		case v: Vector[_] =>

@@ -1,5 +1,6 @@
 package ru.ya.vn91.robotour
 
+import akka.actor.ActorRef
 import code.comet.GameResultEnumeration._
 import code.comet.TournamentStatus._
 import code.comet._
@@ -11,7 +12,7 @@ import scala.collection.immutable._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Random
 
-class SwissCore extends RegistrationCore {
+class SwissCore(chatServer: ChatServer, toZagramActor: ActorRef) extends RegistrationCore {
 
 	val emptyPlayer = "Empty"
 	var openGames = new GameSet()
@@ -25,6 +26,11 @@ class SwissCore extends RegistrationCore {
 	def lossPrice = 1 // currentRound match { case 1 => 0.5 case 2 => 0.6 case 3 => 0.7 case 4 => 0.8 case 5 => 0.9 case _ => 1.0 }
 
 	def log2(x: Int) = (1 to 30).find(degree => (1 << degree) >= x).getOrElse(sys.error(""))
+
+	override def preStart(): Unit = {
+		context.actorOf(akka.actor.Props(new FromZagram(self, toZagramActor)), name = "fromZagram").suppressWartRemover()
+		logger.info("initialized")
+	}
 
 	override def registrationInProgress =
 		super.registrationInProgress.orElse {
@@ -41,7 +47,7 @@ class SwissCore extends RegistrationCore {
 		if (registered.contains(p.nick)) {
 			// already registered
 		} else if (rankLimit.exists(_ > p.rank) && p.nick != emptyPlayer) {
-			Core.toZagramActor ! MessageToZagram(s"${p.nick}, sorry, rank limit is ${rankLimit.openOr(0)}. Not registered.")
+			toZagramActor ! MessageToZagram(s"${p.nick}, sorry, rank limit is ${rankLimit.openOr(0)}. Not registered.")
 		} else {
 			logger.info(s"registered ${p.nick}")
 			registered += p.nick
@@ -51,7 +57,7 @@ class SwissCore extends RegistrationCore {
 				scores += p.nick -> 0
 			}
 			RegisteredListSingleton ! p.nick
-			ChatServer ! MessageToChatServer(s"Player ${p.nick} registered.")
+			chatServer ! MessageToChatServer(s"Player ${p.nick} registered.")
 			playedGames += p.nick -> List[Game]()
 			totalRounds = log2(registered.size) + 2
 			logger.info(s"registered player: ${p.nick}. Total rounds now: $totalRounds")
@@ -74,7 +80,7 @@ class SwissCore extends RegistrationCore {
 		case GameWon(winner, looser) =>
 			if (openGames.contains(winner, looser)) {
 				logger.info(s"gameWon $winner > $looser")
-				ChatServer ! MessageToChatServer(s"$winner won a game against $looser")
+				chatServer ! MessageToChatServer(s"$winner won a game against $looser")
 
 				openGames -= (winner, looser)
 				playedGames += winner -> (playedGames(winner) :+ Game(looser, Win))
@@ -88,7 +94,7 @@ class SwissCore extends RegistrationCore {
 		case GameDraw(first, second) =>
 			if (openGames.contains(first, second)) {
 				logger.info(s"gameDraw $first = $second")
-				ChatServer ! MessageToChatServer(s"game $first - $second ended with draw")
+				chatServer ! MessageToChatServer(s"game $first - $second ended with draw")
 
 				openGames -= (first, second)
 				playedGames += first -> (playedGames(first) :+ Game(second, Draw))
@@ -160,7 +166,7 @@ class SwissCore extends RegistrationCore {
 					} else {
 						logger.info(s"assigning game $first-$second")
 						if (Constants.createGamesImmediately) {
-							Core.toZagramActor ! AssignGame(first, second)
+							toZagramActor ! AssignGame(first, second)
 						}
 					}
 			}

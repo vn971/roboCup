@@ -12,7 +12,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.util.Random
 
-class KnockoutCore extends Actor with Loggable {
+class KnockoutCore(chatServer: ChatServer, toZagramActor: ActorRef) extends Actor with Loggable {
 
 	object StartTheTournament
 	object StartNextTour
@@ -22,7 +22,7 @@ class KnockoutCore extends Actor with Loggable {
 	var knockedOut = HashSet[GameNode]()
 
 	override def preStart(): Unit = {
-		context.actorOf(Props(new FromZagram(self)), name = "fromZagram").suppressWartRemover()
+		context.actorOf(Props(new FromZagram(self, toZagramActor)), name = "fromZagram").suppressWartRemover()
 		logger.info("initialized")
 	}
 
@@ -53,7 +53,7 @@ class KnockoutCore extends Actor with Loggable {
 				logger.info(s"assigning game ${p1.name}-${p2.name}")
 				playing += ((p1, p2))
 				if (Constants.createGamesImmediately) {
-					Core.toZagramActor ! AssignGame(p1.name, p2.name)
+					toZagramActor ! AssignGame(p1.name, p2.name)
 				}
 
 				if (Random.nextBoolean()) {
@@ -85,7 +85,7 @@ class KnockoutCore extends Actor with Loggable {
 				logger.info(s"registered ${info.nick}")
 				waiting += GameNode(info.nick)
 				RegisteredListSingleton ! info.nick
-				ChatServer ! MessageToChatServer(s"Player ${info.nick} registered.")
+				chatServer ! MessageToChatServer(s"Player ${info.nick} registered.")
 				WaitingSingleton ! waiting.toList
 			}
 
@@ -115,7 +115,7 @@ class KnockoutCore extends Actor with Loggable {
 			}
 			if (containsWinnerLooser || containsLooserWinner) {
 				logger.info(s"game won: $winner > $looser")
-				ChatServer ! MessageToChatServer(s"$winner has won a game against $looser")
+				chatServer ! MessageToChatServer(s"$winner has won a game against $looser")
 				WaitingSingleton ! waiting.toList
 				PlayingSingleton ! playing.toList
 				KnockedOutSingleton ! knockedOut.toList

@@ -1,12 +1,13 @@
 package code.rest
 
-import code.comet.{ ChatServer, MessageToChatServer }
+import code.comet.MessageToChatServer
 import java.text.SimpleDateFormat
 import java.util.{ Date, TimeZone }
 import net.liftweb.common.Loggable
 import net.liftweb.http._
 import net.liftweb.http.rest._
 import net.liftweb.util.BindHelpers._
+import ru.ya.vn91.robotour.Core
 
 object RestAtomFeed extends RestHelper with Loggable {
 
@@ -26,7 +27,7 @@ object RestAtomFeed extends RestHelper with Loggable {
 
 		case Get("api" :: "chatFeed" :: Nil, _) =>
 
-			val messages = ChatServer.msgs.takeRight(100).reverse
+			val messages = Core.chatServer.msgs.takeRight(100).reverse
 
 			def msgTransform(m: MessageToChatServer) = {
 				val user = if (m.isAdmin) "server" else "user"

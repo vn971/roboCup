@@ -13,7 +13,7 @@ case class GameInfo(first: String, second: String)
 
 case class PlayerInfo(nick: String, rank: Int, wins: Int, losses: Int, draws: Int)
 
-class FromZagram(whomToReport: ActorRef) extends Actor with Loggable {
+class FromZagram(whomToReport: ActorRef, toZagramActor: ActorRef) extends Actor with Loggable {
 
 	private case object Tick
 
@@ -81,13 +81,13 @@ class FromZagram(whomToReport: ActorRef) extends Actor with Loggable {
 			playerSet.get(nick) match {
 				case _ if nick.startsWith("*") =>
 					logger.info(s"registration attempt failed, guests not allowed: $nick")
-					Core.toZagramActor ! MessageToZagram(s"$nick, to take a part in the tournament, please, use a registered account.")
+					toZagramActor ! MessageToZagram(s"$nick, to take a part in the tournament, please, use a registered account.")
 				case Some(info) =>
 					logger.info(s"registration attempt caught: $info")
-					Core.toZagramActor ! TryRegister(info)
+					toZagramActor ! TryRegister(info)
 				case None =>
 					logger.info(s"registration attempt failed: no user info for $nick")
-					Core.toZagramActor ! MessageToZagram(s"Sorry, could not find zagram rank for $nick")
+					toZagramActor ! MessageToZagram(s"Sorry, could not find zagram rank for $nick")
 			}
 		}
 	}

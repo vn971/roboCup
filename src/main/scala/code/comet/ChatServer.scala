@@ -1,14 +1,12 @@
 package code.comet
 
-import java.text.SimpleDateFormat
-import java.util.TimeZone
 import net.liftweb.actor._
 import net.liftweb.common.Loggable
 import net.liftweb.http._
 
 case class MessageToChatServer(message: String, isAdmin: Boolean = true, time: Long = 0L)
 
-object ChatServer extends LiftActor with ListenerManager with Loggable {
+class ChatServer extends LiftActor with ListenerManager with Loggable {
 
 	private var _msgs = Vector[MessageToChatServer]()
 	def msgs = _msgs
