@@ -73,7 +73,8 @@ object Constants extends Loggable {
 		val infinite = if (isInfiniteTime) "n" else "a"
 		val start = if (isInfiniteTime) "" else startingTime.toSeconds.toString
 		val turn = if (isInfiniteTime) "" else perTurnTime.toSeconds.toString
-		s"$x$y$territory$instantWin.$crosses.a.$rated.$infinite.$start.$turn.."
+		val capabilities = "_SRAP_srap" // hardcoded constant for "no undo", "no time add"
+		s"$x$y$territory$instantWin.$crosses.a.$rated.$infinite.$start.$turn.$capabilities."
 	}
 
 	val createGameWith = Props.get("createGameWith")
