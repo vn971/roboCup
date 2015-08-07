@@ -172,7 +172,9 @@ class SwissCore(chatServer: ChatServer, toZagramActor: ActorRef) extends Registr
 			}
 
 			context.become(gamesInProgress, discardOld = true)
-			context.system.scheduler.scheduleOnce(gameTimeout, self, RoundTimeout(currentRound)).suppressWartRemover()
+			for (timeout <- gameTimeout) {
+				context.system.scheduler.scheduleOnce(timeout, self, RoundTimeout(currentRound)).suppressWartRemover()
+			}
 			GlobalStatusSingleton ! GamePlaying(0)
 			notifyGui()
 		}

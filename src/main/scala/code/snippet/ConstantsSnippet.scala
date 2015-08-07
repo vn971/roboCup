@@ -21,8 +21,7 @@ object ConstantsSnippet extends Loggable {
 			".isRated *" #> (if (isRated) S ? "yes" else S ? "no") &
 			".expectedGameTime *" #> expectedGameTime.toMinutes &
 			".expectedTourTime *" #> expectedTourTime.toMinutes &
-			".organizerName *" #> (S ? organizerCodename) &
-			".gameTimeout *" #> f"${gameTimeout.toMinutes / 60}%d:${gameTimeout.toMinutes % 60}%02d"
+			".organizerName *" #> (S ? organizerCodename)
 
 	def conf = Text(sys.props.getOrElse("run.mode", "none"))
 

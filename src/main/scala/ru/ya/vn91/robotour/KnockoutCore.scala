@@ -58,10 +58,14 @@ class KnockoutCore(chatServer: ChatServer, toZagramActor: ActorRef) extends Acto
 
 				if (Random.nextBoolean()) {
 					logger.info(s"preparing winner in case of timeout: ${p1.name}")
-					context.system.scheduler.scheduleOnce(gameTimeout, self, GameWon(p1.name, p2.name))
+					for (timeout <- gameTimeout) {
+						context.system.scheduler.scheduleOnce(timeout, self, GameWon(p1.name, p2.name))
+					}
 				} else {
 					logger.info(s"preparing winner in case of timeout: ${p2.name}")
-					context.system.scheduler.scheduleOnce(gameTimeout, self, GameWon(p2.name, p1.name))
+					for (timeout <- gameTimeout) {
+						context.system.scheduler.scheduleOnce(timeout, self, GameWon(p2.name, p1.name))
+					}
 				}
 			}
 			waiting = HashSet.empty

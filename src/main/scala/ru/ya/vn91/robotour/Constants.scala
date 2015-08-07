@@ -2,7 +2,7 @@ package ru.ya.vn91.robotour
 
 import code.comet.GlobalStatusSingleton
 import code.comet.TournamentStatus.ErrorStatus
-import net.liftweb.common.Loggable
+import net.liftweb.common._
 import net.liftweb.util.Props
 import org.joda.time._
 import org.joda.time.format.DateTimeFormat
@@ -44,9 +44,6 @@ object Constants extends Loggable {
 
 	val fieldSizeX = Props.getInt("game.fieldSizeX", 39)
 	val fieldSizeY = Props.getInt("game.fieldSizeY", 32)
-
-	val gameTimeout = startingTime * 2 + perTurnTime * fieldSizeX * fieldSizeY +
-		(if (Props.devMode) 10.seconds else 10.minutes)
 
 	/** "tour time" means maximum for all games in a tour
 	 */
@@ -95,6 +92,16 @@ object Constants extends Loggable {
 	val importRankInSwiss = false
 
 	val createGamesImmediately = Props.getBool("createGamesImmediately").openOrThrowException("")
+
+	val gameTimeout: Box[FiniteDuration] = {
+		val enable = Props.getBool("game.timeout.enabled").getOrElse(createGamesImmediately)
+		if (enable) {
+			Full(startingTime * 2 + perTurnTime * fieldSizeX * fieldSizeY +
+				(if (Props.devMode) 10.seconds else 10.minutes))
+		} else {
+			Empty
+		}
+	}
 
 	val adminPage = Props.get("adminPage")
 
