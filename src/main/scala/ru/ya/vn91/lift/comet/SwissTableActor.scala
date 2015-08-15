@@ -1,7 +1,7 @@
 package ru.ya.vn91.lift.comet
 
-import ru.ya.vn91.lift.comet.GameResultEnumeration._
 import net.liftweb.http.{ CometActor, CometListener }
+import ru.ya.vn91.lift.comet.GameResultEnumeration._
 import scala.xml._
 
 class SwissTableActor extends CometActor with CometListener {
@@ -31,17 +31,15 @@ class SwissTableActor extends CometActor with CometListener {
 			case NotFinished => <font color="grey">{ shortenName(game.opponent) }</font>
 		}
 
-		def rowToHtml(p: (Player, Int)) = {
-			//			<td><b>{ index }</b></td>
-			val (player, index) = p
+		def rowToHtml(player: Player) = {
 			<tr>
 				<td><b>{ player.name }</b></td>
-				{ player.games.map(g => <td>{ gameToHtml(g) }</td>) }
+				{ player.games.map(game => <td>{ gameToHtml(game) }</td>) }
 				{ (player.games.size until table.numberOfTours).map(i => <td><font color="grey">?</font></td>) }
 				<td>{ player.score }</td>
 			</tr>
 		}
 
-		"tr" #> (table.rows zip (1 to table.rows.size)).map(rowToHtml)
+		"tr" #> table.rows.map(rowToHtml)
 	}
 }
