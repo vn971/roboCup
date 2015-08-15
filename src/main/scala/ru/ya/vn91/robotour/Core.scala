@@ -1,7 +1,7 @@
 package ru.ya.vn91.robotour
 
 import akka.actor.ActorSystem
-import code.comet.ChatServer
+import ru.ya.vn91.lift.comet.ChatServer
 import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.zagram.{ PlayerInfo, ToZagram }
 

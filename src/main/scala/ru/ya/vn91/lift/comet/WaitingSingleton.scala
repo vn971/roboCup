@@ -1,6 +1,7 @@
-package code.comet
+package ru.ya.vn91.lift.comet
 
 import net.liftweb.actor.LiftActor
+import net.liftweb.common.Loggable
 import net.liftweb.http.ListenerManager
 import ru.ya.vn91.robotour.GameNode
 
@@ -8,16 +9,15 @@ import ru.ya.vn91.robotour.GameNode
  *  It's an Actor so it's thread-safe because only one
  *  message will be processed at once.
  */
-object KnockedOutSingleton extends LiftActor with ListenerManager {
-
-	private var knockedOut = List[GameNode]()
+object WaitingSingleton extends LiftActor with ListenerManager with Loggable {
+	private var waiting = List[GameNode]()
 
 	/** When we update the listeners, what message do we send?
 	 *  We send the msgs, which is an immutable data structure,
 	 *  so it can be shared with lots of threads without any
 	 *  danger or locking.
 	 */
-	def createUpdate = knockedOut
+	def createUpdate = waiting
 
 	/** process messages that are sent to the Actor.  In
 	 *  this case, we're looking for Strings that are sent
@@ -26,7 +26,10 @@ object KnockedOutSingleton extends LiftActor with ListenerManager {
 	 */
 	override def lowPriority = {
 		case l: List[_] =>
-			knockedOut = l.asInstanceOf[List[GameNode]]
+			logger.debug(s"received message $l")
+			waiting = l.asInstanceOf[List[GameNode]]
 			updateListeners()
+		case s =>
+			System.err.println("received unknown message: " + s)
 	}
 }

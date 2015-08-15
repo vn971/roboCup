@@ -1,9 +1,9 @@
 package ru.ya.vn91.robotour
 
 import akka.actor.ActorRef
-import code.comet.GameResultEnumeration._
-import code.comet.TournamentStatus._
-import code.comet._
+import ru.ya.vn91.lift.comet.GameResultEnumeration._
+import ru.ya.vn91.lift.comet.TournamentStatus._
+import ru.ya.vn91.lift.comet._
 import net.liftweb.util.Props
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.Utils.SuppressWartRemover

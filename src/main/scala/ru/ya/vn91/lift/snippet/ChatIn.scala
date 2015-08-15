@@ -1,6 +1,6 @@
-package code.snippet
+package ru.ya.vn91.lift.snippet
 
-import code.comet.MessageToChatServer
+import ru.ya.vn91.lift.comet.MessageToChatServer
 import net.liftweb.common.Loggable
 import net.liftweb.http._
 import net.liftweb.http.js.JsCmds._

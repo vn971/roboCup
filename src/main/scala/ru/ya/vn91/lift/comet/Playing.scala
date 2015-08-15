@@ -1,4 +1,4 @@
-package code.comet
+package ru.ya.vn91.lift.comet
 
 import net.liftweb.http.{ CometActor, CometListener }
 import ru.ya.vn91.robotour.GameNode

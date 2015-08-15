@@ -1,6 +1,6 @@
-package code.comet
+package ru.ya.vn91.lift.comet
 
-import code.comet.TournamentStatus._
+import ru.ya.vn91.lift.comet.TournamentStatus._
 import net.liftweb.actor._
 import net.liftweb.http._
 import ru.ya.vn91.robotour.Constants._

@@ -1,4 +1,4 @@
-package code.snippet
+package ru.ya.vn91.lift.snippet
 
 import net.liftweb.common.Loggable
 import net.liftweb.http.S

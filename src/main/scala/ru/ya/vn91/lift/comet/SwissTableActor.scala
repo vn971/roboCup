@@ -1,6 +1,6 @@
-package code.comet
+package ru.ya.vn91.lift.comet
 
-import code.comet.GameResultEnumeration._
+import ru.ya.vn91.lift.comet.GameResultEnumeration._
 import net.liftweb.http.{ CometActor, CometListener }
 import scala.xml._
 

@@ -1,6 +1,6 @@
-package code.comet
+package ru.ya.vn91.lift.comet
 
-import code.comet.TournamentStatus._
+import ru.ya.vn91.lift.comet.TournamentStatus._
 import net.liftweb.http.{ CometActor, CometListener }
 import ru.ya.vn91.robotour.Constants._
 import scala.xml.Unparsed

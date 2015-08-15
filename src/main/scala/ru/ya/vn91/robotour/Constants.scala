@@ -1,7 +1,7 @@
 package ru.ya.vn91.robotour
 
-import code.comet.GlobalStatusSingleton
-import code.comet.TournamentStatus.ErrorStatus
+import ru.ya.vn91.lift.comet.GlobalStatusSingleton
+import ru.ya.vn91.lift.comet.TournamentStatus.ErrorStatus
 import net.liftweb.common._
 import net.liftweb.util.Props
 import org.joda.time._

@@ -1,6 +1,6 @@
 package ru.ya.vn91.robotour
 
-import code.comet.Game
+import ru.ya.vn91.lift.comet.Game
 import net.liftweb.common.Loggable
 import scala.collection.immutable._
 import scala.util.Random

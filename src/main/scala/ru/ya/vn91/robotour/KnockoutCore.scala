@@ -1,8 +1,8 @@
 package ru.ya.vn91.robotour
 
 import akka.actor._
-import code.comet.TournamentStatus._
-import code.comet._
+import ru.ya.vn91.lift.comet.TournamentStatus._
+import ru.ya.vn91.lift.comet._
 import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.Utils.SuppressWartRemover

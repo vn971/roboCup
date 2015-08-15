@@ -1,6 +1,6 @@
-package code.rest
+package ru.ya.vn91.lift.rest
 
-import code.comet.MessageToChatServer
+import ru.ya.vn91.lift.comet.MessageToChatServer
 import java.text.SimpleDateFormat
 import java.util.{ Date, TimeZone }
 import net.liftweb.common.Loggable

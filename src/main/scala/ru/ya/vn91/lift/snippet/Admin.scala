@@ -1,7 +1,7 @@
-package code.snippet
+package ru.ya.vn91.lift.snippet
 
-import code.comet.GlobalStatusSingleton
-import code.comet.TournamentStatus._
+import ru.ya.vn91.lift.comet.GlobalStatusSingleton
+import ru.ya.vn91.lift.comet.TournamentStatus._
 import net.liftweb.common.Loggable
 import net.liftweb.http._
 import net.liftweb.http.js.JsCmd

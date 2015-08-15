@@ -1,6 +1,6 @@
 package bootstrap.liftweb
 
-import code.rest._
+import ru.ya.vn91.lift.rest._
 import java.util.Locale
 import net.liftmodules.JQueryModule
 import net.liftweb.common._
@@ -23,7 +23,7 @@ class Boot extends Loggable {
 		logger.info("props will be taken from: " + Props.toTry.map(_.apply()).toString)
 
 		// where to search snippet
-		LiftRules.addToPackages("code")
+		LiftRules.addToPackages("ru.ya.vn91.lift")
 
 		LiftRules.statelessDispatch.append(RestAtomFeed).suppressWartRemover()
 
