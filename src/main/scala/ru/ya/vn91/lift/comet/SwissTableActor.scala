@@ -2,6 +2,7 @@ package ru.ya.vn91.lift.comet
 
 import net.liftweb.http.{ CometActor, CometListener }
 import ru.ya.vn91.lift.comet.GameResultEnumeration._
+import ru.ya.vn91.robotour.SwissCore
 import scala.xml._
 
 class SwissTableActor extends CometActor with CometListener {
@@ -18,23 +19,37 @@ class SwissTableActor extends CometActor with CometListener {
 
 	def render = {
 
-		def shortenName(user: String): Node =
-			if (user.length > 7)
-				<abbr title={ user }>{ user.take(5) + ".." }</abbr>
-			else
-				xml.Text(user)
+		def shortNameWithAbbr(user: String): Node = if (user.length > 7) {
+			<abbr title={ user }> { user.take(5) + ".." } </abbr>
+		} else {
+			xml.Text(user)
+		}
 
-		def gameToHtml(game: Game): Node = game.result match {
-			case Win => <font color="green">{ shortenName(game.opponent) }</font>
-			case Loss => <font color="red">{ shortenName(game.opponent) }</font>
-			case Draw => shortenName(game.opponent)
-			case NotFinished => <font color="grey">{ shortenName(game.opponent) }</font>
+		def gameToHtml(player: Player, game: Game): Node = {
+			val short = shortNameWithAbbr(game.opponent)
+			val gameResultStyle = game.result.toString.toLowerCase
+			val htmlClass = game.result.toString.toLowerCase
+
+			// TODO: remove the `emptyPlayer` hack
+			val noHyperlink = game.result == NotFinished ||
+				player.name == SwissCore.emptyPlayer ||
+				game.opponent == SwissCore.emptyPlayer
+
+			if (noHyperlink) {
+				<div class={ htmlClass }>{ short }</div>
+			} else {
+				val url = dispatch.url("http://eidokropki.reaktywni.pl/games-adv.phtml")
+					.addQueryParameter("tourn", "RoboCup")
+					.addQueryParameter("a", player.name)
+					.addQueryParameter("b", game.opponent).url
+				<a href={ url } target="_blank" class={ htmlClass }>{ short }</a>
+			}
 		}
 
 		def rowToHtml(player: Player) = {
 			<tr>
 				<td><b>{ player.name }</b></td>
-				{ player.games.map(game => <td>{ gameToHtml(game) }</td>) }
+				{ player.games.map(game => <td>{ gameToHtml(player, game) }</td>) }
 				{ (player.games.size until table.numberOfTours).map(i => <td><font color="grey">?</font></td>) }
 				<td>{ player.score }</td>
 			</tr>

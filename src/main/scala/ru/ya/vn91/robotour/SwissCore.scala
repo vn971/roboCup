@@ -6,6 +6,7 @@ import ru.ya.vn91.lift.comet.TournamentStatus._
 import ru.ya.vn91.lift.comet._
 import net.liftweb.util.Props
 import ru.ya.vn91.robotour.Constants._
+import ru.ya.vn91.robotour.SwissCore._
 import ru.ya.vn91.robotour.Utils.SuppressWartRemover
 import ru.ya.vn91.robotour.zagram._
 import scala.collection.immutable._
@@ -14,7 +15,6 @@ import scala.util.Random
 
 class SwissCore(chatServer: ChatServer, toZagramActor: ActorRef) extends RegistrationCore {
 
-	val emptyPlayer = "Empty"
 	var openGames = new GameSet()
 	var playedGames = HashMap[String, List[Game]]()
 	var scores = HashMap[String, Int]()
@@ -215,4 +215,8 @@ class Opponents(val a: String, val b: String) {
 		case _ => false
 	}
 	override def hashCode = a.hashCode + b.hashCode
+}
+
+object SwissCore {
+	val emptyPlayer = "Empty"
 }
