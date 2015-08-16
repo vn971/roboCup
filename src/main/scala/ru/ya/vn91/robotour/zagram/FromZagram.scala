@@ -9,7 +9,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.util.Random
 
-case class GameInfo(first: String, second: String)
+case class GameInfo(first: String, second: String, isTournament: Boolean)
 
 case class PlayerInfo(nick: String, rank: Int, wins: Int, losses: Int, draws: Int)
 
@@ -94,22 +94,31 @@ class FromZagram(whomToReport: ActorRef, toZagramActor: ActorRef) extends Actor 
 
 	private def handleGameState(dotSplit: Array[String]): Unit = {
 		val sgfResult = dotSplit(2)
-		val first = gameSet(dotSplit(0)).first
-		val second = gameSet(dotSplit(0)).second
-		if (sgfResult startsWith "B+") {
-			whomToReport ! GameWon(first, second)
+		val gameInfo = gameSet(dotSplit(0))
+		val first = gameInfo.first
+		val second = gameInfo.second
+		val finishedGame: Option[GameResult] = if (!gameInfo.isTournament) {
+			None // not a tournament
+		} else if (sgfResult startsWith "B+") {
+			Some(GameWon(first, second))
 		} else if ((sgfResult startsWith "W+") || (sgfResult == "Void")) {
-			whomToReport ! GameWon(second, first)
+			Some(GameWon(second, first))
 		} else if (sgfResult == "0") {
-			whomToReport ! GameDraw(first, second)
-		} // else still playing
+			Some(GameDraw(first, second))
+		} else {
+			None // still playing
+		}
+		finishedGame.foreach { result ⇒
+			logger.info(s"sending tournament result: $result")
+			whomToReport ! result
+		}
 	}
 
 	private def handleGameDescription(dotSplit: Array[String]): Unit = {
 		val tableN = dotSplit(0).toInt
 		val first = getZagramDecoded(dotSplit(dotSplit.length - 2))
 		val second = getZagramDecoded(dotSplit(dotSplit.length - 1))
-		gameSet += tableN.toString -> GameInfo(first, second)
+		gameSet += tableN.toString -> GameInfo(first, second, dotSplit.exists(_.containsSlice("robocup")))
 	}
 
 	private def handleUserInfo(dotSplit: Array[String]): Unit = {
