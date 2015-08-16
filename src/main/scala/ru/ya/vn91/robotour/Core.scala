@@ -6,8 +6,9 @@ import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.zagram.{ PlayerInfo, ToZagram }
 
 case class TryRegister(info: PlayerInfo)
-case class GameWon(winner: String, looser: String)
-case class GameDraw(first: String, second: String)
+abstract sealed class GameResult
+case class GameWon(winner: String, looser: String) extends GameResult
+case class GameDraw(first: String, second: String) extends GameResult
 case class StartRegistration(timeStart: Long)
 
 object Core extends Loggable {

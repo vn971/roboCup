@@ -61,7 +61,7 @@ object Admin extends Loggable {
 		if (isDraw ^ isWin) {
 			val first = twoPlayers.split('/').head.split('=').head
 			val second = twoPlayers.split('/').last.split('=').last
-			val result: Any = if (isDraw) GameDraw(first, second) else GameWon(first, second)
+			val result: GameResult = if (isDraw) GameDraw(first, second) else GameWon(first, second)
 			logger.info(s"assigning game result: $result")
 			Core.core ! result
 			SetValById("finishGame", "OK, game result sent")

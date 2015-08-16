@@ -7,7 +7,7 @@ import org.eclipse.jetty.webapp.WebAppContext
 
 object Start extends App with Loggable {
 
-	args.find(_.startsWith("--run.mode=")).foreach { arg =>
+	args.find(_.containsSlice("run.mode=")).foreach { arg =>
 		val mode = arg.split('=').last
 		sys.props += "run.mode" -> mode
 	}
