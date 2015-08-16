@@ -67,7 +67,7 @@ object Admin extends Loggable {
 			SetValById("finishGame", "OK, game result sent")
 		} else {
 			Alert("ERROR")
-		} : JsCmd
+		}: JsCmd
 	}
 
 	def assignGame = SHtml.onSubmit { twoPlayers =>

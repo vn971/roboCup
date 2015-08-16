@@ -24,17 +24,16 @@ object SwissPairMatcher extends Loggable {
 
 	def makePairsSmart(scores: Map[String, Int], games: Map[String, List[String]]): HashMap[String, String] = {
 
-		val players = scores.keySet.toVector
 		var opponents = HashMap[String, String]()
 
 		// initial pairs
 		//players.indices.foreach { i ⇒
 		//	opponents += players(i) -> players(players.size - 1 - i)
 		//}
-		val sortedPlayers = scores.toList.sortBy(s => (s._2, Random.nextInt())).map(_._1).reverse
-		for (i <- 0.until(sortedPlayers.length, 2)) {
-			val first = sortedPlayers(i)
-			val second = sortedPlayers(i + 1)
+		val players = scores.toList.sortBy(_._2 -> Random.nextInt()).map(_._1).toVector.reverse
+		for (i <- 0.until(players.length, 2)) {
+			val first = players(i)
+			val second = players(i + 1)
 			opponents += first -> second
 			opponents += second -> first
 		}
