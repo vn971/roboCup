@@ -8,7 +8,6 @@
 	<logger name="net.liftweb" level="warn"/>
 	<logger name="bootstrap.liftweb" level="info"/>
 
-	<logger name="ru.ya.vn91.lift" level="info"/>
 	<logger name="ru.ya.vn91" level="info"/>
 
 	<root level="warn">
