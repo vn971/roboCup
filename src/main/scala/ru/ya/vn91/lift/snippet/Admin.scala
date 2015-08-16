@@ -55,17 +55,19 @@ object Admin extends Loggable {
 		SetValById("writeToZagram", "")
 	}
 
-	def winGame = SHtml.onSubmit { twoPlayers =>
-		val split = twoPlayers.split('/')
-		if (split.length != 2) {
-			Alert("ERROR")
+	def finishGame = SHtml.onSubmit { twoPlayers =>
+		val isDraw = twoPlayers.count(_ == '=') == 1
+		val isWin = twoPlayers.count(_ == '/') == 1
+		if (isDraw ^ isWin) {
+			val first = twoPlayers.split('/').head.split('=').head
+			val second = twoPlayers.split('/').last.split('=').last
+			val result: Any = if (isDraw) GameDraw(first, second) else GameWon(first, second)
+			logger.info(s"assigning game result: $result")
+			Core.core ! result
+			SetValById("finishGame", "OK, game result sent")
 		} else {
-			val winner = split(0)
-			val looser = split(1)
-			logger.info(s"assigning game result: $winner > $looser")
-			Core.core ! GameWon(winner, looser)
-			SetValById("winGame", "OK, game result sent")
-		}
+			Alert("ERROR")
+		} : JsCmd
 	}
 
 	def assignGame = SHtml.onSubmit { twoPlayers =>
