@@ -57,10 +57,10 @@ object Admin extends Loggable {
 
 	def finishGame = SHtml.onSubmit { twoPlayers =>
 		val isDraw = twoPlayers.count(_ == '=') == 1
-		val isWin = twoPlayers.count(_ == '/') == 1
+		val isWin = twoPlayers.count(_ == '>') == 1
 		if (isDraw ^ isWin) {
-			val first = twoPlayers.split('/').head.split('=').head
-			val second = twoPlayers.split('/').last.split('=').last
+			val first = twoPlayers.split('>').head.split('=').head
+			val second = twoPlayers.split('>').last.split('=').last
 			val result: GameResult = if (isDraw) GameDraw(first, second) else GameWon(first, second)
 			logger.info(s"assigning game result: $result")
 			Core.core ! result
