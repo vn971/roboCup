@@ -26,7 +26,9 @@ object Constants extends Loggable {
 		val timeOption = Props.get("tournamentStartDate").map(stringToDateTime)
 		val startTime = timeOption.getOrElse(
 			if (Props.devMode) DateTime.now().plusSeconds(30) else throw new Exception())
-		assert(startTime isAfter DateTime.now())
+		if (DateTime.now() isAfter startTime) {
+			logger.warn(s"startTime ($startTime) is in the past. Assuming the server was restarted.")
+		}
 		assert(startTime isBefore DateTime.now().plus(Period.days(28)))
 		startTime
 	}
