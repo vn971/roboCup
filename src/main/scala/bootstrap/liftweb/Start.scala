@@ -1,5 +1,6 @@
 package bootstrap.liftweb
 
+import java.util.TimeZone
 import net.liftweb.common.Loggable
 import net.liftweb.util.{ LoggingAutoConfigurer, Props }
 import org.eclipse.jetty.server.Server
@@ -7,6 +8,7 @@ import org.eclipse.jetty.webapp.WebAppContext
 
 object Start extends App with Loggable {
 
+	java.util.TimeZone.setDefault(TimeZone.getTimeZone("GMT+03:00"))
 	args.find(_.containsSlice("run.mode=")).foreach { arg =>
 		val mode = arg.split('=').last
 		sys.props += "run.mode" -> mode
