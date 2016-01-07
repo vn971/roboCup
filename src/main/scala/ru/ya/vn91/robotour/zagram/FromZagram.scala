@@ -20,7 +20,7 @@ class FromZagram(whomToReport: ActorRef, toZagramActor: ActorRef) extends Actor 
 	private var gameSet = HashMap[String, GameInfo]()
 	private var playerSet = HashMap[String, PlayerInfo]()
 	private var messageCount = 0L
-	private val idGracza = Random.nextInt(999999).toString
+	private val idGracza = (1000000 + Random.nextInt(9000000)).toString // should be 7 letters by zagram specification
 
 	override def preStart(): Unit = {
 		logger.debug("initialized")
