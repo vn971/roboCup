@@ -39,7 +39,7 @@ class FromZagram(whomToReport: ActorRef, toZagramActor: ActorRef) extends Actor 
 			// async impossible because of zagram protocol
 			val tryZagramResponse = getLinkContent(urlAsString)
 
-			logger.trace(s"assign game: $urlAsString => $tryZagramResponse")
+			logger.trace(s"GET $urlAsString => $tryZagramResponse")
 			for {
 				response <- tryZagramResponse.toOption
 				if response.startsWith("sd") && response.endsWith("end")

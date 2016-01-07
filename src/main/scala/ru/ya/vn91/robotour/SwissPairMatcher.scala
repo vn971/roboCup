@@ -10,7 +10,8 @@ object SwissPairMatcher extends Loggable {
 	private[robotour] def evaluate(
 		scores: Map[String, Int],
 		games: Map[String, List[String]],
-		opponents: Map[String, String]): Int = {
+		opponents: Map[String, String]): Int
+	= {
 		def diff(x: Int, y: Int) = (x - y) * (x - y)
 		def meetings(x: String, y: String) = games(x).count(_ == y)
 		(for {
@@ -62,7 +63,7 @@ object SwissPairMatcher extends Loggable {
 				val meetingsScore =
 					meetings(a, vsA) + meetings(b, vsB) -
 						meetings(a, b) - meetings(vsA, vsB)
-				val totalScore = meetingsScore * 1000 + previousScoreDiff - newScoreDiff // constant = hack for the lazy people
+				val totalScore = meetingsScore * 1000 + previousScoreDiff - newScoreDiff // constant 1000 is a hack
 				if (totalScore > bestScore) {
 					bestScore = totalScore
 					bestPlayerA = a
