@@ -64,5 +64,5 @@ Vasya Novikov:
 * creation and promotion fo the Swiss tournament system amongst Points game
 
 
-Copyright: Vasya Novikov 2012-2015
+Copyright: Vasya Novikov 2012-2016
 License: AGPL v3 or later

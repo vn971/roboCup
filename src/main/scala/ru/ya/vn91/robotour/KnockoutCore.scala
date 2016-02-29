@@ -24,6 +24,20 @@ class KnockoutCore(chatServer: ChatServer, toZagramActor: ActorRef) extends Acto
 	override def preStart(): Unit = {
 		context.actorOf(Props(new FromZagram(self, toZagramActor)), name = "fromZagram").suppressWartRemover()
 		logger.info("initialized")
+		updateLiftComets()
+	}
+
+	def updateLiftComets(): Unit = {
+		val pairs = playing.toSeq.map {
+			case (p1, p2) ⇒ GameNode("??? (playing)", p1, p2)
+		}
+		val gameNode = if (pairs.size + waiting.size == 1) {
+			(pairs ++ waiting).head
+		} else {
+			// zero or many entries
+			GameNode("??? (to be played)", pairs ++ waiting: _*)
+		}
+		KnockoutGamesSingleton ! gameNode
 	}
 
 	def prepareNextTour(): Unit = {
@@ -75,8 +89,7 @@ class KnockoutCore(chatServer: ChatServer, toZagramActor: ActorRef) extends Acto
 
 			logger.info(s"waiting = $waiting")
 			logger.info(s"playing = $playing")
-			WaitingSingleton ! waiting.toList
-			PlayingSingleton ! playing.toList
+			updateLiftComets()
 
 			context.become(inProgress, discardOld = true)
 		}
@@ -90,7 +103,7 @@ class KnockoutCore(chatServer: ChatServer, toZagramActor: ActorRef) extends Acto
 				waiting += GameNode(info.nick)
 				RegisteredListSingleton ! info.nick
 				chatServer ! MessageToChatServer(s"Player ${info.nick} registered.")
-				WaitingSingleton ! waiting.toList
+				updateLiftComets()
 			}
 
 		case StartTheTournament =>
@@ -108,22 +121,20 @@ class KnockoutCore(chatServer: ChatServer, toZagramActor: ActorRef) extends Acto
 				playing --= filter1
 				waiting ++= filter1.map(g => GameNode(winner, g._1, g._2))
 				knockedOut ++= filter1.map(_._2)
-				filter1.size != 0
+				filter1.nonEmpty
 			}
 			val containsLooserWinner = {
 				val filter2 = playing.filter(g => g._1.name == looser && g._2.name == winner)
 				playing --= filter2
 				waiting ++= filter2.map(g => GameNode(winner, g._1, g._2))
 				knockedOut ++= filter2.map(_._1)
-				filter2.size != 0
+				filter2.nonEmpty
 			}
 			if (containsWinnerLooser || containsLooserWinner) {
 				logger.info(s"game won: $winner > $looser")
 				chatServer ! MessageToChatServer(s"$winner has won a game against $looser")
-				WaitingSingleton ! waiting.toList
-				PlayingSingleton ! playing.toList
-				KnockedOutSingleton ! knockedOut.toList
-				if (playing.size == 0) {
+				updateLiftComets()
+				if (playing.isEmpty) {
 					if (waiting.size < 2) {
 						logger.info("last game played. Calculating tournament result now.")
 						prepareNextTour()
