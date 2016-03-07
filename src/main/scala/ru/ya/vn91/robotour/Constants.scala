@@ -62,14 +62,14 @@ object Constants extends Loggable {
 	}
 
 	/** @see http://zagram.org/doc.html */
-	def zagramGameSettings(isInfiniteTime: Boolean) = {
+	def zagramGameSettings(isInfiniteTime: Boolean, ratedBool: Boolean) = {
 		val x = fieldSizeX
 		val y = fieldSizeY
 		val territory = if (withTerritory) "t" else "n"
 		val instantWin = "0" // disable
 		val crosses = if (crossesCount == 0) "" else crossesCount.toString
 		val whoStarts = "a" // the FIRST one starts, this is important for tournament
-		val rated = if (isRated) "R" else "F"
+		val rated = if (ratedBool) "R" else "F"
 		val infinite = if (isInfiniteTime) "n" else "a"
 		val start = if (isInfiniteTime) "" else startingTime.toSeconds.toString
 		val turn = if (isInfiniteTime) "" else perTurnTime.toSeconds.toString
@@ -84,9 +84,10 @@ object Constants extends Loggable {
 
 	val sayHiTime = 30.seconds
 
-	val isSwiss = Props.getBool("isSwiss").openOr(true)
+	val isSwiss = Props.getBool("isSwiss").openOrThrowException("")
 
-	val isRated = Props.getBool("isRated").openOr(true)
+	val gameRatedIfRankDiff = Props.getInt("gameRatedIfRankDiff").openOrThrowException("")
+	val isRated = gameRatedIfRankDiff >= 0
 
 	val rankLimit = Props.getInt("rankLimit")
 

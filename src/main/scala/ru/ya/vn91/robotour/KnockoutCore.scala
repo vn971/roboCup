@@ -22,7 +22,7 @@ class KnockoutCore(chatServer: ChatServer, toZagramActor: ActorRef) extends Acto
 	var knockedOut = HashSet[GameNode]()
 
 	override def preStart(): Unit = {
-		context.actorOf(Props(new FromZagram(self, toZagramActor)), name = "fromZagram").suppressWartRemover()
+		context.actorOf(akka.actor.Props(new FromZagram(self, toZagramActor)), name = "fromZagram").suppressWartRemover()
 		logger.info("initialized")
 		updateLiftComets()
 	}
@@ -67,7 +67,7 @@ class KnockoutCore(chatServer: ChatServer, toZagramActor: ActorRef) extends Acto
 				logger.info(s"assigning game ${p1.name}-${p2.name}")
 				playing += ((p1, p2))
 				if (Constants.createGamesImmediately) {
-					toZagramActor ! AssignGame(p1.name, p2.name)
+					ToZagram.assignGame(p1.name, p2.name)
 				}
 
 				if (Random.nextBoolean()) {

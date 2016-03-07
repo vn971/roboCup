@@ -5,12 +5,8 @@ import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.Constants
 import ru.ya.vn91.robotour.Utils._
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.{ Failure, Success }
+import scala.util.{Failure, Success}
 
-case class AssignGame(
-	first: String, second: String,
-	round: Int = 0,
-	infiniteTime: Boolean = false)
 
 case class MessageToZagram(message: String)
 
@@ -43,29 +39,43 @@ class ToZagram extends Actor with Loggable {
 				getLinkContent(logOut).suppressWartRemover()
 			}
 
-		case AssignGame(first, second, round, isInfiniteTime) =>
-			for (password <- Constants.zagramAssignGamePassword) {
-				// http://zagram.org/a.kropki?co=setUpTable&key=yourKey&gameType=3030noT4r0.180.20&pl1=e&pl2=g&sayHiTimes=60.60&tourn=test&tRound=2%20%28playoff%29
-				logger.info(s"assigning game: $first - $second")
-				val sayHiTime = if (isInfiniteTime) 0L else Constants.sayHiTime.toSeconds
+	}
 
-				val request = dispatch.url("http://zagram.org/a.kropki").
-					addQueryParameter("co", "setUpTable").
-					addQueryParameter("key", password).
-					addQueryParameter("gameType", Constants.zagramGameSettings(isInfiniteTime)).
-					addQueryParameter("pl1", first).
-					addQueryParameter("pl2", second).
-					addQueryParameter("sayHiTimes", sayHiTime + "." + sayHiTime).
-					addQueryParameter("tourn", Constants.zagramTournamentCodename).
-					addQueryParameter("tRound", round.toString)
+}
 
-				dispatch.Http(request.OK(dispatch.as.String)).onComplete {
-					case Success(s: String) =>
-						logger.info(s"http assign game: ${request.url} => $s")
-					case Failure(s: Throwable) =>
-						logger.error(s"http assign game failure, url:${request.url} exception:$s")
-				}
+object ToZagram extends Loggable {
+
+	def assignGame(first: String, second: String, round: Int = 0, isInfiniteTime: Boolean = false): Unit = {
+		for (password <- Constants.zagramAssignGamePassword) {
+			// http://zagram.org/a.kropki?co=setUpTable&key=yourKey&gameType=3030noT4r0.180.20&pl1=e&pl2=g&sayHiTimes=60.60&tourn=test&tRound=2%20%28playoff%29
+			logger.info(s"assigning game: $first - $second")
+			val sayHiTime = if (isInfiniteTime) 0L else Constants.sayHiTime.toSeconds
+			val rated = {
+				val ratingFirst = ZagramInMemoryData.playerSet.get(first).map(_.rank)
+				val ratingSecond = ZagramInMemoryData.playerSet.get(second).map(_.rank)
+				for {
+					f <- ratingFirst
+					s <- ratingSecond
+				} yield math.abs(f - s) <= Constants.gameRatedIfRankDiff
+			}.getOrElse(true)
+
+			val request = dispatch.url("http://zagram.org/a.kropki").
+				addQueryParameter("co", "setUpTable").
+				addQueryParameter("key", password).
+				addQueryParameter("gameType", Constants.zagramGameSettings(isInfiniteTime, rated)).
+				addQueryParameter("pl1", first).
+				addQueryParameter("pl2", second).
+				addQueryParameter("sayHiTimes", sayHiTime + "." + sayHiTime).
+				addQueryParameter("tourn", Constants.zagramTournamentCodename).
+				addQueryParameter("tRound", round.toString)
+
+			dispatch.Http(request.OK(dispatch.as.String)).onComplete {
+				case Success(s: String) =>
+					logger.info(s"zagram game assigned: ${request.url} => $s")
+				case Failure(s: Throwable) =>
+					logger.error(s"zagram game assign failure, url: ${request.url} exception: $s")
 			}
+		}
 	}
 
 }

@@ -4,7 +4,7 @@ import scala.util.Try
 
 object Utils {
 
-	def getLinkContent(url: String) =
+	def getLinkContent(url: String): Try[String] =
 		Try {
 			val source = io.Source.fromURL(url, "UTF-8")
 			val result = source.mkString

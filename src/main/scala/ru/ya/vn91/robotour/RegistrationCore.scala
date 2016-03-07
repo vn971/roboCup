@@ -34,7 +34,7 @@ trait RegistrationCore extends Actor with Loggable {
 			context.system.scheduler.scheduleOnce(registrationPeriod + (time - System.currentTimeMillis).millis, self, StartTheTournament).suppressWartRemover()
 
 			for (cgw <- Constants.createGameWith) {
-				Core.toZagramActor ! AssignGame("RoboCup", cgw, infiniteTime = true)
+				ToZagram.assignGame("RoboCup", cgw, isInfiniteTime = true)
 			}
 			GlobalStatusSingleton ! RegistrationInProgress(time + registrationPeriod.toMillis)
 	}

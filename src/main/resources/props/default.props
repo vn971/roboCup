@@ -12,11 +12,16 @@ game.withTerritory=false
 game.secondsPerTurn=5
 game.startingMinutes=5
 
-isSwiss=true
+isSwiss=false
 #tournamentStartDate=2015.12.31 23:59
 registrationHours=24
 moderatedRegistration=false
-isRated=true
+
+# assign rated game if rank diff:
+# negative value means "always non-rated"
+# value bigger than 1000 means "always rated"
+gameRatedIfRankDiff=450
+
 createGamesImmediately=false
 #rulesComment=
 tourBreakMinutes=0

@@ -4,7 +4,7 @@ import akka.actor.{ ActorRef, Actor }
 import net.liftweb.common.Loggable
 import ru.ya.vn91.robotour.Utils._
 import ru.ya.vn91.robotour._
-import scala.collection.immutable.HashMap
+import scala.collection.immutable
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.util.Random
@@ -17,8 +17,7 @@ class FromZagram(whomToReport: ActorRef, toZagramActor: ActorRef) extends Actor 
 
 	private case object Tick
 
-	private var gameSet = HashMap[String, GameInfo]()
-	private var playerSet = HashMap[String, PlayerInfo]()
+	private var gameSet = immutable.HashMap[String, GameInfo]()
 	private var messageCount = 0L
 	private val idGracza = (1000000 + Random.nextInt(9000000)).toString // should be 7 letters by zagram specification
 
@@ -78,7 +77,7 @@ class FromZagram(whomToReport: ActorRef, toZagramActor: ActorRef) extends Actor 
 		val nick = innerSplit(1)
 		val msg = getZagramDecoded(innerSplit(3)).toLowerCase
 		if (msg.startsWith("!register") && !Constants.moderatedRegistration) {
-			playerSet.get(nick) match {
+			ZagramInMemoryData.playerSet.get(nick) match {
 				case _ if nick.startsWith("*") =>
 					logger.info(s"registration attempt failed, guests not allowed: $nick")
 					toZagramActor ! MessageToZagram(s"$nick, to take a part in the tournament, please, use a registered account.")
@@ -128,7 +127,7 @@ class FromZagram(whomToReport: ActorRef, toZagramActor: ActorRef) extends Actor 
 				(0, 0, 0, 0)
 			else
 				(dotSplit(4).toInt, dotSplit(5).toInt, dotSplit(7).toInt, dotSplit(6).toInt)
-		playerSet += player -> PlayerInfo(player, rating, wins, losses, draws)
+		ZagramInMemoryData.playerSet += player -> PlayerInfo(player, rating, wins, losses, draws)
 	}
 
 }

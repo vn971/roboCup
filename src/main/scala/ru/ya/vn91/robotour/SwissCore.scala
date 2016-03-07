@@ -166,7 +166,7 @@ class SwissCore(chatServer: ChatServer, toZagramActor: ActorRef) extends Registr
 					} else {
 						logger.info(s"assigning game $first-$second")
 						if (Constants.createGamesImmediately) {
-							toZagramActor ! AssignGame(first, second)
+							ToZagram.assignGame(first, second)
 						}
 					}
 			}
