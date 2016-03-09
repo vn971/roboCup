@@ -29,7 +29,7 @@ class KnockoutCore(chatServer: ChatServer, toZagramActor: ActorRef) extends Acto
 
 	def updateLiftComets(): Unit = {
 		val pairs = playing.toSeq.map {
-			case (p1, p2) ⇒ GameNode("??? (playing)", p1, p2)
+			case (p1, p2) ⇒ GameNode("???", p1, p2)
 		}
 		val gameNode = if (pairs.size + waiting.size == 1) {
 			(pairs ++ waiting).head

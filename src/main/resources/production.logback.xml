@@ -13,6 +13,7 @@
 	</appender>
 
 	<logger name="ru.ya.vn91" level="debug"/>
+	<!--<logger name="ru.ya.vn91.robotour.zagram.FromZagram" level="trace"/>-->
 	<logger name="net.liftweb" level="warn"/>
 
 	<root level="info">
