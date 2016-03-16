@@ -16,7 +16,7 @@ class KnockoutGames extends CometActor with CometListener {
 	}
 
 	def render = {
-		val xml = <pre>{ GameNode.toTree(allGames) }</pre>
+		val xml = <pre>{ allGames.toTree }</pre>
 		"*" #> xml
 	}
 

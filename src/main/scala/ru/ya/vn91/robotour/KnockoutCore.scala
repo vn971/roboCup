@@ -47,6 +47,7 @@ class KnockoutCore(chatServer: ChatServer, toZagramActor: ActorRef) extends Acto
 			logger.info("tournament finished!")
 			if (waiting.size == 1) {
 				logger.info(s"winner: ${waiting.head}")
+				logger.info(s"winner as games tree: \n${waiting.head.toTree}")
 				GlobalStatusSingleton ! FinishedWithWinner(waiting.head.name)
 			} else {
 				logger.info("Draw!")

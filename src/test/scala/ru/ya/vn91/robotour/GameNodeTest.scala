@@ -1,17 +1,16 @@
 package ru.ya.vn91.robotour
 
 import org.scalactic.TypeCheckedTripleEquals
-import org.scalatest.{ FunSuite, Matchers }
-import ru.ya.vn91.robotour.GameNode._
+import org.scalatest.{FunSuite, Matchers}
 
 class GameNodeTest extends FunSuite with Matchers with TypeCheckedTripleEquals {
 
 	test("empty") {
-		assert(toTree(GameNode("")) === "")
+		assert(GameNode("").toTree === "")
 	}
 
 	test("simple") {
-		assert(toTree(GameNode("vasya")) === "vasya")
+		assert(GameNode("vasya").toTree === "vasya")
 	}
 
 	test("full") {
@@ -36,7 +35,7 @@ class GameNodeTest extends FunSuite with Matchers with TypeCheckedTripleEquals {
 		)
 		// println(GameNode.legacyPrint(node))
 		// println(GameNode.print(node))
-		assert(GameNode.toTree(node) === string)
+		assert(node.toTree === string)
 	}
 
 }
