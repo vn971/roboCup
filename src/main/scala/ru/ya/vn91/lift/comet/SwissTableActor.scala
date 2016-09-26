@@ -27,7 +27,6 @@ class SwissTableActor extends CometActor with CometListener {
 
 		def gameToHtml(player: Player, game: Game): Node = {
 			val short = shortNameWithAbbr(game.opponent)
-			val gameResultStyle = game.result.toString.toLowerCase
 			val htmlClass = game.result.toString.toLowerCase
 
 			// TODO: remove the `emptyPlayer` hack

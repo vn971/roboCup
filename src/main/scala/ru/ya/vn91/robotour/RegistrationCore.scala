@@ -1,9 +1,9 @@
 package ru.ya.vn91.robotour
 
-import akka.actor.{ Actor, Props }
-import ru.ya.vn91.lift.comet.TournamentStatus.{ RegistrationAssigned, RegistrationInProgress }
-import ru.ya.vn91.lift.comet._
+import akka.actor.Actor
 import net.liftweb.common.Loggable
+import ru.ya.vn91.lift.comet.TournamentStatus.{RegistrationAssigned, RegistrationInProgress}
+import ru.ya.vn91.lift.comet._
 import ru.ya.vn91.robotour.Constants._
 import ru.ya.vn91.robotour.Utils.SuppressWartRemover
 import ru.ya.vn91.robotour.zagram._

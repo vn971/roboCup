@@ -24,6 +24,9 @@ scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-Xfuture",
 	"-Xlint:by-name-right-associative",
 	"-Xlint:package-object-classes",
 	"-Xlint:unsound-match",
+	"-Ywarn-unused",
+	"-Ywarn-unused-import",
+	"-Ywarn-dead-code",
 	"-Ywarn-value-discard"
 )
 
