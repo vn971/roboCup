@@ -66,8 +66,9 @@ bashScriptExtraDefines += "addJava '-Drun.mode=production'" // for liftweb
 packageBin in Compile := (packageBin in Compile).dependsOn(test in Test).value
 enablePlugins(JavaServerAppPackaging)
 
-resourceGenerators in Compile <+= (resourceManaged, baseDirectory) map { (managedBase, base) =>
-	val webappBase = base / "src" / "main" / "webapp"
+resourceGenerators in Compile += task {
+	val webappBase = sourceDirectory.value / "main" / "webapp"
+	val managedBase = resourceManaged.value
 	for {
 		(from, to) <- webappBase ** "*" pair rebase(webappBase, managedBase / "main" / "webapp")
 	} yield {
