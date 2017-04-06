@@ -12,7 +12,7 @@ case class MessageToZagram(message: String)
 
 class ToZagram extends Actor with Loggable {
 
-	def receive = {
+	def receive: Receive = {
 		case MessageToZagram(toSend) =>
 			for (idGracza <- Constants.zagramIdGracza) {
 				logger.info(s"sending message $toSend")
@@ -38,7 +38,6 @@ class ToZagram extends Actor with Loggable {
 				getLinkContent(sendMessage).suppressWartRemover()
 				getLinkContent(logOut).suppressWartRemover()
 			}
-
 	}
 
 }

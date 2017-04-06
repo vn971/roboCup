@@ -10,15 +10,15 @@ scalaVersion := "2.11.8"
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-Xfuture",
 	// "-Xlint:help",
 	"-Xlint:adapted-args",
-	"-Xlint:nullary-unit",
-	"-Xlint:inaccessible",
-	"-Xlint:nullary-override",
-	"-Xlint:infer-any",
-	"-Xlint:missing-interpolator",
 	"-Xlint:doc-detached",
+	"-Xlint:inaccessible",
+	"-Xlint:infer-any",
+	"-Xlint:nullary-override",
+	"-Xlint:nullary-unit",
+	"-Xlint:missing-interpolator",
 	"-Xlint:private-shadow",
-	"-Xlint:type-parameter-shadow",
 	"-Xlint:poly-implicit-overload",
+	"-Xlint:type-parameter-shadow",
 	"-Xlint:option-implicit",
 	"-Xlint:delayedinit-select",
 	"-Xlint:by-name-right-associative",
@@ -46,7 +46,7 @@ wartremoverErrors += Wart.Serializable
 wartremoverErrors += Wart.TryPartial
 
 defaultScalariformSettings
-(test in Test) <<= (test in Test) dependsOn (ScalariformKeys.format in Compile)
+test in Test := (test in Test).dependsOn(ScalariformKeys.format in Compile).value
 ScalariformKeys.preferences := ScalariformKeys.preferences.value
 	.setPreference(DoubleIndentClassDeclaration, true)
 	.setPreference(IndentWithTabs, true)
@@ -59,11 +59,11 @@ EclipseKeys.withSource := true
 
 assemblyJarName := "robocup.jar"
 
-packageDescription <+= description
-packageSummary <+= description
+packageDescription := description.value
+packageSummary := description.value
 serverLoading in Debian := com.typesafe.sbt.packager.archetypes.ServerLoader.SystemV
 bashScriptExtraDefines += "addJava '-Drun.mode=production'" // for liftweb
-packageBin in Compile <<= (packageBin in Compile) dependsOn (test in Test)
+packageBin in Compile := (packageBin in Compile).dependsOn(test in Test).value
 enablePlugins(JavaServerAppPackaging)
 
 resourceGenerators in Compile <+= (resourceManaged, baseDirectory) map { (managedBase, base) =>
