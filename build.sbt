@@ -1,12 +1,10 @@
-import scalariform.formatter.preferences._
-
 name := "robocup"
 version := "1.1.6"
 organization := "net.pointsgame"
 description := "Automatic tournaments for the game Points"
-maintainer := "Vasya Novikov <n1dr+robocup@yaaaandex.ru> (remove duplicating aaa)"
+maintainer := "Vasya Novikov <n1dr+robocup@yaaaandex.ru> (replace aaaa with one a)"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.11.11"
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-Xfuture",
 	// "-Xlint:help",
 	"-Xlint:adapted-args",
@@ -45,17 +43,8 @@ wartremoverErrors += Wart.Return
 wartremoverErrors += Wart.Serializable
 wartremoverErrors += Wart.TryPartial
 
-defaultScalariformSettings
-test in Test := (test in Test).dependsOn(ScalariformKeys.format in Compile).value
-ScalariformKeys.preferences := ScalariformKeys.preferences.value
-	.setPreference(DoubleIndentClassDeclaration, true)
-	.setPreference(IndentWithTabs, true)
-	.setPreference(MultilineScaladocCommentsStartOnFirstLine, true)
-	.setPreference(PreserveDanglingCloseParenthesis, true)
-
-spray.revolver.RevolverPlugin.Revolver.settings.settings
+Revolver.settings.settings
 fork in Test := true
-EclipseKeys.withSource := true
 
 assemblyJarName := "robocup.jar"
 
@@ -70,7 +59,7 @@ resourceGenerators in Compile += task {
 	val webappBase = sourceDirectory.value / "main" / "webapp"
 	val managedBase = resourceManaged.value
 	for {
-		(from, to) <- webappBase ** "*" pair rebase(webappBase, managedBase / "main" / "webapp")
+		(from, to) <- webappBase ** "*" pair Path.rebase(webappBase, managedBase / "main" / "webapp")
 	} yield {
 		Sync.copy(from, to)
 		to
