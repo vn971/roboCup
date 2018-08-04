@@ -4,7 +4,7 @@ organization := "net.pointsgame"
 description := "Automatic tournaments for the game Points"
 maintainer := "Vasya Novikov <n1dr+robocup@yaaaandex.ru> (replace aaaa with one a)"
 
-scalaVersion := "2.11.11"
+scalaVersion := "2.11.12"
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-Xfuture",
 	// "-Xlint:help",
 	"-Xlint:adapted-args",
@@ -67,7 +67,8 @@ resourceGenerators in Compile += task {
 //resolvers += "Scala Tools Releases" at "http://scala-tools.org/repo-releases/"
 //resolvers += "Java.net Maven2 Repository" at "http://download.java.net/maven/2/"
 //resolvers += "Sonatype Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots"
-resolvers += "Sonatype Releases"  at "http://oss.sonatype.org/content/repositories/releases"
+//resolvers += "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/releases"
+
 //resolvers += "Typesafe Snapshots" at "http://repo.typesafe.com/typesafe/snapshots/"
 //resolvers += "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/"
 //resolvers += "Jetty Eclipse" at "http://repo1.maven.org/maven2/"
@@ -84,6 +85,6 @@ libraryDependencies += "net.liftweb" %% "lift-common" % "2.6.2"
 
 libraryDependencies += "net.liftmodules" %% "lift-jquery-module_2.6" % "2.8"
 
-libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.0.13"
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
 libraryDependencies += "net.databinder.dispatch" %% "dispatch-core" % "0.11.2"
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.3" % Test
