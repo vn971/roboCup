@@ -16,12 +16,12 @@ class GameNodeTest extends FunSuite with Matchers with TypeCheckedTripleEquals {
 	test("full") {
 		val string =
 			"""
-        |vasya
-        |├── frosya
-        |│   ├── petya
-        |│   │   └── masha
-        |│   └── kolya
-        |└── frosya2
+				|vasya
+				|├── frosya
+				|│   ├── petya
+				|│   │   └── masha
+				|│   └── kolya
+				|└── frosya2
       """.stripMargin.trim
 
 		val node = GameNode("vasya",

@@ -2,12 +2,13 @@ package ru.ya.vn91.lift.rest
 
 import ru.ya.vn91.lift.comet.MessageToChatServer
 import java.text.SimpleDateFormat
-import java.util.{ Date, TimeZone }
+import java.util.{Date, TimeZone}
 import net.liftweb.common.Loggable
 import net.liftweb.http._
 import net.liftweb.http.rest._
+import net.liftweb.json._
 import net.liftweb.util.BindHelpers._
-import ru.ya.vn91.robotour.Core
+import ru.ya.vn91.robotour.{Constants, Core}
 
 object RestAtomFeed extends RestHelper with Loggable {
 
@@ -17,13 +18,20 @@ object RestAtomFeed extends RestHelper with Loggable {
 		formatter.format(new Date(l))
 	}
 
-	serve {
-		case Get("test" :: Nil, _) =>
-			PlainTextResponse("test confirmed")
+	def debugText(req: Req): LiftResponse = {
+		val headersJson = JObject(req.headers.map { case (k, v) => JField(k, JString(v)) })
+		val response = JObject(
+			JField("headers", headersJson) ::
+				JField("time", JString(Constants.timeLongToString(System.currentTimeMillis))) ::
+				Nil
+		)
+		response
+	}
 
-		case Get("headers" :: Nil, req) =>
-			logger.info("request headers: " + req.headers.toString)
-			PlainTextResponse(req.headers.toString())
+	serve {
+		case Get("test" :: Nil, _) => PlainTextResponse("test confirmed")
+		case Get("headers" :: Nil, req) => debugText(req)
+		case Get("debug" :: Nil, req) => debugText(req)
 
 		case Get("api" :: "chatFeed" :: Nil, _) =>
 
