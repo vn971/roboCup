@@ -28,12 +28,13 @@ scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-Xfuture",
 	"-Ywarn-value-discard"
 )
 
-wartremoverErrors += Wart.Any2StringAdd
+wartremoverErrors += Wart.StringPlusAny
 wartremoverErrors += Wart.AsInstanceOf
 wartremoverErrors += Wart.EitherProjectionPartial
 wartremoverErrors += Wart.IsInstanceOf
 wartremoverErrors += Wart.JavaConversions
-wartremoverErrors += Wart.ListOps
+wartremoverErrors += Wart.LeakingSealed
+wartremoverErrors += Wart.TraversableOps
 wartremoverWarnings += Wart.NonUnitStatements
 wartremoverErrors in Compile += Wart.Nothing
 wartremoverErrors += Wart.Null
@@ -50,7 +51,7 @@ assemblyJarName := "robocup.jar"
 
 packageDescription := description.value
 packageSummary := description.value
-serverLoading in Debian := com.typesafe.sbt.packager.archetypes.ServerLoader.SystemV
+serverLoading in Debian := Some(com.typesafe.sbt.packager.archetypes.systemloader.ServerLoader.SystemV)
 bashScriptExtraDefines += "addJava '-Drun.mode=production'" // for liftweb
 packageBin in Compile := (packageBin in Compile).dependsOn(test in Test).value
 enablePlugins(JavaServerAppPackaging)
