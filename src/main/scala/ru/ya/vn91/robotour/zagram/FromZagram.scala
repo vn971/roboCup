@@ -60,7 +60,7 @@ class FromZagram(whomToReport: ActorRef, toZagramActor: ActorRef) extends Actor 
 			}
 			messageCount = newMessageCount
 		} else if (line startsWith "ca") {
-			handleChat(dotSplit, line)
+			handleChat(line)
 		} else if (line startsWith "x") {
 			handleGameState(dotSplit)
 		} else if (line startsWith "d") {
@@ -72,7 +72,7 @@ class FromZagram(whomToReport: ActorRef, toZagramActor: ActorRef) extends Actor 
 		case e: Exception => logger.warn(s"error processing line: $line", e)
 	}
 
-	private def handleChat(dotSplit: Array[String], line: String): Unit = {
+	private def handleChat(line: String): Unit = {
 		val innerSplit = line.split("\\.", 4)
 		val nick = innerSplit(1)
 		val msg = getZagramDecoded(innerSplit(3)).toLowerCase

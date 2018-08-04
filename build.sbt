@@ -4,7 +4,7 @@ organization := "net.pointsgame"
 description := "Automatic tournaments for the game Points"
 maintainer := "Vasya Novikov <n1dr+robocup@yaaaandex.ru> (replace aaaa with one a)"
 
-scalaVersion := "2.11.12"
+scalaVersion := "2.12.6"
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-Xfuture",
 	// "-Xlint:help",
 	"-Xlint:adapted-args",

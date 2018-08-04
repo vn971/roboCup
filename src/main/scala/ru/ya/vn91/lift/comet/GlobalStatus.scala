@@ -20,7 +20,7 @@ class GlobalStatus extends CometActor with CometListener {
 		case RegistrationAssigned(time) => "*" #>
 			s"tournament starts at ${timeLongToString(time + registrationPeriod.toMillis)} Moscow Time, registration starts ${registrationPeriod.toHours} hours earlier"
 		case RegistrationInProgress(regClose) => "*" #> s"registration in progress (until ${timeLongToHours(regClose)})"
-		case GamePlaying(roundNumber) => "*" #> "playing games" // (round N)
+		case GamePlaying(_) => "*" #> "playing games" // (round N)
 		case WaitingForNextTour(time) => "*" #> s"waiting for next tour at ${timeLongToHours(time)}"
 		case FinishedWithWinner(winner) => "*" #> s"tournament finished. Winner: $winner!"
 		case FinishedWithWinners(winners) => "*" #> s"tournament finished. Winners: ${winners.mkString(", ")}!"

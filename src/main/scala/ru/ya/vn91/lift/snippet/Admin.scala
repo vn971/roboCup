@@ -27,7 +27,7 @@ object Admin extends Loggable {
 				SetValById("timeSetter", "time set.")
 			}
 		} catch {
-			case t: Exception => Alert("Неправильный формат даты.")
+			case t: Exception => Alert(s"Неправильный формат даты. ${t.getMessage}")
 		}
 	}
 
