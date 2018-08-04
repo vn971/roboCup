@@ -28,7 +28,6 @@ scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-Xfuture",
 	"-Ywarn-value-discard"
 )
 
-wartremoverErrors += Wart.StringPlusAny
 wartremoverErrors += Wart.AsInstanceOf
 wartremoverErrors += Wart.EitherProjectionPartial
 wartremoverErrors += Wart.IsInstanceOf
