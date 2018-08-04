@@ -67,15 +67,15 @@ resourceGenerators in Compile += task {
 libraryDependencies += "com.typesafe.akka" %% "akka-actor"   % "2.5.14"
 libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.5.14" % Test
 
-libraryDependencies += "org.eclipse.jetty" % "jetty-webapp" % "9.4.12.RC1"
+libraryDependencies += "org.eclipse.jetty" % "jetty-webapp" % "9.4.11.v20180605"
 
-libraryDependencies += "net.liftweb" %% "lift-util"   % "3.1.1"
-libraryDependencies += "net.liftweb" %% "lift-webkit" % "3.1.1"
-libraryDependencies += "net.liftweb" %% "lift-actor"  % "3.1.1"
-libraryDependencies += "net.liftweb" %% "lift-common" % "3.1.1"
+libraryDependencies += "net.liftweb" %% "lift-util"   % "3.3.0"
+libraryDependencies += "net.liftweb" %% "lift-webkit" % "3.3.0"
+libraryDependencies += "net.liftweb" %% "lift-actor"  % "3.3.0"
+libraryDependencies += "net.liftweb" %% "lift-common" % "3.3.0"
 
-libraryDependencies += "net.liftmodules" %% "lift-jquery-module_3.1" % "2.10"
+libraryDependencies += "net.liftmodules" %% "lift-jquery-module_3.3" % "2.10"
 
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
-libraryDependencies += "net.databinder.dispatch" %% "dispatch-core" % "0.13.4"
+libraryDependencies += "org.dispatchhttp" %% "dispatch-core" % "0.14.0"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % Test
