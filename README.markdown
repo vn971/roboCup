@@ -34,6 +34,13 @@ Feel free to contact me.:)
 
 ### Authors:
 
+Vasya Novikov:
+
+* invention of RoboCups
+* 100% of code written here yet
+* adding and promoting 4cross rules
+* creation and promotion fo the Swiss tournament system amongst Points game
+
 Bartek Duda:
 
 * all Polish translations
@@ -56,13 +63,6 @@ Oleg Anokhin:
 * organising many of the tournaments in 2012
 * help in organising and advertising the tournament A LOT
 
-Vasya Novikov:
 
-* invention of RoboCups
-* 100% of code written here yet
-* adding and promoting 4cross rules
-* creation and promotion fo the Swiss tournament system amongst Points game
-
-
-Copyright: Vasya Novikov 2012-2016
-License: AGPL v3 or later
+Copyright: Vasya Novikov 2012-present
+License: AGPL v3 or (at your option) any later version

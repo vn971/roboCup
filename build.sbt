@@ -64,15 +64,6 @@ resourceGenerators in Compile += task {
 	}
 }
 
-//resolvers += "Scala Tools Releases" at "http://scala-tools.org/repo-releases/"
-//resolvers += "Java.net Maven2 Repository" at "http://download.java.net/maven/2/"
-//resolvers += "Sonatype Snapshots" at "http://oss.sonatype.org/content/repositories/snapshots"
-//resolvers += "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/releases"
-
-//resolvers += "Typesafe Snapshots" at "http://repo.typesafe.com/typesafe/snapshots/"
-//resolvers += "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/"
-//resolvers += "Jetty Eclipse" at "http://repo1.maven.org/maven2/"
-
 libraryDependencies += "com.typesafe.akka" %% "akka-actor"   % "2.5.14"
 libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.5.14" % Test
 
