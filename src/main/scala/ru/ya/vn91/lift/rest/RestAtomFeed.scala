@@ -7,7 +7,7 @@ import net.liftweb.common.Loggable
 import net.liftweb.http._
 import net.liftweb.http.rest._
 import net.liftweb.json._
-import net.liftweb.util.BindHelpers._
+import net.liftweb.util.CanBind._
 import ru.ya.vn91.robotour.{Constants, Core}
 
 object RestAtomFeed extends RestHelper with Loggable {
