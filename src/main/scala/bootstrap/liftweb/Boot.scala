@@ -78,7 +78,7 @@ class Boot extends Loggable {
 
 		LiftRules.unloadHooks.append { () =>
 			logger.info("roboCup actors shutdown")
-			Core.system.shutdown()
+			Core.system.terminate().suppressWartRemover()
 		}.suppressWartRemover()
 
 		Core.init()

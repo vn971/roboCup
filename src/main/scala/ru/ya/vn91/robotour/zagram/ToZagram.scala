@@ -68,7 +68,7 @@ object ToZagram extends Loggable {
 				addQueryParameter("tourn", Constants.zagramTournamentCodename).
 				addQueryParameter("tRound", round.toString)
 
-			dispatch.Http(request.OK(dispatch.as.String)).onComplete {
+			dispatch.Http.default(request.OK(dispatch.as.String)).onComplete {
 				case Success(s: String) =>
 					logger.info(s"zagram game assigned: ${request.url} => $s")
 				case Failure(s: Throwable) =>

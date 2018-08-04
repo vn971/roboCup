@@ -47,9 +47,5 @@ class SwissSmartPairEqualityTest extends FunSuite with Matchers with TypeChecked
 
 	// Strictly speaking, this is not a test.
 	// Outputs _can_ differ because the "smart" algorithm is not optimal.
-	//
-	//	test("same") {
-	//		compareSmartPairsWithDifferentStartingPermutation()
-	//	}
 
 }

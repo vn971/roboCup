@@ -73,18 +73,18 @@ resourceGenerators in Compile += task {
 //resolvers += "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/"
 //resolvers += "Jetty Eclipse" at "http://repo1.maven.org/maven2/"
 
-libraryDependencies += "com.typesafe.akka" %% "akka-actor"   % "2.3.8"
-libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.3.8" % Test
+libraryDependencies += "com.typesafe.akka" %% "akka-actor"   % "2.5.14"
+libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.5.14" % Test
 
-libraryDependencies += "org.eclipse.jetty" % "jetty-webapp" % "9.2.7.v20150116"
+libraryDependencies += "org.eclipse.jetty" % "jetty-webapp" % "9.4.12.RC1"
 
-libraryDependencies += "net.liftweb" %% "lift-util"   % "2.6.2"
-libraryDependencies += "net.liftweb" %% "lift-webkit" % "2.6.2"
-libraryDependencies += "net.liftweb" %% "lift-actor"  % "2.6.2"
-libraryDependencies += "net.liftweb" %% "lift-common" % "2.6.2"
+libraryDependencies += "net.liftweb" %% "lift-util"   % "2.6.3"
+libraryDependencies += "net.liftweb" %% "lift-webkit" % "2.6.3"
+libraryDependencies += "net.liftweb" %% "lift-actor"  % "2.6.3"
+libraryDependencies += "net.liftweb" %% "lift-common" % "2.6.3"
 
-libraryDependencies += "net.liftmodules" %% "lift-jquery-module_2.6" % "2.8"
+libraryDependencies += "net.liftmodules" %% "lift-jquery-module_2.6" % "2.10"
 
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
-libraryDependencies += "net.databinder.dispatch" %% "dispatch-core" % "0.11.2"
-libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.3" % Test
+libraryDependencies += "net.databinder.dispatch" %% "dispatch-core" % "0.13.4"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % Test

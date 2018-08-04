@@ -6,7 +6,7 @@ object Utils {
 
 	def getLinkContent(url: String): Try[String] =
 		Try {
-			val source = io.Source.fromURL(url, "UTF-8")
+			val source = scala.io.Source.fromURL(url, "UTF-8")
 			val result = source.mkString
 			source.close()
 			result
@@ -14,7 +14,7 @@ object Utils {
 
 	def readFromFile(fileName: String) =
 		Try {
-			val source = io.Source.fromFile(fileName, "UTF-8")
+			val source = scala.io.Source.fromFile(fileName, "UTF-8")
 			val content = source.mkString
 			source.close()
 			content

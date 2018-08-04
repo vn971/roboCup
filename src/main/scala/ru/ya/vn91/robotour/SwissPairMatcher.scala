@@ -1,6 +1,5 @@
 package ru.ya.vn91.robotour
 
-import ru.ya.vn91.lift.comet.Game
 import net.liftweb.common.Loggable
 import scala.collection.immutable._
 import scala.util.Random
@@ -85,39 +84,6 @@ object SwissPairMatcher extends Loggable {
 		}.takeWhile(_ > 0).size
 		logger.debug(s"pairs calculated after $mutateAndCount iterations")
 		opponents
-	}
-
-	def makePairsStupid(scores: HashMap[String, Int], playedGames: HashMap[String, List[Game]]) = {
-		val sortedPlayers = scores.toList.sortBy(s => (s._2, Random.nextInt())).map(_._1).reverse
-		var result = List[(String, String)]()
-		for (i <- 0.until(sortedPlayers.length, 2)) {
-			val first = sortedPlayers(i)
-			val second = sortedPlayers(i + 1)
-			result +:= (first -> second)
-		}
-		result
-	}
-
-	def makePairsBruteforce(scores: HashMap[String, Int], games: HashMap[String, List[Game]]) = {
-		val sortedPlayers = scores.toList.sortBy(s => (s._2, Random.nextInt())).map(_._1).reverse
-		makePairsBruteforceHelper(
-			SortedSet(sortedPlayers: _*),
-			games.mapValues(_.map(_.opponent))
-		)
-	}
-
-	// TODO: rewrite if RoboCup will have 200+ players, to avoid stack overflow
-	def makePairsBruteforceHelper(players: SortedSet[String], games: Map[String, List[String]]): List[(String, String)] = if (players.isEmpty) {
-		Nil
-	} else {
-		val first = players.head
-		val didNotPlayWith = players - first -- games(first)
-		val opponent = didNotPlayWith.headOption.getOrElse(players.tail.head)
-		(first -> opponent) ::
-			makePairsBruteforceHelper(
-				players - first - opponent,
-				games
-			)
 	}
 
 }
