@@ -9,6 +9,7 @@ class Chat extends CometActor with CometListener {
 
 	override def registerWith = Core.chatServer
 
+	@SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf"))
 	override def lowPriority = {
 		case v: Vector[_] =>
 			msgs = v.asInstanceOf[Vector[MessageToChatServer]]

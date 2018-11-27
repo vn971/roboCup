@@ -12,6 +12,7 @@ class RegisteredList extends CometActor with CometListener {
 
 	def registerWith = RegisteredListSingleton
 
+	@SuppressWarnings(Array("org.wartremover.warts.AsInstanceOf"))
 	override def lowPriority = {
 		case v: Vector[_] => msgs = v.asInstanceOf[Vector[String]]; reRender()
 	}

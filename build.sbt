@@ -64,8 +64,8 @@ resourceGenerators in Compile += task {
 	}
 }
 
-libraryDependencies += "com.typesafe.akka" %% "akka-actor"   % "2.5.14"
-libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.5.14" % Test
+libraryDependencies += "com.typesafe.akka" %% "akka-actor"   % "2.5.18"
+libraryDependencies += "com.typesafe.akka" %% "akka-testkit" % "2.5.18" % Test
 
 libraryDependencies += "org.eclipse.jetty" % "jetty-webapp" % "9.4.11.v20180605"
 
@@ -73,9 +73,8 @@ libraryDependencies += "net.liftweb" %% "lift-util"   % "3.3.0"
 libraryDependencies += "net.liftweb" %% "lift-webkit" % "3.3.0"
 libraryDependencies += "net.liftweb" %% "lift-actor"  % "3.3.0"
 libraryDependencies += "net.liftweb" %% "lift-common" % "3.3.0"
-
 libraryDependencies += "net.liftmodules" %% "lift-jquery-module_3.3" % "2.10"
 
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
-libraryDependencies += "org.dispatchhttp" %% "dispatch-core" % "0.14.0"
+libraryDependencies += "org.dispatchhttp" %% "dispatch-core" % "1.0.0"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.5" % Test
